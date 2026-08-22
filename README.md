@@ -21,10 +21,14 @@ Vide tutoriais do PI.
 ## Descrição
 
 <p align="center">
-<img src="https://th.bing.com/th/id/OIP.53QDfxo3uJXVkX_-wElxaQHaGR?w=207&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3&adlt=strict" alt="NOME DO APP" border="0">
-  Imagem da organização <a href="https://proximaetapa.org.br/auth?mode=signup">ProximaEtapa</a>
+  <img src="https://i.postimg.cc/TPFTYSp3/Imagem-Proxima-Etapa.png" alt="Logo Próxima Etapa" width="250">
 </p>
 
+<p align="center">
+  <a href="https://proximaetapa.org.br">
+    Próxima Etapa
+  </a>
+</p>
 
 O Próxima Etapa – App do Aluno é um aplicativo Android desenvolvido no Projeto Interdisciplinar do 3º semestre do curso de Ciência da Computação da FECAP, em parceria com a organização Próxima Etapa.
 <br><br>
