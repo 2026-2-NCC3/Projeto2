@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="26dp"
+    android:height="26dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Corpo do cartão -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M20,4H4C2.9,4 2,4.9 2,6v12c0,1.1 0.9,2 2,2h16c1.1,0 2,-0.9 2,-2V6C22,4.9 21.1,4 20,4zM20,18H4V6h16V18Z"/>
+
+    <!-- Foto (círculo) -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M8,14A2.5,2.5 0,0 1,5.5 11.5A2.5,2.5 0,0 1,8 9A2.5,2.5 0,0 1,10.5 11.5A2.5,2.5 0,0 1,8 14Z"/>
+
+    <!-- Linha de texto 1 -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M13,9H19V10.5H13Z"/>
+
+    <!-- Linha de texto 2 -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M13,12H19V13.5H13Z"/>
+
+    <!-- Linha de texto 3 (mais curta) -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M13,14.5H17V16H13Z"/>
+
+</vector>

@@ -6,5 +6,7 @@
     <color name="verde">#3FAE4A</color>
     <color name="roxo">#7B2FF7</color>
     <color name="cinza_claro">#DDDDDD</color>
-    #7B2FF7
+    <color name="cinza_fundo">#F5F5F5</color>
+    <color name="verde_azulado_escuro">#1E8A7A</color>
+    <color name="azul">#000080</color>
 </resources>
