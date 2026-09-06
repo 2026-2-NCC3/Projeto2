@@ -5,130 +5,188 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="36dp"
+    android:padding="28dp"
     android:background="@color/white">
 
-    <ImageView
-        android:id="@+id/imgLogo"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
-        android:src="@drawable/logo_proxima_etapa"
-        android:contentDescription="Logo Próxima Etapa"
+    <!-- Logo circular -->
+    <FrameLayout
+        android:id="@+id/frameLogo"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/bg_logo_circulo"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="32dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="72dp">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_logo_graduacao"
+            android:contentDescription="Logo Próxima Etapa" />
+
+    </FrameLayout>
 
     <TextView
-        android:id="@+id/txtBemVindo"
+        android:id="@+id/txtNomeApp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bem-vindo de volta!"
-        android:textSize="24sp"
+        android:text="Próxima Etapa"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/imgLogo"
+        android:textColor="@color/verde"
+        app:layout_constraintTop_toBottomOf="@id/frameLogo"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="40dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
     <TextView
-        android:id="@+id/txtSubtitulo"
+        android:id="@+id/txtSubtituloApp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Entre para continuar sua jornada educacional"
-        android:textSize="14sp"
+        android:text="App do Aluno"
+        android:textSize="13sp"
         android:textColor="@color/cinza"
-        app:layout_constraintTop_toBottomOf="@id/txtBemVindo"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="8dp" />
-
-    <TextView
-        android:id="@+id/lblNomeCompleto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/txtSubtitulo"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="32dp" />
-
-    <EditText
-        android:id="@+id/EditarNome"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:hint="seu@email.com"
-        android:inputType="textEmailAddress"
-        android:paddingStart="16dp"
-        android:background="@drawable/bg_input_field"
-        app:layout_constraintTop_toBottomOf="@id/lblNomeCompleto"
+        app:layout_constraintTop_toBottomOf="@id/txtNomeApp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="2dp" />
 
-    <TextView
-        android:id="@+id/lblSenha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Senha"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/EditarNome"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp" />
-
-    <EditText
-        android:id="@+id/editSenha"
+    <LinearLayout
+        android:id="@+id/containerEmail"
         android:layout_width="0dp"
         android:layout_height="52dp"
-        android:hint="••••••••"
-        android:inputType="textPassword"
-        android:paddingStart="16dp"
-        android:paddingEnd="48dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:background="@drawable/bg_input_field"
-        app:layout_constraintTop_toBottomOf="@id/lblSenha"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        app:layout_constraintTop_toBottomOf="@id/txtSubtituloApp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="40dp">
 
-    <ImageButton
-        android:id="@+id/btnMostrarSenha"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_eye"
-        android:contentDescription="Mostrar senha"
-        app:layout_constraintEnd_toEndOf="@id/editSenha"
-        app:layout_constraintTop_toTopOf="@id/editSenha"
-        app:layout_constraintBottom_toBottomOf="@id/editSenha"
-        android:layout_marginEnd="16dp" />
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_email"
+            android:contentDescription="Ícone email" />
+
+        <EditText
+            android:id="@+id/editEmail"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:hint="E-mail"
+            android:inputType="textEmailAddress"
+            android:background="@android:color/transparent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/containerSenha"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_input_field"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        app:layout_constraintTop_toBottomOf="@id/containerEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="14dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_lock"
+            android:contentDescription="Ícone senha" />
+
+        <EditText
+            android:id="@+id/editSenha"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:hint="Senha"
+            android:inputType="textPassword"
+            android:background="@android:color/transparent" />
+
+        <ImageButton
+            android:id="@+id/btnMostrarSenha"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_eye"
+            android:contentDescription="Mostrar senha" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtEsqueceuSenha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Esqueceu a senha?"
+        android:textSize="13sp"
+        android:textColor="@color/roxo"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/containerSenha"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp" />
 
     <Button
         android:id="@+id/btnEntrar"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:text="Entrar ->"
-        android:textSize="16sp"
+        android:text="ENTRAR"
+        android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:backgroundTint="@color/verde"
         app:cornerRadius="28dp"
-        app:layout_constraintTop_toBottomOf="@id/editSenha"
+        app:layout_constraintTop_toBottomOf="@id/txtEsqueceuSenha"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp" />
+        android:layout_marginTop="28dp" />
 
     <TextView
-        android:id="@+id/txtEntrar"
+        android:id="@+id/txtCadastro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ainda não tem conta? Cadastre-se"
-        android:textSize="14sp"
-        android:textColor="@color/roxo"
+        android:text="Primeira vez? Cadastre-se"
+        android:textSize="13sp"
+        android:textColor="@color/black"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintTop_toBottomOf="@id/btnEntrar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="18dp" />
+
+    <View
+        android:id="@+id/linhaRodape"
+        android:layout_width="60dp"
+        android:layout_height="2dp"
+        android:background="@color/cinza_claro"
+        app:layout_constraintBottom_toTopOf="@id/txtRodape"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:id="@+id/txtRodape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Powered by ONG Próxima Etapa"
+        android:textSize="11sp"
+        android:textColor="@color/cinza"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
