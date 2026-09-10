@@ -170,19 +170,18 @@ Este tutorial é indicado para quem nunca utilizou o Android Studio.
 A versão para testes diretamente em dispositivos móveis será disponibilizada futuramente.
 
 ## 📋 Licença/License
-Este projeto está licenciado sob a licença
-Creative Commons Attribution 4.0 International (CC BY 4.0).
+Este projeto está licenciado sob a licença MIT — veja o arquivo 
+[LICENSE](./LICENSE) para o texto completo.
 
-Para mais informações:
+O nome, o logotipo e a identidade visual da ONG Próxima Etapa são de 
+propriedade da organização e não estão cobertos por esta licença, 
+sendo utilizados neste projeto acadêmico com fins de identificação 
+do parceiro institucional.
+## 🔗 Referências e Materiais de Apoio
 
-https://creativecommons.org/licenses/by/4.0/
-## 🎓 Referências
-
-Aqui estão as referências usadas no projeto.
-
-1. <https://github.com/iuricode/readme-template>
-2. <https://github.com/gabrieldejesus/readme-model>
-3. <https://chooser-beta.creativecommons.org/>
-4. <https://freesound.org/>
-5. <https://www.toptal.com/developers/gitignore>
-6. Músicas por: <a href="https://freesound.org/people/DaveJf/sounds/616544/"> DaveJf </a> e <a href="https://freesound.org/people/DRFX/sounds/338986/"> DRFX </a> ambas com Licença CC 0.
+### 📚 Acadêmicas e Técnicas (Material da Disciplina)
+1. **Documentação Oficial Android** – [developer.android.com](https://developer.android.com/) [1, 2].
+2. **DEITEL, Paul.** *Android: Como Programar*. Bookman, 2ª Ed, 2015 [1, 2].
+3. **DEITEL, Paul et al.** *Android para Programadores: Uma Abordagem Baseada em Aplicativos*. Bookman, 2ª Ed, 2015 [1, 2].
+4. **Roteiro do Projeto Interdisciplinar** – *Próxima Etapa – App do Aluno* (Versão FINAL 2026) [3].
+5. **Inventário de Dados e API** – Documentação técnica do banco de dados PostgreSQL/Supabase e endpoints REST [4, 5].
