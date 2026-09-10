@@ -32,7 +32,7 @@ O sistema será composto por um aplicativo mobile, uma API REST e um banco de da
 <br><br>
 
 ## 🛠 Estrutura de pastas
-
+```
 📂 Projeto2/
 │
 ├── 📄 README.md
@@ -74,6 +74,7 @@ O sistema será composto por um aplicativo mobile, uma API REST e um banco de da
 │
 └── 📂 recursos/
     └── 📂 referencias/
+```
 
 # Instalação
 
