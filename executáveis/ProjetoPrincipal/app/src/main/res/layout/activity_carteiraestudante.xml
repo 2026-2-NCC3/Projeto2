@@ -80,8 +80,7 @@
                         android:id="@+id/imgFotoAluno"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:contentDescription="Foto do aluno"
-                        android:src="@drawable/foto_perfil_placeholder" />
+                        android:contentDescription="Foto do aluno"/>
 
                 </FrameLayout>
 
@@ -108,7 +107,6 @@
                     android:id="@+id/imgQrCode"
                     android:layout_width="140dp"
                     android:layout_height="140dp"
-                    android:src="@drawable/qrcode_placeholder"
                     android:contentDescription="QR Code"
                     android:layout_marginTop="18dp" />
 

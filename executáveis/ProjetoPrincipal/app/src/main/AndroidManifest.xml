@@ -24,7 +24,7 @@
         </activity>
         <!-- CadastroUsuário -->
         <activity
-            android:name=".CadastroActivity"
+            android:name=".TelaInicial"
             android:exported="false" />
 
         <!-- Registro da Tela de Perfil/Usuário -->
