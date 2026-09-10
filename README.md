@@ -33,77 +33,148 @@ O sistema será composto por um aplicativo mobile, uma API REST e um banco de da
 
 ## 🛠 Estrutura de pastas
 
--Raiz<br>
-|<br>
-|-->documentos<br>
-  &emsp;|-->antigos<br>
-  &emsp;|Documentação.docx<br>
-|-->executáveis<br>
-  &emsp;|-->windows<br>
-  &emsp;|-->android<br>
-  &emsp;|-->HTML<br>
-|-->imagens<br>
-|-->src<br>
-  &emsp;|-->Backend<br>
-  &emsp;|-->Frontend<br>
-|readme.md<br>
+📂 Projeto2/
+│
+├── 📄 README.md
+├── 📄 LICENSE
+├── 📄 .gitignore
+│
+├── 📂 app/
+│   ├── 📄 build.gradle.kts
+│   ├── 📂 gradle/
+│   ├── 📄 gradlew
+│   ├── 📄 gradlew.bat
+│   ├── 📄 settings.gradle.kts
+│   └── 📂 app/
+│       ├── 📂 src/
+│       │   ├── 📂 main/
+│       │   │   ├── 📂 java/
+│       │   │   ├── 📂 res/
+│       │   │   │   ├── 📂 drawable/
+│       │   │   │   ├── 📂 layout/
+│       │   │   │   └── 📂 mipmap-*/
+│       │   │   └── 📄 AndroidManifest.xml
+│       │   ├── 📂 androidTest/
+│       │   └── 📂 test/
+│       └── 📄 build.gradle.kts
+│
+├── 📂 documentos/
+│   ├── 📂 entrega-1/
+│   ├── 📂 entrega-2/
+│   ├── 📂 projeto-extensao/
+│   │   └── 📄 Documento - Projeto de Extensão - COM Empresa - 2026_1.docx
+│   └── 📂 apresentacoes/
+│       └── 📄 MODELO_BANNER_FECAP_2026_1.pptx
+│
+├── 📂 imagens/
+│   ├── 📂 logo/
+│   ├── 📂 screenshots/
+│   └── 📂 banner/
+│       └── 📄 Venha para a FECAP!.txt
+│
+└── 📂 recursos/
+    └── 📂 referencias/
 
-A pasta raiz contem dois arquivos que devem ser alterados:
+# Instalação
 
-<b>README.MD</b>: Arquivo que serve como guia e explicação geral sobre seu projeto. O mesmo que você está lendo agora.
+## Windows
 
-Há também 4 pastas que seguem da seguinte forma:
+1. **Acesse o repositório no GitHub**
+   Abra o navegador e acesse a página do repositório do projeto:
+   `https://github.com/2026-2-NCC3/Projeto2`
 
-<b>documentos</b>: Toda a documentação estará nesta pasta.
+2. **Copie a URL HTTPS do repositório**
+   Na página do repositório, clique no botão verde **"Code"**. Na aba **"Local"**, certifique-se de que a opção **HTTPS** esteja selecionada e clique no ícone de copiar ao lado da URL (algo como `https://github.com/2026-2-NCC3/Projeto2.git`).
 
-<b>executáveis</b>: Binários e executáveis do projeto devem estar nesta pasta.
+3. **Abra o Android Studio**
+   Inicie o Android Studio no seu computador. Se ainda não tiver instalado, veja a seção [Testando no PC](#testando-no-pc) abaixo antes de continuar.
 
-<b>imagens</b>: Imagens do sistema
+4. **Selecione "Clone Repository"**
+   Na tela inicial do Android Studio (Welcome Screen), clique no botão **"Clone Repository"**, localizado ao lado de "New Project" e "Open".
 
-<b>src</b>: Pasta que contém o código fonte.
+5. **Cole a URL do GitHub**
+   Na janela "Clone Repository", cole a URL copiada no passo 2 no campo **URL**.
 
-## 🛠 Instalação
+6. **Escolha a pasta de destino**
+   No campo **Directory**, escolha (ou digite) o caminho onde o projeto será salvo no seu computador — por exemplo: `C:\Users\SeuUsuario\Desktop\Projeto2`. Você pode usar o ícone de pasta ao lado do campo para navegar visualmente até o local desejado.
 
-## Instalação
+7. **Conclua o clone**
+   Clique em **"Clone"**. O Android Studio irá baixar todos os arquivos do repositório para a pasta escolhida. Aguarde a barra de progresso finalizar.
 
-Faça o Download do JOGO.apk no seu celular.
-Execute o APK e siga as instruções de seu telefone.
+8. **Aguarde o Gradle sincronizar**
+   Após o clone, o Android Studio inicia automaticamente o processo de sincronização do Gradle (aparece uma barra de progresso na parte inferior da tela, geralmente com o texto "Gradle Sync" ou similar). Esse processo baixa as dependências do projeto e pode levar alguns minutos, dependendo da velocidade da internet — **não feche o Android Studio durante esse processo**.
 
-```sh
-Coloque código do prompt de comnando se for necessário
-```
+9. **Resolva dependências faltantes**
+   Caso apareçam avisos em vermelho ou uma barra amarela no topo do editor informando dependências ausentes (ex: "SDK não instalado" ou "Gradle version incompatível"), clique nos links de correção sugeridos pelo próprio Android Studio (geralmente "Install missing SDK(s)" ou "Update Gradle"). O Android Studio resolve a maioria desses problemas automaticamente com um clique.
 
-<b>Windows:</b>
+10. **Abra o Device Manager**
+    No menu superior, vá em **View → Tool Windows → Device Manager**, ou clique no ícone de celular na barra lateral direita.
 
-Não há instalação! Apenas executável!
-Encontre o JOGO.exe na pasta executáveis e execute-o como qualquer outro programa.
+11. **Crie um emulador Android (caso não exista nenhum)**
+    Dentro do Device Manager, clique em **"Create Device"**. Escolha um modelo de celular (recomendado: **Pixel 6** ou similar), clique em **Next**, selecione uma imagem de sistema (recomendado: a versão mais recente com o ícone de download, caso ainda não esteja baixada) e clique em **Finish**.
 
-```sh
-Coloque código do prompt de comnando se for necessário
-```
+12. **Inicie o emulador**
+    Com o emulador criado, clique no ícone de **play (▶)** ao lado dele na lista do Device Manager. Aguarde a tela do emulador carregar completamente (pode levar 1-2 minutos na primeira vez).
 
-<b>HTML:</b>
+13. **Selecione o dispositivo**
+    No topo do Android Studio, verifique se o emulador criado está selecionado na lista suspensa de dispositivos (ao lado do botão de "Run").
 
-Não há instalação!
-Encontre o index.html na pasta executáveis e execute-o como uma página WEB (através de algum browser).
+14. **Compile o projeto**
+    Clique no ícone de **martelo (Build)** na barra de ferramentas, ou vá em **Build → Make Project**, para verificar se o código compila sem erros.
 
-## 💻 Configuração para Desenvolvimento
+15. **Execute o aplicativo**
+    Clique no botão verde de **play (▶ Run 'app')** no topo do Android Studio. O aplicativo será instalado e aberto automaticamente no emulador selecionado.
 
-Descreva como instalar todas as dependências para desenvolvimento e como rodar um test-suite automatizado de algum tipo. Se necessário, faça isso para múltiplas plataformas.
+16. **Verifique erros no Logcat**
+    Caso o app feche sozinho ou apresente comportamento inesperado, abra a aba **Logcat** (geralmente na parte inferior do Android Studio). Filtre por **"Error"** no menu suspenso de nível de log para visualizar mensagens de erro detalhadas, que ajudam a identificar a causa do problema.
 
-Para abrir este projeto você necessita das seguintes ferramentas:
+> **Observação para iniciantes:** é normal que a primeira sincronização do Gradle demore bastante — isso acontece porque o Android Studio está baixando todas as bibliotecas necessárias pela primeira vez. Da segunda vez em diante, o processo é bem mais rápido.
 
--<a href="https://godotengine.org/download">GODOT</a>
+---
 
-```sh
-make install
-npm test
-Coloque código do prompt de comnando se for necessário
-```
+# Testando no PC
+
+Este tutorial é indicado para quem nunca utilizou o Android Studio.
+
+1. **Instale o Android Studio**
+   Baixe o instalador oficial em [developer.android.com/studio](https://developer.android.com/studio) e siga o assistente de instalação, mantendo as opções padrão marcadas (isso já instala o SDK do Android e o emulador).
+
+2. **Clone o projeto**
+   Siga os passos 1 a 7 da seção **Windows** acima para clonar o repositório usando a opção "Clone Repository" do Android Studio.
+
+3. **Abra o projeto**
+   Se o Android Studio não abrir o projeto automaticamente após o clone, vá em **File → Open** e selecione a pasta onde o projeto foi salvo.
+
+4. **Aguarde a sincronização**
+   Espere a barra de progresso do **Gradle Sync** finalizar na parte inferior da tela. Isso pode demorar alguns minutos na primeira vez.
+
+5. **Crie um emulador Android**
+   Siga os passos 10 e 11 da seção **Windows** acima para criar um dispositivo virtual, caso ainda não tenha um.
+
+6. **Execute o app**
+   Clique no botão verde **Run (▶)** no topo do Android Studio para compilar e abrir o aplicativo no emulador.
+
+7. **Teste as funcionalidades**
+   Navegue pelas telas do aplicativo (login, dashboard, cursos, agenda, carteirinha) para verificar se tudo está funcionando conforme esperado.
+
+8. **Leia mensagens de erro no Logcat**
+   Se algo não funcionar como esperado, abra a aba **Logcat** na parte inferior do Android Studio. Ali aparecem mensagens detalhadas sobre erros e exceções (crashes), que ajudam a identificar exatamente onde e por que o app falhou.
+
+---
+
+# Testando no Celular
+
+## Em breve
+
+A versão para testes diretamente em dispositivos móveis será disponibilizada futuramente.
 
 ## 📋 Licença/License
-Utilize o link <https://chooser-beta.creativecommons.org/> para fazer uma licença CC BY 4.0.
+Este projeto está licenciado sob a licença
+Creative Commons Attribution 4.0 International (CC BY 4.0).
 
+Para mais informações:
+
+https://creativecommons.org/licenses/by/4.0/
 ## 🎓 Referências
 
 Aqui estão as referências usadas no projeto.
