@@ -134,3 +134,11 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/androidstudio
+
+# Configuracoes locais do Android Studio
+.idea/
+**/.idea/
+
+# Configuracoes locais do Android Studio
+.idea/
+**/.idea/

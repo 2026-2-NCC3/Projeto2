@@ -1,0 +1,24 @@
+# Dependências instaladas pelo npm
+node_modules/
+
+# Variáveis de ambiente e credenciais
+.env
+.env.local
+.env.development
+.env.production
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Configurações específicas de editores
+.vscode/
+# Banco SQLite local
+database/*.db
+database/*.db-shm
+database/*.db-wal
