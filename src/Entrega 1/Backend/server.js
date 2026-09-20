@@ -29,6 +29,6 @@ app.get("/api/health", (req, res) => {
 });
 
 // Inicializa o servidor
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`Servidor executando em http://localhost:${PORT}`);
 });

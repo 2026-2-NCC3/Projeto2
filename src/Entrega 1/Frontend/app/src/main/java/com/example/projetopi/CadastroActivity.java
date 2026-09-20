@@ -14,15 +14,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class CadastroActivity extends AppCompatActivity {
 
@@ -80,10 +76,9 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void cadastrar(String nome, String email, String senha) {
-        String url = SupabaseConfig.URL + "/auth/v1/signup";
-
         JSONObject body = new JSONObject();
         try {
+            body.put("full_name", nome);
             body.put("email", email);
             body.put("password", senha);
         } catch (JSONException e) {
@@ -92,34 +87,31 @@ public class CadastroActivity extends AppCompatActivity {
         }
 
         JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST, url, body,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // TODO: com o id do usuário criado (response.getJSONObject("user").getString("id")),
-                        // criar a linha correspondente na tabela "profiles" com full_name = nome
+                Request.Method.POST, ApiConfig.PROFILES_URL, body,
+                response -> {
                         Intent intent = new Intent(CadastroActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
-                    }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        txtErroCadastro.setText("Erro ao cadastrar. Verifique os dados.");
+                error -> {
+                        txtErroCadastro.setText(mensagemDeErro(error));
                         txtErroCadastro.setVisibility(View.VISIBLE);
-                    }
                 }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("apikey", SupabaseConfig.KEY);
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-        };
+        );
 
         VolleySingleton.getInstance(this).addToRequestQueue(request);
+    }
+
+    private String mensagemDeErro(VolleyError error) {
+        if (error.networkResponse == null) {
+            return "Não foi possível conectar ao servidor local.";
+        }
+
+        try {
+            JSONObject resposta = new JSONObject(new String(error.networkResponse.data));
+            return resposta.optString("erro", "Erro ao cadastrar. Verifique os dados.");
+        } catch (Exception ignored) {
+            return "Erro ao cadastrar. Verifique os dados.";
+        }
     }
 }
