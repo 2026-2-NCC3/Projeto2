@@ -39,41 +39,62 @@ O sistema será composto por um aplicativo mobile, uma API REST e um banco de da
 ├── 📄 LICENSE
 ├── 📄 .gitignore
 │
-├── 📂 app/
-│   ├── 📄 build.gradle.kts
-│   ├── 📂 gradle/
-│   ├── 📄 gradlew
-│   ├── 📄 gradlew.bat
-│   ├── 📄 settings.gradle.kts
-│   └── 📂 app/
-│       ├── 📂 src/
-│       │   ├── 📂 main/
-│       │   │   ├── 📂 java/
-│       │   │   ├── 📂 res/
-│       │   │   │   ├── 📂 drawable/
-│       │   │   │   ├── 📂 layout/
-│       │   │   │   └── 📂 mipmap-*/
-│       │   │   └── 📄 AndroidManifest.xml
-│       │   ├── 📂 androidTest/
-│       │   └── 📂 test/
-│       └── 📄 build.gradle.kts
+├── 📂 src/
+│   └── 📂 Entrega 1/
+│       ├── 📂 Frontend/                 # Aplicativo Android
+│       │   ├── 📂 app/
+│       │   │   ├── 📄 build.gradle.kts
+│       │   │   └── 📂 src/main/
+│       │   │       ├── 📄 AndroidManifest.xml
+│       │   │       ├── 📂 java/com/example/projetopi/
+│       │   │       │   ├── 📄 MainActivity.java
+│       │   │       │   ├── 📄 CadastroActivity.java
+│       │   │       │   ├── 📄 TelaInicial.java
+│       │   │       │   ├── 📄 ApiConfig.java
+│       │   │       │   └── 📄 VolleySingleton.java
+│       │   │       └── 📂 res/
+│       │   │           ├── 📂 drawable/
+│       │   │           ├── 📂 layout/
+│       │   │           ├── 📂 mipmap-*/
+│       │   │           └── 📂 values/
+│       │   ├── 📂 gradle/
+│       │   ├── 📄 build.gradle.kts
+│       │   ├── 📄 settings.gradle.kts
+│       │   ├── 📄 gradlew
+│       │   └── 📄 gradlew.bat
+│       │
+│       └── 📂 Backend/                  # API Node.js + Express + SQLite
+│           ├── 📂 database/
+│           │   ├── 📄 database.js
+│           │   ├── 📄 schema.sql
+│           │   └── 📄 proxima_etapa.db  # Gerado pela migration
+│           ├── 📂 src/
+│           │   ├── 📂 config/
+│           │   │   └── 📄 migrate.js
+│           │   ├── 📂 controllers/
+│           │   │   ├── 📄 profilesController.js
+│           │   │   ├── 📄 universidadesController.js
+│           │   │   └── 📄 cursosController.js
+│           │   ├── 📂 models/
+│           │   │   ├── 📄 profilesModel.js
+│           │   │   ├── 📄 universidadesModel.js
+│           │   │   └── 📄 cursosModel.js
+│           │   └── 📂 routes/
+│           │       ├── 📄 profilesRoutes.js
+│           │       ├── 📄 universidadesRoutes.js
+│           │       └── 📄 cursosRoutes.js
+│           ├── 📄 server.js
+│           ├── 📄 package.json
+│           └── 📄 package-lock.json
 │
 ├── 📂 documentos/
-│   ├── 📂 entrega-1/
-│   ├── 📂 entrega-2/
-│   ├── 📂 projeto-extensao/
-│   │   └── 📄 Documento - Projeto de Extensão - COM Empresa - 2026_1.docx
-│   └── 📂 apresentacoes/
-│       └── 📄 MODELO_BANNER_FECAP_2026_1.pptx
+│   ├── 📂 Entrega 1/
+│   ├── 📂 Entrega 2/
+│   ├── 📄 Documento - Projeto de Extensão - COM Empresa - 2026_1.docx
+│   └── 📄 MODELO_BANNER_FECAP_2026_1.pptx
 │
 ├── 📂 imagens/
-│   ├── 📂 logo/
-│   ├── 📂 screenshots/
-│   └── 📂 banner/
-│       └── 📄 Venha para a FECAP!.txt
-│
-└── 📂 recursos/
-    └── 📂 referencias/
+│   └── 📄 Bootstrap_5.0_Screenshot.png
 ```
 
 # Instalação
