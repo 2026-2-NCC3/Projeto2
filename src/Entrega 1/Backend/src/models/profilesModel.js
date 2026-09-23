@@ -1,34 +1,9 @@
-const banco = require("../../database/database");
-
-function listar() {
-    return banco.prepare(`
-        SELECT id, full_name, email, school, grade, school_year, city, phone,
-               points, courses_completed, no_shows, is_blocked, created_at, updated_at
-        FROM profiles
-        ORDER BY created_at DESC
-    `).all();
-}
-
-function criar(perfil) {
-    const comando = banco.prepare(`
-        INSERT INTO profiles (
-            id, full_name, email, password_hash, school, grade, school_year,
-            city, phone, created_at, updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `);
-
-    comando.run(
-        perfil.id, perfil.full_name, perfil.email, perfil.password_hash,
-        perfil.school || null, perfil.grade || null, perfil.school_year || null,
-        perfil.city || null, perfil.phone || null,
-        perfil.created_at, perfil.updated_at
-    );
-
-    return banco.prepare(`
-        SELECT id, full_name, email, school, grade, school_year, city, phone,
-               points, courses_completed, no_shows, is_blocked, created_at, updated_at
-        FROM profiles WHERE id = ? 
-        `).get(perfil.id);
-}
-
-module.exports = { listar, criar };
+const banco=require("../../database/database");
+const campos="u.id,u.nome_completo,u.email,u.telefone,u.foto_url,u.ativo,u.criado_em,u.atualizado_em,a.escola,a.serie,a.ano_letivo,a.cidade,a.consentimento_lgpd,a.consentimento_em,a.bloqueado,a.motivo_bloqueio";
+const listar=()=>banco.prepare(`SELECT ${campos} FROM usuarios u INNER JOIN alunos a ON a.usuario_id=u.id ORDER BY u.criado_em DESC`).all();
+const buscarPorId=id=>banco.prepare(`SELECT ${campos} FROM usuarios u INNER JOIN alunos a ON a.usuario_id=u.id WHERE u.id=?`).get(id);
+function criar(p){banco.transaction(()=>{banco.prepare("INSERT INTO usuarios (id,nome_completo,email,telefone,foto_url) VALUES (?,?,?,?,?)").run(p.id,p.nome_completo,p.email,p.telefone,p.foto_url);banco.prepare("INSERT INTO credenciais (usuario_id,senha_hash) VALUES (?,?)").run(p.id,p.senha_hash);banco.prepare("INSERT INTO papeis (usuario_id,papel) VALUES (?,?)").run(p.id,"aluno");banco.prepare("INSERT INTO alunos (usuario_id,escola,serie,ano_letivo,cidade,consentimento_lgpd,consentimento_em) VALUES (?,?,?,?,?,?,?)").run(p.id,p.escola,p.serie,p.ano_letivo,p.cidade,p.consentimento_lgpd,p.consentimento_em);})();return buscarPorId(p.id);}
+function atualizar(id,p){banco.transaction(()=>{banco.prepare("UPDATE usuarios SET nome_completo=?,email=?,telefone=?,foto_url=? WHERE id=?").run(p.nome_completo,p.email,p.telefone,p.foto_url,id);banco.prepare("UPDATE alunos SET escola=?,serie=?,ano_letivo=?,cidade=? WHERE usuario_id=?").run(p.escola,p.serie,p.ano_letivo,p.cidade,id);})();return buscarPorId(id);}
+const bloquear=(id,bloqueado,motivo)=>{banco.prepare("UPDATE alunos SET bloqueado=?,motivo_bloqueio=? WHERE usuario_id=?").run(bloqueado,motivo,id);return buscarPorId(id);};
+const excluir=id=>banco.prepare("DELETE FROM usuarios WHERE id=?").run(id).changes>0;
+module.exports={listar,buscarPorId,criar,atualizar,bloquear,excluir};

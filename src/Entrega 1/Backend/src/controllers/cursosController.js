@@ -1,10 +1,98 @@
 const crypto = require("crypto");
 const cursosModel = require("../models/cursosModel");
-const erroDoBanco = (res, erro) => erro.code?.startsWith("SQLITE_CONSTRAINT") || /constraint|Curso sem vagas/i.test(erro.message) ? res.status(400).json({ erro: `Dados inválidos: ${erro.message}` }) : null;
-function dados(body, atual = {}) { return { titulo: body.titulo ?? atual.titulo, descricao: body.descricao ?? atual.descricao ?? null, categoria: body.categoria ?? atual.categoria ?? null, carga_horaria_horas: body.carga_horaria_horas ?? atual.carga_horaria_horas ?? 0, universidade_id: body.universidade_id ?? atual.universidade_id ?? null, modalidade: body.modalidade ?? atual.modalidade ?? "presencial", local: body.local ?? atual.local ?? null, link_online: body.link_online ?? atual.link_online ?? null, data_inicio: body.data_inicio ?? atual.data_inicio, data_fim: body.data_fim ?? atual.data_fim ?? null, vagas_total: body.vagas_total ?? atual.vagas_total ?? 0, emite_certificado: body.emite_certificado ?? atual.emite_certificado ?? 0, status: body.status ?? atual.status ?? "planejado", banner_url: body.banner_url ?? atual.banner_url ?? null }; }
-function listar(req,res,next) { try { return res.json(cursosModel.listar()); } catch (e) { return next(e); } }
-function buscarPorId(req,res,next) { try { const item=cursosModel.buscarPorId(req.params.id); return item ? res.json(item) : res.status(404).json({erro:"Curso não encontrado"}); } catch(e) { return next(e); } }
-function criar(req,res,next) { try { const curso=dados(req.body); if (!curso.titulo || !curso.data_inicio) return res.status(400).json({erro:"titulo e data_inicio são obrigatórios"}); return res.status(201).json(cursosModel.criar({...curso,id:crypto.randomUUID(),criado_por:req.usuario.id})); } catch(e) { return erroDoBanco(res,e) || next(e); } }
-function atualizar(req,res,next) { try { const atual=cursosModel.buscarPorId(req.params.id); if(!atual) return res.status(404).json({erro:"Curso não encontrado"}); const curso=dados(req.body,atual); if(!curso.titulo || !curso.data_inicio) return res.status(400).json({erro:"titulo e data_inicio são obrigatórios"}); return res.json(cursosModel.atualizar(req.params.id,curso)); } catch(e) { return erroDoBanco(res,e) || next(e); } }
-function excluir(req,res,next) { try { return cursosModel.excluir(req.params.id) ? res.status(204).end() : res.status(404).json({erro:"Curso não encontrado"}); } catch(e) { return erroDoBanco(res,e) || next(e); } }
+const { executarEscrita } = require("../utils/controllerUtils");
+
+function dadosDoCurso(body, atual = {}) {
+  return {
+    titulo: body.titulo ?? atual.titulo,
+    descricao: body.descricao ?? atual.descricao ?? null,
+    categoria: body.categoria ?? atual.categoria ?? null,
+    carga_horaria_horas: body.carga_horaria_horas ?? atual.carga_horaria_horas ?? 0,
+    universidade_id: body.universidade_id ?? atual.universidade_id ?? null,
+    modalidade: body.modalidade ?? atual.modalidade ?? "presencial",
+    local: body.local ?? atual.local ?? null,
+    link_online: body.link_online ?? atual.link_online ?? null,
+    data_inicio: body.data_inicio ?? atual.data_inicio,
+    data_fim: body.data_fim ?? atual.data_fim ?? null,
+    vagas_total: body.vagas_total ?? atual.vagas_total ?? 0,
+    emite_certificado: body.emite_certificado ?? atual.emite_certificado ?? 0,
+    status: body.status ?? atual.status ?? "planejado",
+    banner_url: body.banner_url ?? atual.banner_url ?? null
+  };
+}
+
+function listar(req, res, next) {
+  try {
+    return res.json(cursosModel.listar());
+  } catch (erro) {
+    return next(erro);
+  }
+}
+
+function buscarPorId(req, res, next) {
+  try {
+    const curso = cursosModel.buscarPorId(req.params.id);
+
+    if (!curso) {
+      return res.status(404).json({ erro: "Curso não encontrado" });
+    }
+
+    return res.json(curso);
+  } catch (erro) {
+    return next(erro);
+  }
+}
+
+function criar(req, res, next) {
+  return executarEscrita(res, next, () => {
+    const curso = dadosDoCurso(req.body);
+
+    if (!curso.titulo || !curso.data_inicio) {
+      return res.status(400).json({
+        erro: "titulo e data_inicio são obrigatórios"
+      });
+    }
+
+    const criado = cursosModel.criar({
+      ...curso,
+      id: crypto.randomUUID(),
+      criado_por: req.usuario.id
+    });
+
+    return res.status(201).json(criado);
+  });
+}
+
+function atualizar(req, res, next) {
+  return executarEscrita(res, next, () => {
+    const atual = cursosModel.buscarPorId(req.params.id);
+
+    if (!atual) {
+      return res.status(404).json({ erro: "Curso não encontrado" });
+    }
+
+    const curso = dadosDoCurso(req.body, atual);
+
+    if (!curso.titulo || !curso.data_inicio) {
+      return res.status(400).json({
+        erro: "titulo e data_inicio são obrigatórios"
+      });
+    }
+
+    return res.json(cursosModel.atualizar(req.params.id, curso));
+  });
+}
+
+function excluir(req, res, next) {
+  return executarEscrita(res, next, () => {
+    const excluido = cursosModel.excluir(req.params.id);
+
+    if (!excluido) {
+      return res.status(404).json({ erro: "Curso não encontrado" });
+    }
+
+    return res.status(204).end();
+  });
+}
+
 module.exports = { listar, buscarPorId, criar, atualizar, excluir };
