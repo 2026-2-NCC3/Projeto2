@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 const banco = require("./database/database");
+const authRoutes = require("./src/routes/authRoutes");
 const profilesRoutes = require("./src/routes/profilesRoutes");
 const universidadesRoutes = require("./src/routes/universidadesRoutes");
 
@@ -11,6 +13,8 @@ const PORT = 3000;
 // Permite que a API receba dados no formato JSON
 app.use(express.json());
 app.use(cors());
+
+app.use("/auth", authRoutes);
 
 // Controller + Model de perfis. A tela Android de cadastro é a View.
 app.use("/api/profiles", profilesRoutes);
