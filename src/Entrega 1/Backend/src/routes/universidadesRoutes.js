@@ -1,10 +1,19 @@
 const express = require("express");
-const controller = require("../controllers/universidadesController");
-const { requireAuth, requireAdmin } = require("../middlewares/authMiddleware");
+const universidadesController = require("../controllers/universidadesController");
+const {
+  requireAuth,
+  requireAdmin
+} = require("../middlewares/authMiddleware");
+
 const router = express.Router();
-router.get("/", controller.listar);
-router.get("/:id", controller.buscarPorId);
-router.post("/", requireAuth, requireAdmin, controller.criar);
-router.put("/:id", requireAuth, requireAdmin, controller.atualizar);
-router.delete("/:id", requireAuth, requireAdmin, controller.excluir);
+
+// Universidades são públicas para que o aplicativo possa listar parceiros.
+router.get("/", universidadesController.listar);
+router.get("/:id", universidadesController.buscarPorId);
+
+// Escritas mudam parceiros institucionais; por isso exigem um administrador autenticado.
+router.post("/", requireAuth, requireAdmin, universidadesController.criar);
+router.put("/:id", requireAuth, requireAdmin, universidadesController.atualizar);
+router.delete("/:id", requireAuth, requireAdmin, universidadesController.excluir);
+
 module.exports = router;

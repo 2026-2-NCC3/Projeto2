@@ -6,10 +6,11 @@ const authRoutes = require("./src/routes/authRoutes");
 const profilesRoutes = require("./src/routes/profilesRoutes");
 const cursosRoutes = require("./src/routes/cursosRoutes");
 const universidadesRoutes = require("./src/routes/universidadesRoutes");
+const adminRoutes = require("./src/routes/adminRoutes");
 
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 // Permite que a API receba dados no formato JSON
 app.use(express.json());
@@ -21,6 +22,7 @@ app.use("/auth", authRoutes);
 app.use("/api/profiles", profilesRoutes);
 app.use("/api/cursos", cursosRoutes);
 app.use("/api/universidades", universidadesRoutes);
+app.use("/api/admins", adminRoutes);
 
 // Rota inicial da API
 app.get("/", (req, res) => {
