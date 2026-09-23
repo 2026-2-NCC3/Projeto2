@@ -1,9 +1,10 @@
 const express = require("express");
-const universidadesController = require("../controllers/universidadesController");
-
+const controller = require("../controllers/universidadesController");
+const { requireAuth, requireAdmin } = require("../middlewares/authMiddleware");
 const router = express.Router();
-
-router.get("/", universidadesController.listar);
-router.post("/", universidadesController.criar);
-
+router.get("/", controller.listar);
+router.get("/:id", controller.buscarPorId);
+router.post("/", requireAuth, requireAdmin, controller.criar);
+router.put("/:id", requireAuth, requireAdmin, controller.atualizar);
+router.delete("/:id", requireAuth, requireAdmin, controller.excluir);
 module.exports = router;

@@ -4,6 +4,7 @@ require("dotenv").config();
 const banco = require("./database/database");
 const authRoutes = require("./src/routes/authRoutes");
 const profilesRoutes = require("./src/routes/profilesRoutes");
+const cursosRoutes = require("./src/routes/cursosRoutes");
 const universidadesRoutes = require("./src/routes/universidadesRoutes");
 
 
@@ -18,6 +19,7 @@ app.use("/auth", authRoutes);
 
 // Controller + Model de perfis. A tela Android de cadastro é a View.
 app.use("/api/profiles", profilesRoutes);
+app.use("/api/cursos", cursosRoutes);
 app.use("/api/universidades", universidadesRoutes);
 
 // Rota inicial da API
