@@ -78,9 +78,10 @@ public class CadastroActivity extends AppCompatActivity {
     private void cadastrar(String nome, String email, String senha) {
         JSONObject body = new JSONObject();
         try {
-            body.put("full_name", nome);
+            body.put("nome_completo", nome);
             body.put("email", email);
-            body.put("password", senha);
+            body.put("senha", senha);
+            body.put("consentimento_lgpd", 1);
         } catch (JSONException e) {
             e.printStackTrace();
             return;
