@@ -1,0 +1,53 @@
+@startuml
+title Próxima Etapa — Diagrama de Classes da Entrega 1
+
+class Aluno {
+  - id: String
+  - nomeCompleto: String
+  - email: String
+  - escola: String
+  - cidade: String
+  + atualizarDados(...): void
+}
+
+class Curso {
+  - id: String
+  - titulo: String
+  - descricao: String
+  - cargaHoraria: int
+  + atualizarDados(...): void
+}
+
+class Atividade {
+  - id: String
+  - curso: Curso
+  - titulo: String
+  - descricao: String
+  - dataHora: LocalDateTime
+  + atualizarDados(...): void
+}
+
+class Inscricao {
+  - id: String
+  - aluno: Aluno
+  - curso: Curso
+  - criadaEm: LocalDateTime
+  - ativa: boolean
+  + cancelar(): void
+}
+
+class Presenca {
+  - id: String
+  - inscricao: Inscricao
+  - atividade: Atividade
+  - registradaEm: LocalDateTime
+  - presente: boolean
+  + atualizarStatus(presente: boolean): void
+}
+
+Curso "1" <-- "0..*" Atividade : organiza
+Aluno "1" <-- "0..*" Inscricao : realiza
+Curso "1" <-- "0..*" Inscricao : recebe
+Inscricao "1" <-- "0..*" Presenca : registra
+Atividade "1" <-- "0..*" Presenca : acontece em
+@enduml
