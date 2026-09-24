@@ -14,14 +14,20 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.android.volley.Request;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnEntrar;
     private TextView txtErroLogin;
     private TextView txtCadastro;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,41 +105,100 @@ public class MainActivity extends AppCompatActivity {
 
         alterarEstadoDoBotao(true);
 
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST,
-                ApiConfig.LOGIN_URL,
-                body,
-                response -> {
-                    alterarEstadoDoBotao(false);
+        executor.execute(() -> enviarLogin(body));
+    }
 
-                    try {
-                        salvarSessao(response);
+    private void enviarLogin(JSONObject body) {
+        HttpURLConnection conexao = null;
 
-                        Intent intent = new Intent(
-                                MainActivity.this,
-                                TelaInicial.class
-                        );
+        try {
+            URL url = new URL(ApiConfig.LOGIN_URL);
+            conexao = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);
+            conexao.setRequestMethod("POST");
+            conexao.setConnectTimeout(15_000);
+            conexao.setReadTimeout(15_000);
+            conexao.setDoOutput(true);
+            conexao.setRequestProperty(
+                    "Content-Type",
+                    "application/json; charset=UTF-8"
+            );
 
-                        intent.addFlags(
-                                Intent.FLAG_ACTIVITY_NEW_TASK
-                                        | Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        );
+            try (OutputStream saida = conexao.getOutputStream()) {
+                saida.write(body.toString().getBytes(StandardCharsets.UTF_8));
+            }
 
-                        startActivity(intent);
-                        finish();
-                    } catch (JSONException erro) {
-                        mostrarErro("Resposta inválida recebida do servidor.");
-                    }
-                },
-                error -> {
-                    alterarEstadoDoBotao(false);
-                    mostrarErro(obterMensagemDeErro(error));
-                }
-        );
+            int codigo = conexao.getResponseCode();
+            String resposta = lerResposta(conexao, codigo);
 
-        VolleySingleton
-                .getInstance(this)
-                .addToRequestQueue(request);
+            runOnUiThread(() -> processarRespostaLogin(codigo, resposta));
+        } catch (IOException erro) {
+            runOnUiThread(() -> {
+                alterarEstadoDoBotao(false);
+                mostrarErro("Não foi possível conectar ao servidor.");
+            });
+        } finally {
+            if (conexao != null) {
+                conexao.disconnect();
+            }
+        }
+    }
+
+    private String lerResposta(HttpURLConnection conexao, int codigo)
+            throws IOException {
+        InputStream entrada = codigo >= 200 && codigo < 300
+                ? conexao.getInputStream()
+                : conexao.getErrorStream();
+
+        if (entrada == null) {
+            return "";
+        }
+
+        StringBuilder resposta = new StringBuilder();
+
+        try (BufferedReader leitor = new BufferedReader(
+                new InputStreamReader(entrada, StandardCharsets.UTF_8)
+        )) {
+            String linha;
+
+            while ((linha = leitor.readLine()) != null) {
+                resposta.append(linha);
+            }
+        }
+
+        return resposta.toString();
+    }
+
+    private void processarRespostaLogin(int codigo, String resposta) {
+        alterarEstadoDoBotao(false);
+
+        try {
+            JSONObject json = new JSONObject(resposta);
+
+            if (codigo < 200 || codigo >= 300) {
+                mostrarErro(json.optString(
+                        "erro",
+                        "Não foi possível realizar o login."
+                ));
+                return;
+            }
+
+            salvarSessao(json);
+
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    TelaInicial.class
+            );
+
+            intent.addFlags(
+                    Intent.FLAG_ACTIVITY_NEW_TASK
+                            | Intent.FLAG_ACTIVITY_CLEAR_TASK
+            );
+
+            startActivity(intent);
+            finish();
+        } catch (JSONException erro) {
+            mostrarErro("Resposta inválida recebida do servidor.");
+        }
     }
 
     private void salvarSessao(JSONObject response) throws JSONException {
@@ -155,34 +221,6 @@ public class MainActivity extends AppCompatActivity {
                 .putString("papel", usuario.optString("papel", ""))
                 .putBoolean("usuario_logado", true)
                 .apply();
-    }
-
-    private String obterMensagemDeErro(VolleyError error) {
-        if (error.networkResponse == null) {
-            return "Não foi possível conectar ao servidor.";
-        }
-
-        byte[] dados = error.networkResponse.data;
-
-        if (dados == null || dados.length == 0) {
-            return "Não foi possível realizar o login.";
-        }
-
-        try {
-            String resposta = new String(
-                    dados,
-                    StandardCharsets.UTF_8
-            );
-
-            JSONObject json = new JSONObject(resposta);
-
-            return json.optString(
-                    "erro",
-                    "Não foi possível realizar o login."
-            );
-        } catch (JSONException erro) {
-            return "Não foi possível realizar o login.";
-        }
     }
 
     private void alterarEstadoDoBotao(boolean carregando) {
