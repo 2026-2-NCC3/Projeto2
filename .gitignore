@@ -23,6 +23,9 @@ out/
 # Gradle files
 .gradle
 .gradle/
+.gradle-user-home/
+.gradle-task-home/
+.android-task-home/
 build/
 
 # Signing files
@@ -138,6 +141,16 @@ fabric.properties
 # Configuracoes locais do Android Studio
 .idea/
 **/.idea/
+
+# Dependências e cache locais do painel administrativo
+**/node_modules/
+**/.npm-cache/
+**/.npm-task-cache/
+**/.vite/
+**/.figma/
+
+# Segredos locais do backend
+.env
 
 # Configuracoes locais do Android Studio
 .idea/
