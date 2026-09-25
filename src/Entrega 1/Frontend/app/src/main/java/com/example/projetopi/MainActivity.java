@@ -189,6 +189,12 @@ public class MainActivity extends AppCompatActivity {
                     TelaInicial.class
             );
 
+            JSONObject usuario = json.getJSONObject("usuario");
+            intent.putExtra(
+                    "nomeUsuario",
+                    usuario.optString("nome_completo", "")
+            );
+
             intent.addFlags(
                     Intent.FLAG_ACTIVITY_NEW_TASK
                             | Intent.FLAG_ACTIVITY_CLEAR_TASK

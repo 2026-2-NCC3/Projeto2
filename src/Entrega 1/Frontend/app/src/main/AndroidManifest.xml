@@ -30,6 +30,15 @@
         <activity
             android:name=".TelaInicial"
             android:exported="false" />
+        <activity
+            android:name=".CursosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AgendaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CarteirinhaActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
