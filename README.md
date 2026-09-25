@@ -15,7 +15,7 @@
 ## Descrição
 
 <p align="center">
-  <img src="[https://i.postimg.cc/TPFTYSp3/Imagem-Proxima-Etapa.png](https://i.postimg.cc/Dy6r4T99/Imagem-Proxima-Etapa.png)" alt="Logo Próxima Etapa" width="250">
+  <img src="https://i.postimg.cc/Dy6r4T99/Imagem-Proxima-Etapa.png" alt="Logo Próxima Etapa" width="250">
 </p>
 
 <p align="center">
