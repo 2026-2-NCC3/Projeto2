@@ -7,6 +7,8 @@ const profilesRoutes = require("./src/routes/profilesRoutes");
 const cursosRoutes = require("./src/routes/cursosRoutes");
 const universidadesRoutes = require("./src/routes/universidadesRoutes");
 const adminRoutes = require("./src/routes/adminRoutes");
+const atividadesRoutes = require("./src/routes/atividadesRoutes");
+const inscricoesRoutes = require("./src/routes/inscricoesRoutes");
 
 
 const app = express();
@@ -23,6 +25,8 @@ app.use("/api/profiles", profilesRoutes);
 app.use("/api/cursos", cursosRoutes);
 app.use("/api/universidades", universidadesRoutes);
 app.use("/api/admins", adminRoutes);
+app.use("/api/atividades", atividadesRoutes);
+app.use("/api/inscricoes", inscricoesRoutes);
 
 // Rota inicial da API
 app.get("/", (req, res) => {
