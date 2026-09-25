@@ -69,6 +69,10 @@ async function requisicao(caminho, opcoes = {}, exigeToken = false) {
     });
     if (!resposta.ok) {
         const corpo = await resposta.json().catch(() => null);
+        if (resposta.status === 401) {
+            limparSessao();
+            window.dispatchEvent(new Event('proxima-etapa:sessao-expirada'));
+        }
         throw new ApiError(corpo?.erro ?? 'Não foi possível concluir a operação.', resposta.status);
     }
     if (resposta.status === 204) {
@@ -117,4 +121,28 @@ export function atualizarUniversidade(id, dados) {
 }
 export function excluirUniversidade(id) {
     return requisicao(`/api/universidades/${id}`, { method: 'DELETE' }, true);
+}
+export function listarPerfis() {
+    return requisicao('/api/profiles');
+}
+export function criarPerfil(dados) {
+    return requisicao('/api/profiles', {
+        method: 'POST',
+        body: JSON.stringify(dados),
+    });
+}
+export function atualizarPerfil(id, dados) {
+    return requisicao(`/api/profiles/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(dados),
+    }, true);
+}
+export function bloquearPerfil(id, bloqueado, motivo_bloqueio = null) {
+    return requisicao(`/api/profiles/${id}/bloqueio`, {
+        method: 'PATCH',
+        body: JSON.stringify({ bloqueado, motivo_bloqueio }),
+    }, true);
+}
+export function excluirPerfil(id) {
+    return requisicao(`/api/profiles/${id}`, { method: 'DELETE' }, true);
 }

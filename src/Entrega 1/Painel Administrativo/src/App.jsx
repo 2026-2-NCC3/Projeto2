@@ -68,6 +68,11 @@ export default function App() {
         limparSessao();
         setUsuario(null);
     };
+    useEffect(() => {
+        const encerrarPorExpiracao = () => setUsuario(null);
+        window.addEventListener('proxima-etapa:sessao-expirada', encerrarPorExpiracao);
+        return () => window.removeEventListener('proxima-etapa:sessao-expirada', encerrarPorExpiracao);
+    }, []);
     return (<ToastProvider>
       {usuario
             ? <AdminShell usuario={usuario} onLogout={sair}/>
