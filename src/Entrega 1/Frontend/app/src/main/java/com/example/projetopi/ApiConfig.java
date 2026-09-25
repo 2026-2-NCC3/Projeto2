@@ -6,7 +6,8 @@ public final class ApiConfig {
     }
 
     // A ponte adb reverse encaminha esta porta do emulador ao servidor local.
-    public static final String BASE_URL = "http://127.0.0.1:3000";
+    // 10.0.2.2 é o computador host visto pelo emulador Android.
+    public static final String BASE_URL = "http://10.0.2.2:3000";
 
     public static final String LOGIN_URL = BASE_URL + "/auth/login";
     public static final String PROFILES_URL = BASE_URL + "/api/profiles";

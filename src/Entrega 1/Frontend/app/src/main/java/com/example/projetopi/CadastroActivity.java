@@ -2,6 +2,7 @@ package com.example.projetopi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,12 +14,20 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.android.volley.Request;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CadastroActivity extends AppCompatActivity {
 
@@ -26,6 +35,7 @@ public class CadastroActivity extends AppCompatActivity {
     private Button btnCadastrar;
     private TextView txtErroCadastro;
     private TextView txtEntrar;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +80,7 @@ public class CadastroActivity extends AppCompatActivity {
                     return;
                 }
 
+                txtErroCadastro.setVisibility(View.GONE);
                 cadastrar(nome, email, senha);
             }
         });
@@ -87,32 +98,81 @@ public class CadastroActivity extends AppCompatActivity {
             return;
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST, ApiConfig.PROFILES_URL, body,
-                response -> {
-                        Intent intent = new Intent(CadastroActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                },
-                error -> {
-                        txtErroCadastro.setText(mensagemDeErro(error));
-                        txtErroCadastro.setVisibility(View.VISIBLE);
-                }
-        );
-
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
+        btnCadastrar.setEnabled(false);
+        btnCadastrar.setText("Criando conta...");
+        executor.execute(() -> enviarCadastro(body));
     }
 
-    private String mensagemDeErro(VolleyError error) {
-        if (error.networkResponse == null) {
-            return "Não foi possível conectar ao servidor local.";
+    private void enviarCadastro(JSONObject body) {
+        HttpURLConnection conexao = null;
+
+        try {
+            URL url = new URL(ApiConfig.PROFILES_URL);
+            conexao = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);
+            conexao.setRequestMethod("POST");
+            conexao.setConnectTimeout(15_000);
+            conexao.setReadTimeout(15_000);
+            conexao.setDoOutput(true);
+            conexao.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+
+            try (OutputStream saida = conexao.getOutputStream()) {
+                saida.write(body.toString().getBytes(StandardCharsets.UTF_8));
+            }
+
+            int codigo = conexao.getResponseCode();
+            String resposta = lerResposta(conexao, codigo);
+            runOnUiThread(() -> processarRespostaCadastro(codigo, resposta));
+        } catch (IOException erro) {
+            Log.e("CadastroActivity", "Falha de rede em " + ApiConfig.PROFILES_URL, erro);
+            runOnUiThread(() -> mostrarErro("Não foi possível conectar ao servidor."));
+        } finally {
+            if (conexao != null) {
+                conexao.disconnect();
+            }
+        }
+    }
+
+    private String lerResposta(HttpURLConnection conexao, int codigo) throws IOException {
+        InputStream entrada = codigo >= 200 && codigo < 300
+                ? conexao.getInputStream()
+                : conexao.getErrorStream();
+
+        if (entrada == null) {
+            return "";
+        }
+
+        StringBuilder resposta = new StringBuilder();
+        try (BufferedReader leitor = new BufferedReader(
+                new InputStreamReader(entrada, StandardCharsets.UTF_8)
+        )) {
+            String linha;
+            while ((linha = leitor.readLine()) != null) {
+                resposta.append(linha);
+            }
+        }
+        return resposta.toString();
+    }
+
+    private void processarRespostaCadastro(int codigo, String resposta) {
+        if (codigo >= 200 && codigo < 300) {
+            Intent intent = new Intent(CadastroActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
         }
 
         try {
-            JSONObject resposta = new JSONObject(new String(error.networkResponse.data));
-            return resposta.optString("erro", "Erro ao cadastrar. Verifique os dados.");
-        } catch (Exception ignored) {
-            return "Erro ao cadastrar. Verifique os dados.";
+            JSONObject json = new JSONObject(resposta);
+            mostrarErro(json.optString("erro", "Erro ao cadastrar. Verifique os dados."));
+        } catch (JSONException erro) {
+            mostrarErro("Erro ao cadastrar. Verifique os dados.");
         }
+    }
+
+    private void mostrarErro(String mensagem) {
+        btnCadastrar.setEnabled(true);
+        btnCadastrar.setText("Criar conta ->");
+        txtErroCadastro.setText(mensagem);
+        txtErroCadastro.setVisibility(View.VISIBLE);
     }
 }
