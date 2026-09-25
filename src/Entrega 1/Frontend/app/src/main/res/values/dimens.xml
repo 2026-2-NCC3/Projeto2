@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="espacamento_xs">2dp</dimen>
+    <dimen name="espacamento_sm">8dp</dimen>
+    <dimen name="espacamento_md">14dp</dimen>
+    <dimen name="espacamento_lg">18dp</dimen>
+    <dimen name="espacamento_xl">28dp</dimen>
+    <dimen name="padding_tela_horizontal">28dp</dimen>
+    <dimen name="margem_logo_superior">200dp</dimen>
+    <dimen name="tamanho_logo_container">72dp</dimen>
+    <dimen name="tamanho_logo_icone">64dp</dimen>
+    <dimen name="altura_campo_login">52dp</dimen>
+    <dimen name="altura_botao_primario">56dp</dimen>
+    <dimen name="tamanho_icone_campo">18dp</dimen>
+    <dimen name="tamanho_icone_olho">20dp</dimen>
+    <dimen name="raio_campo">12dp</dimen>
+    <dimen name="raio_botao_pill">28dp</dimen>
+    <dimen name="largura_borda">1dp</dimen>
+    <dimen name="largura_linha_rodape">60dp</dimen>
+    <dimen name="altura_linha_rodape">2dp</dimen>
+    <dimen name="texto_titulo_app">20sp</dimen>
+    <dimen name="texto_subtitulo_app">13sp</dimen>
+    <dimen name="texto_botao">15sp</dimen>
+    <dimen name="texto_rodape">11sp</dimen>
+</resources>

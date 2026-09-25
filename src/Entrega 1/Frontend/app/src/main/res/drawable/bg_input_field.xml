@@ -2,18 +2,18 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <solid android:color="#FFFFFF" />
+    <solid android:color="@color/fundo_card" />
 
     <stroke
-        android:width="1dp"
-        android:color="#D9D9D9" />
+        android:width="@dimen/largura_borda"
+        android:color="@color/borda_discreta" />
 
-    <corners android:radius="12dp" />
+    <corners android:radius="@dimen/raio_campo" />
 
     <padding
-        android:left="16dp"
-        android:top="12dp"
-        android:right="16dp"
-        android:bottom="12dp" />
+        android:left="@dimen/espacamento_lg"
+        android:top="@dimen/espacamento_md"
+        android:right="@dimen/espacamento_lg"
+        android:bottom="@dimen/espacamento_md" />
 
 </shape>

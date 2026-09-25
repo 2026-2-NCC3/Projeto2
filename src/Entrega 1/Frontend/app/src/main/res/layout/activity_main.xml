@@ -5,22 +5,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="28dp"
-    android:background="@color/cinza_claro">
+    android:paddingStart="@dimen/padding_tela_horizontal"
+    android:paddingEnd="@dimen/padding_tela_horizontal"
+    android:background="@color/fundo_principal">
 
     <FrameLayout
         android:id="@+id/frameLogo"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="@dimen/tamanho_logo_container"
+        android:layout_height="@dimen/tamanho_logo_container"
         android:background="@drawable/bg_logo_circulo"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="72dp">
+        android:layout_marginTop="@dimen/margem_logo_superior">
 
         <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="@dimen/tamanho_logo_icone"
+            android:layout_height="@dimen/tamanho_logo_icone"
             android:layout_gravity="center"
             android:src="@drawable/ic_logo_graduacao"
             android:contentDescription="Logo Próxima Etapa" />
@@ -32,43 +33,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Próxima Etapa"
-        android:textSize="20sp"
+        android:textSize="@dimen/texto_titulo_app"
         android:textStyle="bold"
-        android:textColor="@color/verde_azulado_escuro"
+        android:textColor="@color/acao_primaria"
         app:layout_constraintTop_toBottomOf="@id/frameLogo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="@dimen/espacamento_lg" />
 
     <TextView
         android:id="@+id/txtSubtituloApp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="App do Aluno"
-        android:textSize="13sp"
-        android:textColor="@color/cinza"
+        android:textSize="@dimen/texto_subtitulo_app"
+        android:textColor="@color/texto_secundario"
         app:layout_constraintTop_toBottomOf="@id/txtNomeApp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="2dp" />
+        android:layout_marginTop="@dimen/espacamento_xs" />
 
     <LinearLayout
         android:id="@+id/containerEmail"
         android:layout_width="0dp"
-        android:layout_height="52dp"
+        android:layout_height="@dimen/altura_campo_login"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/bg_input_field"
-        android:paddingStart="14dp"
-        android:paddingEnd="14dp"
+        android:paddingStart="@dimen/espacamento_md"
+        android:paddingEnd="@dimen/espacamento_md"
         app:layout_constraintTop_toBottomOf="@id/txtSubtituloApp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="@dimen/espacamento_xl">
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="@dimen/tamanho_icone_campo"
+            android:layout_height="@dimen/tamanho_icone_campo"
             android:src="@drawable/ic_email"
             android:contentDescription="Ícone email" />
 
@@ -77,30 +78,30 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="@dimen/espacamento_sm"
             android:hint="E-mail"
             android:inputType="textEmailAddress"
-            android:background="@android:color/transparent" />
+            android:background="@color/transparente" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/containerSenha"
         android:layout_width="0dp"
-        android:layout_height="52dp"
+        android:layout_height="@dimen/altura_campo_login"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/bg_input_field"
-        android:paddingStart="14dp"
-        android:paddingEnd="14dp"
+        android:paddingStart="@dimen/espacamento_md"
+        android:paddingEnd="@dimen/espacamento_md"
         app:layout_constraintTop_toBottomOf="@id/containerEmail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="14dp">
+        android:layout_marginTop="@dimen/espacamento_md">
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="@dimen/tamanho_icone_campo"
+            android:layout_height="@dimen/tamanho_icone_campo"
             android:src="@drawable/ic_lock"
             android:contentDescription="Ícone senha" />
 
@@ -109,16 +110,16 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="@dimen/espacamento_sm"
             android:hint="Senha"
             android:inputType="textPassword"
-            android:background="@android:color/transparent" />
+            android:background="@color/transparente" />
 
         <ImageButton
             android:id="@+id/btnMostrarSenha"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@android:color/transparent"
+            android:layout_width="@dimen/tamanho_icone_olho"
+            android:layout_height="@dimen/tamanho_icone_olho"
+            android:background="@color/transparente"
             android:src="@drawable/ic_eye"
             android:contentDescription="Mostrar senha" />
 
@@ -129,75 +130,75 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Esqueceu a senha?"
-        android:textSize="13sp"
-        android:textColor="@color/azul"
+        android:textSize="@dimen/texto_subtitulo_app"
+        android:textColor="@color/link_acao"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintTop_toBottomOf="@id/containerSenha"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="@dimen/espacamento_sm" />
 
     <Button
         android:id="@+id/btnEntrar"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/altura_botao_primario"
         android:text="ENTRAR"
-        android:textSize="15sp"
+        android:textSize="@dimen/texto_botao"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:backgroundTint="@color/verde_azulado_escuro"
-        app:cornerRadius="28dp"
+        android:backgroundTint="@color/acao_primaria"
+        app:cornerRadius="@dimen/raio_botao_pill"
         app:layout_constraintTop_toBottomOf="@id/txtEsqueceuSenha"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="28dp" />
+        android:layout_marginTop="@dimen/espacamento_xl" />
     <TextView
         android:id="@+id/txtErroLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="E-mail ou senha incorretos"
-        android:textSize="13sp"
+        android:textSize="@dimen/texto_subtitulo_app"
         android:textColor="@color/vermelho"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/btnEntrar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="@dimen/espacamento_xs" />
 
     <TextView
         android:id="@+id/txtCadastro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Primeira vez? Cadastre-se"
-        android:textSize="13sp"
-        android:textColor="@color/azul"
+        android:textSize="@dimen/texto_subtitulo_app"
+        android:textColor="@color/link_acao"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintTop_toBottomOf="@id/btnEntrar"
+        app:layout_constraintTop_toBottomOf="@id/txtErroLogin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="18dp" />
+        android:layout_marginTop="@dimen/espacamento_lg" />
 
     <View
         android:id="@+id/linhaRodape"
-        android:layout_width="60dp"
-        android:layout_height="2dp"
-        android:background="@color/cinza_claro"
+        android:layout_width="@dimen/largura_linha_rodape"
+        android:layout_height="@dimen/altura_linha_rodape"
+        android:background="@color/borda_discreta"
         app:layout_constraintBottom_toTopOf="@id/txtRodape"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="@dimen/espacamento_md" />
 
     <TextView
         android:id="@+id/txtRodape"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Powered by ONG Próxima Etapa"
-        android:textSize="11sp"
-        android:textColor="@color/cinza"
+        android:textSize="@dimen/texto_rodape"
+        android:textColor="@color/texto_secundario"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="@dimen/espacamento_lg" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
