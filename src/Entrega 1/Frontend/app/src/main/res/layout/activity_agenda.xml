@@ -1,344 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cinza_claro">
+    android:background="@color/fundo_principal">
 
     <TextView
         android:id="@+id/txtTitulo"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/fundo_card"
+        android:padding="@dimen/padding_tela_interna"
         android:text="Minha Agenda"
-        android:textSize="20sp"
+        android:textColor="@color/texto_primario"
+        android:textSize="@dimen/texto_titulo_tela"
         android:textStyle="bold"
-        android:background="@color/white"
-        android:padding="18dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/navMes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:background="@color/fundo_card"
         android:gravity="center_vertical"
-        android:background="@color/white"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="14dp"
-        app:layout_constraintTop_toBottomOf="@id/txtTitulo"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/padding_tela_interna"
+        android:paddingBottom="@dimen/espacamento_md"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/txtTitulo">
 
         <ImageView
             android:id="@+id/btnMesAnterior"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:layout_width="@dimen/tamanho_icone_topo"
+            android:layout_height="@dimen/tamanho_icone_topo"
+            android:contentDescription="Mês anterior"
             android:src="@drawable/ic_chevron_left"
-            android:clickable="true"
-            android:focusable="true"
-            app:tint="@color/black" />
+            app:tint="@color/texto_primario" />
 
         <TextView
             android:id="@+id/txtMesAno"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Setembro 2026"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:gravity="center" />
+            android:textColor="@color/texto_primario"
+            android:textSize="@dimen/texto_titulo_secao"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/btnProximoMes"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:layout_width="@dimen/tamanho_icone_topo"
+            android:layout_height="@dimen/tamanho_icone_topo"
+            android:contentDescription="Próximo mês"
             android:src="@drawable/ic_chevron_right"
-            android:clickable="true"
-            android:focusable="true"
-            app:tint="@color/black" />
-
+            app:tint="@color/texto_primario" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/tiraDias"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/fundo_card"
         android:orientation="horizontal"
-        android:background="@color/white"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="14dp"
-        app:layout_constraintTop_toBottomOf="@id/navMes"
+        android:paddingHorizontal="@dimen/espacamento_sm"
+        android:paddingBottom="@dimen/espacamento_md"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/navMes">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Seg"
-                android:textSize="11sp"
-                android:textColor="@color/cinza" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="08"
-                android:textSize="14sp"
-                android:layout_marginTop="6dp" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Seg" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="08" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_subtitulo_app" />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ter"
-                android:textSize="11sp"
-                android:textColor="@color/cinza" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="09"
-                android:textSize="14sp"
-                android:layout_marginTop="6dp" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ter" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="09" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_subtitulo_app" />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Qua"
-                android:textSize="11sp"
-                android:textColor="@color/cinza" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10"
-                android:textSize="14sp"
-                android:layout_marginTop="6dp" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Qua" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="10" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_subtitulo_app" />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Qui"
-                android:textSize="11sp"
-                android:textColor="@color/cinza" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="11"
-                android:textSize="14sp"
-                android:layout_marginTop="6dp" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Qui" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="11" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_subtitulo_app" />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sex"
-                android:textSize="11sp"
-                android:textColor="@color/cinza" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="12"
-                android:textSize="14sp"
-                android:layout_marginTop="6dp" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sex" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="12" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_subtitulo_app" />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sáb"
-                android:textSize="11sp"
-                android:textColor="@color/verde" />
-            <TextView
-                android:id="@+id/txtDiaSelecionado"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:text="13"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/verde"
-                android:gravity="center"
-                android:background="@drawable/bg_dia_selecionado"
-                android:layout_marginTop="4dp" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sáb" android:textColor="@color/acao_primaria" android:textSize="@dimen/texto_rotulo" />
+            <TextView android:id="@+id/txtDiaSelecionado" android:layout_width="@dimen/tamanho_icone_topo" android:layout_height="@dimen/tamanho_icone_topo" android:layout_marginTop="@dimen/espacamento_xxs" android:background="@drawable/bg_dia_selecionado" android:gravity="center" android:text="13" android:textColor="@color/acao_primaria" android:textSize="@dimen/texto_subtitulo_app" android:textStyle="bold" />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dom"
-                android:textSize="11sp"
-                android:textColor="@color/cinza" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="14"
-                android:textSize="14sp"
-                android:layout_marginTop="6dp" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Dom" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="14" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_subtitulo_app" />
         </LinearLayout>
-
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tiraDias"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/tiraDias">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Próximos Encontros"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="10dp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerEventos"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_tela_interna">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/espacamento_sm"
+                android:text="Próximos Encontros"
+                android:textColor="@color/texto_primario"
+                android:textSize="@dimen/texto_titulo_secao"
+                android:textStyle="bold" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/bg_card_branco" android:orientation="vertical" android:padding="@dimen/padding_card">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Aula de Redação" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_titulo_card" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="Sáb, 13 Set • 09:00 - 11:30" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="FECAP - Sala 302" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_sm" android:background="@drawable/bg_badge_verde" android:paddingHorizontal="@dimen/espacamento_sm" android:paddingVertical="@dimen/espacamento_xxs" android:text="Confirmado" android:textColor="@color/acao_primaria" android:textSize="@dimen/texto_rotulo" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_card" android:background="@drawable/bg_card_branco" android:orientation="vertical" android:padding="@dimen/padding_card">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Workshop de Carreira" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_titulo_card" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="Sáb, 13 Set • 13:00 - 15:00" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="FECAP - Sala 302" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_sm" android:background="@drawable/bg_badge_verde" android:paddingHorizontal="@dimen/espacamento_sm" android:paddingVertical="@dimen/espacamento_xxs" android:text="Confirmado" android:textColor="@color/acao_primaria" android:textSize="@dimen/texto_rotulo" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_card" android:background="@drawable/bg_card_branco" android:orientation="vertical" android:padding="@dimen/padding_card">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Simulado ENEM" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_titulo_card" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="Dom, 14 Set • 08:00 - 13:00" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="FECAP - Sala 302" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_sm" android:background="@drawable/bg_badge_laranja" android:paddingHorizontal="@dimen/espacamento_sm" android:paddingVertical="@dimen/espacamento_xxs" android:text="Pendente" android:textColor="@color/laranja" android:textSize="@dimen/texto_rotulo" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
     <ImageView
         android:id="@+id/fabAdicionar"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="@dimen/altura_botao_primario"
+        android:layout_height="@dimen/altura_botao_primario"
+        android:layout_marginEnd="@dimen/padding_tela_interna"
+        android:layout_marginBottom="@dimen/padding_tela_interna"
         android:background="@drawable/bg_fab_verde"
+        android:contentDescription="Adicionar evento"
+        android:padding="@dimen/padding_tela_interna"
         android:src="@drawable/ic_add"
-        app:tint="@color/white"
-        android:padding="16dp"
-        android:elevation="6dp"
-        android:clickable="true"
-        android:focusable="true"
         app:layout_constraintBottom_toTopOf="@id/bottomNav"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp" />
+        app:tint="@color/fundo_card" />
 
     <LinearLayout
         android:id="@+id/bottomNav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottom_nav"
         android:orientation="horizontal"
-        android:background="@color/white"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:paddingVertical="@dimen/padding_navegacao"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <LinearLayout android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_home"
-                app:tint="@color/cinza" />
-            <TextView android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Início"
-                android:textSize="11sp"
-                android:textColor="@color/cinza" />
+        <LinearLayout android:id="@+id/navInicio" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <ImageView android:layout_width="@dimen/tamanho_icone_nav" android:layout_height="@dimen/tamanho_icone_nav" android:contentDescription="Início" android:padding="@dimen/espacamento_xxs" android:src="@drawable/ic_home" app:tint="@color/texto_secundario" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Início" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rodape" />
         </LinearLayout>
-
-        <LinearLayout android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_menu_book"
-                app:tint="@color/cinza" />
-            <TextView android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cursos"
-                android:textSize="11sp"
-                android:textColor="@color/cinza" />
+        <LinearLayout android:id="@+id/navCursos" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <ImageView android:layout_width="@dimen/tamanho_icone_nav" android:layout_height="@dimen/tamanho_icone_nav" android:contentDescription="Cursos" android:padding="@dimen/espacamento_xxs" android:src="@drawable/ic_menu_book" app:tint="@color/texto_secundario" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cursos" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rodape" />
         </LinearLayout>
-
-        <LinearLayout android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_calendar"
-                app:tint="@color/verde_azulado_escuro" />
-            <TextView android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Agenda"
-                android:textSize="11sp"
-                android:textColor="@color/verde_azulado_escuro" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <ImageView android:layout_width="@dimen/tamanho_icone_nav" android:layout_height="@dimen/tamanho_icone_nav" android:background="@drawable/bg_nav_item_ativo" android:contentDescription="Agenda" android:padding="@dimen/espacamento_xxs" android:src="@drawable/ic_calendar" app:tint="@color/acao_primaria" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Agenda" android:textColor="@color/acao_primaria" android:textSize="@dimen/texto_rodape" />
         </LinearLayout>
-
-        <LinearLayout android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_person"
-                app:tint="@color/cinza" />
-            <TextView android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Perfil"
-                android:textSize="11sp"
-                android:textColor="@color/cinza" />
+        <LinearLayout android:id="@+id/navPerfil" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <ImageView android:layout_width="@dimen/tamanho_icone_nav" android:layout_height="@dimen/tamanho_icone_nav" android:contentDescription="Perfil" android:padding="@dimen/espacamento_xxs" android:src="@drawable/ic_person" app:tint="@color/texto_secundario" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Perfil" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rodape" />
         </LinearLayout>
-
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
