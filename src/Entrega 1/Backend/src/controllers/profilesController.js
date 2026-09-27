@@ -62,6 +62,17 @@ function criar(req, res, next) {
       });
     }
 
+    const email = String(perfil.email || "").trim();
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailValido.test(email)) {
+      return res.status(400).json({
+        erro: "Informe um e-mail válido."
+      });
+    }
+
+    perfil.email = email;
+
     const criado = model.criar({
       ...perfil,
       id: crypto.randomUUID(),
