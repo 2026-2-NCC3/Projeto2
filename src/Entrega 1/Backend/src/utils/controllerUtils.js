@@ -1,3 +1,5 @@
+const crypto = require("crypto");
+const banco = require("../../database/database");
 function tratarErroDoBanco(res, next, erro) {
   const erroDeRestricao = erro.code?.startsWith("SQLITE_CONSTRAINT");
   const erroDeTrigger = /Curso sem vagas/i.test(erro.message);
@@ -47,5 +49,3 @@ module.exports = {
   executarEscrita,
   registrarAuditoria
 };
-const crypto = require("crypto");
-const banco = require("../../database/database");

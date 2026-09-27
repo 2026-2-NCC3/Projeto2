@@ -110,8 +110,8 @@ public class CadastroActivity extends AppCompatActivity {
             URL url = new URL(ApiConfig.PROFILES_URL);
             conexao = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);
             conexao.setRequestMethod("POST");
-            conexao.setConnectTimeout(15_000);
-            conexao.setReadTimeout(15_000);
+            conexao.setConnectTimeout(70_000);
+            conexao.setReadTimeout(70_000);
             conexao.setDoOutput(true);
             conexao.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
