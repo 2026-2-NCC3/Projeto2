@@ -1,0 +1,49 @@
+const express = require("express");
+const cors = require("cors");
+require("dotenv").config();
+const banco = require("./database/database");
+const authRoutes = require("./src/routes/authRoutes");
+const profilesRoutes = require("./src/routes/profilesRoutes");
+const cursosRoutes = require("./src/routes/cursosRoutes");
+const universidadesRoutes = require("./src/routes/universidadesRoutes");
+const adminRoutes = require("./src/routes/adminRoutes");
+const atividadesRoutes = require("./src/routes/atividadesRoutes");
+const inscricoesRoutes = require("./src/routes/inscricoesRoutes");
+
+
+const app = express();
+const PORT = Number(process.env.PORT) || 3000;
+
+// Permite que a API receba dados no formato JSON
+app.use(express.json());
+app.use(cors());
+
+app.use("/auth", authRoutes);
+
+// Controller + Model de perfis. A tela Android de cadastro é a View.
+app.use("/api/profiles", profilesRoutes);
+app.use("/api/cursos", cursosRoutes);
+app.use("/api/universidades", universidadesRoutes);
+app.use("/api/admins", adminRoutes);
+app.use("/api/atividades", atividadesRoutes);
+app.use("/api/inscricoes", inscricoesRoutes);
+
+// Rota inicial da API
+app.get("/", (req, res) => {
+    res.json({
+        mensagem: "API Próxima Etapa está funcionando!"
+    });
+});
+
+// Rota utilizada para verificar a saúde do servidor
+app.get("/api/health", (req, res) => {
+    res.status(200).json({
+        status: "online",
+        mensagem: "Backend funcionando corretamente"
+    });
+});
+
+// Inicializa o servidor
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Servidor executando em http://localhost:${PORT}`);
+});

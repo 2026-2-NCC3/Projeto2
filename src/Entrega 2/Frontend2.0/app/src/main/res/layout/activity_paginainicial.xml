@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fundo_principal">
+
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/fundo_card"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_tela_interna"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Próxima Etapa"
+            android:textColor="@color/acao_primaria"
+            android:textSize="@dimen/texto_titulo_tela"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="@dimen/tamanho_icone_topo"
+            android:layout_height="@dimen/tamanho_icone_topo"
+            android:layout_marginEnd="@dimen/espacamento_md"
+            android:contentDescription="Notificações"
+            android:src="@drawable/ic_notification"
+            app:tint="@color/acao_primaria" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgAvatar"
+            android:layout_width="@dimen/tamanho_avatar"
+            android:layout_height="@dimen/tamanho_avatar"
+            android:contentDescription="Foto de perfil"
+            android:src="@drawable/foto_perfil" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/fundo_principal"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_tela_interna">
+
+            <TextView
+                android:id="@+id/txtSaudacao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Olá, Maria! 👋"
+                android:textColor="@color/texto_primario"
+                android:textSize="@dimen/texto_saudacao"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacamento_xs"
+                android:text="Bem-vinda de volta"
+                android:textColor="@color/texto_secundario"
+                android:textSize="@dimen/texto_subtitulo_app" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacamento_lg"
+                android:background="@drawable/bg_card_branco"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_card">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sua Jornada"
+                    android:textColor="@color/texto_primario"
+                    android:textSize="@dimen/texto_titulo_secao"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacamento_md"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/tamanho_icone_jornada"
+                        android:layout_height="@dimen/tamanho_icone_jornada"
+                        android:contentDescription="Etapa concluída"
+                        android:src="@drawable/ic_step_done" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/altura_linha_jornada"
+                        android:layout_weight="1"
+                        android:background="@color/acao_primaria" />
+
+                    <ImageView
+                        android:layout_width="@dimen/tamanho_icone_jornada"
+                        android:layout_height="@dimen/tamanho_icone_jornada"
+                        android:contentDescription="Etapa concluída"
+                        android:src="@drawable/ic_step_done" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/altura_linha_jornada"
+                        android:layout_weight="1"
+                        android:background="@color/acao_primaria" />
+
+                    <ImageView
+                        android:layout_width="@dimen/tamanho_icone_jornada"
+                        android:layout_height="@dimen/tamanho_icone_jornada"
+                        android:contentDescription="Etapa atual"
+                        android:src="@drawable/ic_step_atual" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/altura_linha_jornada"
+                        android:layout_weight="1"
+                        android:background="@color/borda_discreta" />
+
+                    <ImageView
+                        android:layout_width="@dimen/tamanho_icone_jornada"
+                        android:layout_height="@dimen/tamanho_icone_jornada"
+                        android:contentDescription="Próxima etapa"
+                        android:src="@drawable/ic_step_pendente" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacamento_entre_cards"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Inscrição"
+                        android:textColor="@color/texto_secundario"
+                        android:textSize="@dimen/texto_rotulo" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Nivelamento"
+                        android:textColor="@color/texto_secundario"
+                        android:textSize="@dimen/texto_rotulo" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Módulo 1"
+                        android:textColor="@color/texto_primario"
+                        android:textSize="@dimen/texto_rotulo"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Módulo 2"
+                        android:textColor="@color/texto_secundario"
+                        android:textSize="@dimen/texto_rotulo" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacamento_card"
+                android:background="@drawable/bg_card_branco"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/tamanho_icone_atividade"
+                        android:layout_height="@dimen/tamanho_icone_atividade"
+                        android:contentDescription="Próxima atividade"
+                        android:src="@drawable/ic_calendar"
+                        app:tint="@color/acao_primaria" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/espacamento_entre_cards"
+                        android:layout_weight="1"
+                        android:text="PRÓXIMA ATIVIDADE"
+                        android:textColor="@color/acao_primaria"
+                        android:textSize="@dimen/texto_rodape"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/tamanho_icone_atividade"
+                        android:layout_height="@dimen/tamanho_icone_atividade"
+                        android:contentDescription="Ver agenda"
+                        android:src="@drawable/ic_calendar"
+                        app:tint="@color/acao_primaria" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacamento_sm"
+                    android:text="Aula de Redação"
+                    android:textColor="@color/texto_primario"
+                    android:textSize="@dimen/texto_titulo_card"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacamento_xxs"
+                    android:text="Sábado, 13 Set • 09:00 - 11:30"
+                    android:textColor="@color/texto_secundario"
+                    android:textSize="@dimen/texto_subtitulo_app" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacamento_xs"
+                    android:text="FECAP - Sala 302"
+                    android:textColor="@color/texto_secundario"
+                    android:textSize="@dimen/texto_subtitulo_app" />
+
+                <TextView
+                    android:id="@+id/txtVerDetalhes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacamento_sm"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="Ver detalhes →"
+                    android:textColor="@color/acao_primaria"
+                    android:textSize="@dimen/texto_subtitulo_app"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacamento_lg"
+                android:text="Atalhos Rápidos"
+                android:textColor="@color/texto_primario"
+                android:textSize="@dimen/texto_titulo_secao"
+                android:textStyle="bold" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacamento_sm"
+                android:columnCount="2"
+                android:rowCount="2">
+
+                <LinearLayout
+                    android:id="@+id/atalhoCursos"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/espacamento_entre_cards"
+                    android:background="@drawable/bg_card_branco"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_card">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/tamanho_icone_atalho"
+                        android:layout_height="@dimen/tamanho_icone_atalho"
+                        android:contentDescription="Meus cursos"
+                        android:src="@drawable/ic_menu_book"
+                        app:tint="@color/acao_primaria" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/espacamento_sm"
+                        android:text="Meus Cursos"
+                        android:textColor="@color/texto_primario"
+                        android:textSize="@dimen/texto_subtitulo_app" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/atalhoAgenda"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/espacamento_entre_cards"
+                    android:background="@drawable/bg_card_branco"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_card">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/tamanho_icone_atalho"
+                        android:layout_height="@dimen/tamanho_icone_atalho"
+                        android:contentDescription="Agenda"
+                        android:src="@drawable/ic_calendar"
+                        app:tint="@color/acao_primaria" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/espacamento_sm"
+                        android:text="Agenda"
+                        android:textColor="@color/texto_primario"
+                        android:textSize="@dimen/texto_subtitulo_app" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/atalhoCarteirinha"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/espacamento_entre_cards"
+                    android:background="@drawable/bg_card_branco"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_card">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/tamanho_icone_atalho"
+                        android:layout_height="@dimen/tamanho_icone_atalho"
+                        android:contentDescription="Carteirinha"
+                        android:src="@drawable/ic_badge"
+                        app:tint="@color/acao_primaria" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/espacamento_sm"
+                        android:text="Carteirinha"
+                        android:textColor="@color/texto_primario"
+                        android:textSize="@dimen/texto_subtitulo_app" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/espacamento_entre_cards"
+                    android:background="@drawable/bg_card_branco"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_card">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/tamanho_icone_atalho"
+                        android:layout_height="@dimen/tamanho_icone_atalho"
+                        android:contentDescription="Materiais"
+                        android:src="@drawable/ic_folder"
+                        app:tint="@color/acao_primaria" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/espacamento_sm"
+                        android:text="Materiais"
+                        android:textColor="@color/texto_primario"
+                        android:textSize="@dimen/texto_subtitulo_app" />
+                </LinearLayout>
+            </GridLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottom_nav"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/padding_navegacao"
+        android:paddingTop="@dimen/padding_navegacao"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/navInicio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/tamanho_icone_nav"
+                android:layout_height="@dimen/tamanho_icone_nav"
+                android:background="@drawable/bg_nav_item_ativo"
+                android:contentDescription="Início"
+                android:padding="@dimen/espacamento_xxs"
+                android:src="@drawable/ic_home"
+                app:tint="@color/acao_primaria" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Início"
+                android:textColor="@color/acao_primaria"
+                android:textSize="@dimen/texto_rodape" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navCursos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/tamanho_icone_nav"
+                android:layout_height="@dimen/tamanho_icone_nav"
+                android:contentDescription="Cursos"
+                android:padding="@dimen/espacamento_xxs"
+                android:src="@drawable/ic_menu_book"
+                app:tint="@color/texto_secundario" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cursos"
+                android:textColor="@color/texto_secundario"
+                android:textSize="@dimen/texto_rodape" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navAgenda"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/tamanho_icone_nav"
+                android:layout_height="@dimen/tamanho_icone_nav"
+                android:contentDescription="Agenda"
+                android:padding="@dimen/espacamento_xxs"
+                android:src="@drawable/ic_calendar"
+                app:tint="@color/texto_secundario" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Agenda"
+                android:textColor="@color/texto_secundario"
+                android:textSize="@dimen/texto_rodape" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navPerfil"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/tamanho_icone_nav"
+                android:layout_height="@dimen/tamanho_icone_nav"
+                android:contentDescription="Perfil"
+                android:padding="@dimen/espacamento_xxs"
+                android:src="@drawable/ic_person"
+                app:tint="@color/texto_secundario" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Perfil"
+                android:textColor="@color/texto_secundario"
+                android:textSize="@dimen/texto_rodape" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

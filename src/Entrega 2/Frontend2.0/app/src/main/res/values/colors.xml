@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="cinza">#7D7F84</color>
+    <color name="verde">#3FAE4A</color>
+    <color name="roxo">#7B2FF7</color>
+    <color name="cinza_claro">#F3F3F3</color>
+    <color name="cinza_fundo">#F5F5F5</color>
+    <color name="verde_azulado_escuro">#1E8A7A</color>
+    <color name="azul">#000080</color>
+    <color name="laranja">#E8804D</color>
+    <color name="vermelho">#D32F2F</color>
+    <color name="transparente">#00000000</color>
+    <color name="fundo_principal">#F5F5F5</color>
+    <color name="fundo_card">#FFFFFF</color>
+    <color name="acao_primaria">#00897B</color>
+    <color name="acao_suave">#E0F2F1</color>
+    <color name="texto_primario">#1A202C</color>
+    <color name="texto_secundario">#535353</color>
+    <color name="borda_discreta">#E2E8F0</color>
+    <color name="link_acao">#1D4ED8</color>
+    <color name="azul_gradiente_card">#1565C0</color>
+</resources>

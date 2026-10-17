@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fundo_principal">
+
+    <TextView
+        android:id="@+id/txtTitulo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/fundo_card"
+        android:padding="@dimen/padding_tela_interna"
+        android:text="Minha Agenda"
+        android:textColor="@color/texto_primario"
+        android:textSize="@dimen/texto_titulo_tela"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/navMes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/fundo_card"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/padding_tela_interna"
+        android:paddingBottom="@dimen/espacamento_md"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTitulo">
+
+        <ImageView
+            android:id="@+id/btnMesAnterior"
+            android:layout_width="@dimen/tamanho_icone_topo"
+            android:layout_height="@dimen/tamanho_icone_topo"
+            android:contentDescription="Mês anterior"
+            android:src="@drawable/ic_chevron_left"
+            app:tint="@color/texto_primario" />
+
+        <TextView
+            android:id="@+id/txtMesAno"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Setembro 2026"
+            android:textColor="@color/texto_primario"
+            android:textSize="@dimen/texto_titulo_secao"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/btnProximoMes"
+            android:layout_width="@dimen/tamanho_icone_topo"
+            android:layout_height="@dimen/tamanho_icone_topo"
+            android:contentDescription="Próximo mês"
+            android:src="@drawable/ic_chevron_right"
+            app:tint="@color/texto_primario" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tiraDias"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/fundo_card"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/espacamento_sm"
+        android:paddingBottom="@dimen/espacamento_md"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/navMes">
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Seg" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="08" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_subtitulo_app" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ter" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="09" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_subtitulo_app" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Qua" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="10" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_subtitulo_app" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Qui" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="11" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_subtitulo_app" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sex" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="12" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_subtitulo_app" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sáb" android:textColor="@color/acao_primaria" android:textSize="@dimen/texto_rotulo" />
+            <TextView android:id="@+id/txtDiaSelecionado" android:layout_width="@dimen/tamanho_icone_topo" android:layout_height="@dimen/tamanho_icone_topo" android:layout_marginTop="@dimen/espacamento_xxs" android:background="@drawable/bg_dia_selecionado" android:gravity="center" android:text="13" android:textColor="@color/acao_primaria" android:textSize="@dimen/texto_subtitulo_app" android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Dom" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="14" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_subtitulo_app" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tiraDias">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_tela_interna">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/espacamento_sm"
+                android:text="Próximos Encontros"
+                android:textColor="@color/texto_primario"
+                android:textSize="@dimen/texto_titulo_secao"
+                android:textStyle="bold" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/bg_card_branco" android:orientation="vertical" android:padding="@dimen/padding_card">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Aula de Redação" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_titulo_card" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="Sáb, 13 Set • 09:00 - 11:30" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="FECAP - Sala 302" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_sm" android:background="@drawable/bg_badge_verde" android:paddingHorizontal="@dimen/espacamento_sm" android:paddingVertical="@dimen/espacamento_xxs" android:text="Confirmado" android:textColor="@color/acao_primaria" android:textSize="@dimen/texto_rotulo" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_card" android:background="@drawable/bg_card_branco" android:orientation="vertical" android:padding="@dimen/padding_card">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Workshop de Carreira" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_titulo_card" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="Sáb, 13 Set • 13:00 - 15:00" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="FECAP - Sala 302" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_sm" android:background="@drawable/bg_badge_verde" android:paddingHorizontal="@dimen/espacamento_sm" android:paddingVertical="@dimen/espacamento_xxs" android:text="Confirmado" android:textColor="@color/acao_primaria" android:textSize="@dimen/texto_rotulo" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_card" android:background="@drawable/bg_card_branco" android:orientation="vertical" android:padding="@dimen/padding_card">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Simulado ENEM" android:textColor="@color/texto_primario" android:textSize="@dimen/texto_titulo_card" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="Dom, 14 Set • 08:00 - 13:00" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_xxs" android:text="FECAP - Sala 302" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rotulo" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/espacamento_sm" android:background="@drawable/bg_badge_laranja" android:paddingHorizontal="@dimen/espacamento_sm" android:paddingVertical="@dimen/espacamento_xxs" android:text="Pendente" android:textColor="@color/laranja" android:textSize="@dimen/texto_rotulo" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/fabAdicionar"
+        android:layout_width="@dimen/altura_botao_primario"
+        android:layout_height="@dimen/altura_botao_primario"
+        android:layout_marginEnd="@dimen/padding_tela_interna"
+        android:layout_marginBottom="@dimen/padding_tela_interna"
+        android:background="@drawable/bg_fab_verde"
+        android:contentDescription="Adicionar evento"
+        android:padding="@dimen/padding_tela_interna"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/fundo_card" />
+
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottom_nav"
+        android:orientation="horizontal"
+        android:paddingVertical="@dimen/padding_navegacao"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout android:id="@+id/navInicio" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <ImageView android:layout_width="@dimen/tamanho_icone_nav" android:layout_height="@dimen/tamanho_icone_nav" android:contentDescription="Início" android:padding="@dimen/espacamento_xxs" android:src="@drawable/ic_home" app:tint="@color/texto_secundario" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Início" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rodape" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/navCursos" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <ImageView android:layout_width="@dimen/tamanho_icone_nav" android:layout_height="@dimen/tamanho_icone_nav" android:contentDescription="Cursos" android:padding="@dimen/espacamento_xxs" android:src="@drawable/ic_menu_book" app:tint="@color/texto_secundario" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cursos" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rodape" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <ImageView android:layout_width="@dimen/tamanho_icone_nav" android:layout_height="@dimen/tamanho_icone_nav" android:background="@drawable/bg_nav_item_ativo" android:contentDescription="Agenda" android:padding="@dimen/espacamento_xxs" android:src="@drawable/ic_calendar" app:tint="@color/acao_primaria" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Agenda" android:textColor="@color/acao_primaria" android:textSize="@dimen/texto_rodape" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/navPerfil" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <ImageView android:layout_width="@dimen/tamanho_icone_nav" android:layout_height="@dimen/tamanho_icone_nav" android:contentDescription="Perfil" android:padding="@dimen/espacamento_xxs" android:src="@drawable/ic_person" app:tint="@color/texto_secundario" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Perfil" android:textColor="@color/texto_secundario" android:textSize="@dimen/texto_rodape" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
