@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const profilesModel = require("../models/profilesModel");
 
 function requireAuth(req, res, next) {
   const cabecalho = req.headers.authorization;
@@ -13,9 +14,18 @@ function requireAuth(req, res, next) {
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
+    if (typeof payload.usuario_id !== "string" || !payload.usuario_id) {
+      return res.status(401).json({ erro: "Não autorizado" });
+    }
+
+    const usuario = profilesModel.buscarEstadoAutenticacao(payload.usuario_id);
+    if (!usuario || usuario.ativo !== 1 || usuario.bloqueado !== 0) {
+      return res.status(401).json({ erro: "Não autorizado" });
+    }
+
     req.usuario = {
-      id: payload.usuario_id,
-      papel: payload.papel
+      id: usuario.id,
+      papel: usuario.papel
     };
 
     return next();
@@ -25,7 +35,7 @@ function requireAuth(req, res, next) {
 }
 
 function requireAdmin(req, res, next) {
-  if (!req.usuario || req.usuario.papel === "aluno") {
+  if (!req.usuario || !["admin_operador", "admin_super"].includes(req.usuario.papel)) {
     return res.status(403).json({
       erro: "Acesso restrito a administradores"
     });

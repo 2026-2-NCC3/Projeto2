@@ -20,7 +20,7 @@ function dadosDoPerfil(body, atual = {}) {
 }
 
 function ehAdmin(req) {
-  return req.usuario.papel !== "aluno";
+  return ["admin_operador", "admin_super"].includes(req.usuario.papel);
 }
 
 function listar(req, res, next) {

@@ -15,7 +15,8 @@ function login(req, res, next) {
       FROM usuarios u
       INNER JOIN credenciais c ON c.usuario_id = u.id
       INNER JOIN papeis p ON p.usuario_id = u.id
-      WHERE u.email = ? AND u.ativo = 1
+      LEFT JOIN alunos a ON a.usuario_id = u.id
+      WHERE u.email = ? AND u.ativo = 1 AND COALESCE(a.bloqueado, 0) = 0
     `).get(email);
 
     if (!usuario || !bcrypt.compareSync(senha, usuario.senha_hash)) {
