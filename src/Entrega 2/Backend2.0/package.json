@@ -4,8 +4,9 @@
   "description": "Backend local do projeto Próxima Etapa",
   "main": "server.js",
   "scripts": {
-    "start": "node src/config/migrate.js && node server.js",
-    "migrate": "node src/config/migrate.js"
+    "start": "node server.js",
+    "migrate": "node src/config/migrate.js",
+    "seed:admin": "node src/config/seedAdmin.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
