@@ -97,6 +97,12 @@ O sistema será composto por um aplicativo mobile, uma API REST e um banco de da
 │   └── 📄 Bootstrap_5.0_Screenshot.png
 ```
 
+## Backend da Entrega 2: banco de dados
+
+- `npm start`: se o banco estiver vazio, cria as 21 tabelas; se estiver completo, não altera nada; se estiver incompleto, não inicia, para proteger os dados. Não cria administradores.
+- `npm run seed:admin`: cria o primeiro administrador a partir das variáveis `ADMIN_EMAIL` e `ADMIN_PASSWORD` (senha com no mínimo 12 caracteres).
+- `npm run migrate`: **apaga todos os dados** e recria o banco. Só roda com `CONFIRMAR_DROP=sim`. Não use no Render nem coloque no start/build.
+
 # Instalação
 
 ## Windows

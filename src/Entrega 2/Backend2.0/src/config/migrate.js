@@ -1,5 +1,11 @@
 const fs = require("fs");
 const path = require("path");
+// A confirmacao e verificada antes de abrir qualquer banco.
+if (process.env.CONFIRMAR_DROP !== "sim") {
+  console.error("Migration recusada: este comando pode apagar todas as tabelas e os dados do banco. Para autorizar, defina CONFIRMAR_DROP=sim somente nesta execucao.");
+  process.exit(1);
+}
+
 const banco = require("../../database/database");
 
 const caminhoSchema = path.join(__dirname, "../../database/schema.sql");

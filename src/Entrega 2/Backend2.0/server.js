@@ -2,6 +2,15 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const banco = require("./database/database");
+const ensureSchema = require("./src/config/ensureSchema");
+
+try {
+    ensureSchema();
+} catch (erro) {
+    console.error("Servidor nao iniciado:", erro.message);
+    banco.close();
+    process.exit(1);
+}
 const authRoutes = require("./src/routes/authRoutes");
 const profilesRoutes = require("./src/routes/profilesRoutes");
 const cursosRoutes = require("./src/routes/cursosRoutes");
@@ -37,10 +46,18 @@ app.get("/", (req, res) => {
 
 // Rota utilizada para verificar a saúde do servidor
 app.get("/api/health", (req, res) => {
-    res.status(200).json({
-        status: "online",
-        mensagem: "Backend funcionando corretamente"
-    });
+    try {
+        banco.prepare("SELECT 1").get();
+        res.status(200).json({
+            status: "online",
+            mensagem: "Backend funcionando corretamente"
+        });
+    } catch {
+        res.status(503).json({
+            status: "indisponivel",
+            mensagem: "Banco de dados indisponivel."
+        });
+    }
 });
 
 // Inicializa o servidor
