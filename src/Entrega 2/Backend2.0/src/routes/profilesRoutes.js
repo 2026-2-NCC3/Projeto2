@@ -7,8 +7,8 @@ const {
 
 const router = express.Router();
 
-// A listagem e o cadastro são públicos para o fluxo atual do aplicativo.
-router.get("/", profilesController.listar);
+// A listagem exige administrador; o cadastro continua público.
+router.get("/", requireAuth, requireAdmin, profilesController.listar);
 router.post("/", profilesController.criar);
 
 // Perfil individual só pode ser lido/editado pelo dono autenticado ou por um administrador.

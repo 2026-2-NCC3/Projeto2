@@ -123,7 +123,7 @@ export function excluirUniversidade(id) {
     return requisicao(`/api/universidades/${id}`, { method: 'DELETE' }, true);
 }
 export function listarPerfis() {
-    return requisicao('/api/profiles');
+    return requisicao('/api/profiles', {}, true);
 }
 export function criarPerfil(dados) {
     return requisicao('/api/profiles', {
