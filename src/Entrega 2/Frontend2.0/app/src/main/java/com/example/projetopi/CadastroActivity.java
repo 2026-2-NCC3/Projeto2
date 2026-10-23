@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -33,6 +34,7 @@ public class CadastroActivity extends AppCompatActivity {
 
     private EditText EditarNome, EditarEmail, EditSenha;
     private Button btnCadastrar;
+    private CheckBox checkConsentimento;
     private TextView txtErroCadastro;
     private TextView txtEntrar;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -50,6 +52,7 @@ public class CadastroActivity extends AppCompatActivity {
         this.EditarNome = findViewById(R.id.EditarNome);
         this.EditarEmail = findViewById(R.id.EditarEmail);
         this.EditSenha = findViewById(R.id.EditSenha);
+        this.checkConsentimento = findViewById(R.id.checkConsentimento);
         this.btnCadastrar = findViewById(R.id.btnCadastrar);
         this.txtErroCadastro = findViewById(R.id.txtErroCadastro);
         this.txtEntrar = findViewById(R.id.txtEntrar);
@@ -72,7 +75,7 @@ public class CadastroActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String nome = EditarNome.getText().toString().trim();
                 String email = EditarEmail.getText().toString().trim();
-                String senha = EditSenha.getText().toString().trim();
+                String senha = EditSenha.getText().toString();
 
                 if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
                     txtErroCadastro.setText("Preencha todos os campos.");
@@ -80,19 +83,26 @@ public class CadastroActivity extends AppCompatActivity {
                     return;
                 }
 
+                boolean consentimento = checkConsentimento.isChecked();
+                if (!consentimento) {
+                    txtErroCadastro.setText("Marque o consentimento para criar sua conta.");
+                    txtErroCadastro.setVisibility(View.VISIBLE);
+                    return;
+                }
+
                 txtErroCadastro.setVisibility(View.GONE);
-                cadastrar(nome, email, senha);
+                cadastrar(nome, email, senha, consentimento);
             }
         });
     }
 
-    private void cadastrar(String nome, String email, String senha) {
+    private void cadastrar(String nome, String email, String senha, boolean consentimento) {
         JSONObject body = new JSONObject();
         try {
             body.put("nome_completo", nome);
             body.put("email", email);
             body.put("senha", senha);
-            body.put("consentimento_lgpd", 1);
+            body.put("consentimento_lgpd", consentimento ? 1 : 0);
         } catch (JSONException e) {
             e.printStackTrace();
             return;
