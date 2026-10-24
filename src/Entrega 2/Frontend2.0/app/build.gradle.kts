@@ -4,10 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.projetopi"
-    compileSdk {
-        version = release(37)
-    }
-
+    compileSdk = 37
     defaultConfig {
         applicationId = "com.example.projetopi"
         minSdk = 24
