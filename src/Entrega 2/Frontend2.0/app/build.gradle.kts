@@ -4,10 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.projetopi"
-    compileSdk {
-        version = release(37)
-    }
-
+    compileSdk = 37
     defaultConfig {
         applicationId = "com.example.projetopi"
         minSdk = 24
@@ -32,7 +29,7 @@ android {
 }
 
 dependencies {
-    implementation("androidx.activity:activity-ktx:1.8.0")
+    implementation(libs.activity.ktx)
     implementation(libs.appcompat)
     implementation(libs.constraintlayout)
     implementation(libs.material)
