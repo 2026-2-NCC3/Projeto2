@@ -21,6 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "ProjetoPI"
 include(":app")
-include(":app")
-include(":app")
-include(":app")
