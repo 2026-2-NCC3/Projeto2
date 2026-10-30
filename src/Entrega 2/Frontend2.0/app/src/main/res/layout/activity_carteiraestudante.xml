@@ -244,81 +244,108 @@
         android:id="@+id/bottomNav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@drawable/bg_bottom_nav"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:paddingVertical="@dimen/padding_navegacao"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <LinearLayout android:layout_width="0dp"
+        <LinearLayout
             android:id="@+id/navInicio"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView android:layout_width="22dp"
-                android:layout_height="22dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/tamanho_icone_nav"
+                android:layout_height="@dimen/tamanho_icone_nav"
+                android:contentDescription="Início"
+                android:padding="@dimen/espacamento_xxs"
                 android:src="@drawable/ic_home"
-                app:tint="@color/cinza" />
-            <TextView android:layout_width="wrap_content"
+                app:tint="@color/texto_secundario" />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Início"
-                android:textSize="11sp"
-                android:textColor="@color/cinza" />
+                android:textColor="@color/texto_secundario"
+                android:textSize="@dimen/texto_rodape" />
         </LinearLayout>
 
-        <LinearLayout android:layout_width="0dp"
+        <LinearLayout
             android:id="@+id/navCursos"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView android:layout_width="22dp"
-                android:layout_height="22dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/tamanho_icone_nav"
+                android:layout_height="@dimen/tamanho_icone_nav"
+                android:contentDescription="Cursos"
+                android:padding="@dimen/espacamento_xxs"
                 android:src="@drawable/ic_menu_book"
-                app:tint="@color/cinza" />
-            <TextView android:layout_width="wrap_content"
+                app:tint="@color/texto_secundario" />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cursos" android:textSize="11sp"
-                android:textColor="@color/cinza" />
+                android:text="Cursos"
+                android:textColor="@color/texto_secundario"
+                android:textSize="@dimen/texto_rodape" />
         </LinearLayout>
 
-        <LinearLayout android:layout_width="0dp"
+        <LinearLayout
             android:id="@+id/navAgenda"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView android:layout_width="22dp"
-                android:layout_height="22dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/tamanho_icone_nav"
+                android:layout_height="@dimen/tamanho_icone_nav"
+                android:contentDescription="Agenda"
+                android:padding="@dimen/espacamento_xxs"
                 android:src="@drawable/ic_calendar"
-                app:tint="@color/cinza" />
-            <TextView android:layout_width="wrap_content"
+                app:tint="@color/texto_secundario" />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Agenda"
-                android:textSize="11sp"
-                android:textColor="@color/cinza" />
+                android:textColor="@color/texto_secundario"
+                android:textSize="@dimen/texto_rodape" />
         </LinearLayout>
 
-        <LinearLayout android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/navPerfil"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView android:layout_width="22dp"
-                android:layout_height="22dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/tamanho_icone_nav"
+                android:layout_height="@dimen/tamanho_icone_nav"
+                android:background="@drawable/bg_nav_item_ativo"
+                android:contentDescription="Perfil"
+                android:padding="@dimen/espacamento_xxs"
                 android:src="@drawable/ic_person"
-                app:tint="@color/verde_azulado_escuro" />
-            <TextView android:layout_width="wrap_content"
+                app:tint="@color/acao_primaria" />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Perfil"
-                android:textSize="11sp"
-                android:textColor="@color/verde_azulado_escuro" />
+                android:textColor="@color/acao_primaria"
+                android:textSize="@dimen/texto_rodape" />
         </LinearLayout>
-
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

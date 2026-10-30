@@ -219,12 +219,14 @@
         android:id="@+id/bottomNav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_bottom_nav"
         android:orientation="horizontal"
-        android:paddingVertical="@dimen/padding_navegacao"
+        android:background="@drawable/bg_bottom_nav"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:id="@+id/navInicio"
