@@ -19,6 +19,18 @@ public abstract class DataListActivity extends AppCompatActivity {
     protected LinearLayout items;
     protected TextView status;
     private boolean loading;
+    private SnapshotStore store;
+    private SyncGate.Ticket ticket;
+    private android.net.ConnectivityManager connectivity;
+    private android.net.ConnectivityManager.NetworkCallback networkCallback;
+    private String cacheKey() { return ApiConfig.BASE_URL+route(); }
+    private String savedMessage(long time) { return "Dados salvos • ultima atualizacao: "+java.text.DateFormat.getDateTimeInstance().format(new java.util.Date(time)); }
+    private boolean showSaved(String message) {
+        SnapshotStore.Snapshot saved=store.read(session.userId(),cacheKey(),kind());
+        if(saved==null) {items.removeAllViews();status.setText(message+" Nenhum dado salvo.");return false;}
+        try {render(saved.data);status.setText(message+"\n"+savedMessage(saved.updatedAt));return true;}
+        catch(Exception e) {items.removeAllViews();status.setText("Cache invalido. Tente atualizar online.");return false;}
+    }
     private int generation;
     protected abstract String route();
     protected abstract String kind();
@@ -27,6 +39,7 @@ public abstract class DataListActivity extends AppCompatActivity {
         super.onCreate(state);
         setContentView(R.layout.activity_data_list);
         session=new SessionManager(this); api=new ApiClient(this);
+        store=new SnapshotStore(new java.io.File(getNoBackupFilesDir(),"snapshots"));
         items=findViewById(R.id.dataItems); status=findViewById(R.id.dataStatus);
         ((TextView)findViewById(R.id.dataTitle)).setText(title());
         findViewById(R.id.dataRetry).setOnClickListener(v->refresh());
@@ -36,32 +49,54 @@ public abstract class DataListActivity extends AppCompatActivity {
         findViewById(R.id.navAgenda).setOnClickListener(v->startActivity(new Intent(this,AgendaActivity.class)));
         findViewById(R.id.navPerfil).setOnClickListener(v->startActivity(new Intent(this,CarteirinhaActivity.class)));
     }
-    @Override protected void onStart() { super.onStart(); if(!session.active()) toLogin(); else refresh(); }
-    @Override protected void onStop() { generation++; loading=false; api.cancel(this); super.onStop(); }
+    @Override protected void onStart() {
+        super.onStart();
+        if(!session.active()) {toLogin();return;}
+        showSaved("Consulta local. Atualizando..."); refresh();
+        connectivity=(android.net.ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
+        networkCallback=new android.net.ConnectivityManager.NetworkCallback() {
+            @Override public void onAvailable(android.net.Network network) {runOnUiThread(()->{if(!isFinishing() && session.active() && networkCallback!=null) refresh();});}
+        };
+        connectivity.registerDefaultNetworkCallback(networkCallback);
+    }
+    @Override protected void onStop() { generation++; loading=false; api.cancel(this); SyncGate.GLOBAL.finish(ticket); ticket=null;
+        if(connectivity!=null && networkCallback!=null) connectivity.unregisterNetworkCallback(networkCallback); networkCallback=null;
+        super.onStop(); }
     protected void toLogin() {
         startActivity(new Intent(this,MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK)); finish();
     }
     protected void refresh() {
+        if(!session.active()) {toLogin();return;}
         if(loading) return;
+        ticket=SyncGate.GLOBAL.begin(session.version(),cacheKey());
+        if(ticket==null) return;
         loading=true;
         final int requestGeneration=++generation;
         final String version=session.version();
-        status.setText("Carregando..."); findViewById(R.id.dataProgress).setVisibility(View.VISIBLE);
+        status.setText("Atualizando pela API..."); findViewById(R.id.dataProgress).setVisibility(View.VISIBLE);
         api.request(this,route(),Request.Method.GET,null,session.token(),new ApiClient.Callback() {
             private boolean current() { return generation==requestGeneration && version.equals(session.version()) && !isFinishing(); }
             public void success(String body) {
                 if(!current()) return;
                 done();
-                try { JSONArray data=ApiRecords.parse(body,kind()); render(data); status.setText(data.length()==0?"Nenhum registro encontrado.":"Dados atualizados pela API."); }
-                catch(Exception error) { status.setText("Resposta invalida. Tente novamente."); items.removeAllViews(); }
+                try {
+                    JSONArray data=ApiRecords.parse(body,kind());
+                    render(data);
+                    try {
+                        SnapshotStore.Snapshot saved=store.save(session.userId(),cacheKey(),kind(),data.toString(),System.currentTimeMillis());
+                        status.setText((data.length()==0?"Nenhum registro encontrado. ":"Dados atualizados. ")+savedMessage(saved.updatedAt));
+                    } catch(java.io.IOException e) {status.setText("Dados online. Nao foi possivel salvar para consulta offline.");}
+                } catch(Exception error) { showSaved("Resposta invalida. Ultimo conteudo valido preservado."); }
             }
             public void failure(int code) {
                 if(!current()) return;
                 done();
                 if(code==401) {session.clear();toLogin();return;}
-                status.setText(code==403?"Acesso nao autorizado.":"Nao foi possivel carregar. Verifique a conexao e tente novamente.");
+                if(code==403) {store.clear(session.userId());items.removeAllViews();status.setText("Acesso nao autorizado.");return;}
+                if(code==0 || code>=500) showSaved("Sem atualizacao online. Tente novamente.");
+                else {items.removeAllViews();status.setText("Nao foi possivel consultar os dados.");}
             }
-            private void done() { loading=false; findViewById(R.id.dataProgress).setVisibility(View.GONE); }
+            private void done() { SyncGate.GLOBAL.finish(ticket);ticket=null;loading=false; findViewById(R.id.dataProgress).setVisibility(View.GONE); }
         });
     }
     protected void render(JSONArray data) throws Exception {
