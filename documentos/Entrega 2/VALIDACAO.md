@@ -44,7 +44,7 @@ ele nao comprova o fluxo QR nem representa um registro feito pelo aplicativo.
 | Frontend2.0 | gradlew.bat :app:assembleDebug :app:testDebugUnitTest | BUILD SUCCESSFUL; 12 testes JVM, zero falhas |
 | Frontend2.0 | gradlew.bat :app:lintDebug | BUILD SUCCESSFUL; zero erros, 263 avisos |
 | Frontend2.0 | gradlew.bat :app:bundleRelease | Falhou: Version code not found in manifest |
-| Painel Administrativo2.0 | npm ci; npm run build | Dependencias instaladas; build falhou ao resolver ./.figma/make/site.json |
+| Painel Administrativo2.0 | npm ci; npm test; npm run build | Aprovado: 5 testes e build, sem .figma/make/site.json |
 | API configurada | GET http://127.0.0.1:3000/api/health | Sem resposta disponivel. Os health checks dos servidores temporarios passaram |
 | Android | adb devices | Nenhum dispositivo/emulador conectado |
 | Git | git diff --check | Aprovado nos arquivos preparados para cada commit |
@@ -58,7 +58,8 @@ funcionamento visual, seguranca integral ou aprovacao academica.
 Logs sanitizados: [backend](evidencias/backend-tests.txt),
 [Android debug/testes/lint](evidencias/android-debug-tests-lint.txt),
 [falha de release](evidencias/android-release-falha.txt),
-[falha do painel](evidencias/painel-build-falha.txt).
+[falha original do painel](evidencias/painel-build-falha.txt),
+[painel corrigido e testes](evidencias/painel-build-ok.txt).
 A execucao final do Gradle aproveitou tarefas e resultados incrementais validos;
 a primeira execucao dos testes JVM e da compilacao tambem passou.
 
@@ -84,11 +85,13 @@ Veja tambem [metadados do artefato](evidencias/artefato-android.json).
    implementados/testados depois da decisao. Nao foi criado commit que declare
    check-in por QR concluido. O UNIQUE(inscricao_id,atividade_id) original foi
    preservado, mas isso sozinho nao implementa check-in seguro.
-2. Painel: vite.config.js importa .figma/make/site.json, ausente e ignorado pelo
-   repositorio. Impacto: build limpo nao reproduzivel. Correcao necessaria:
-   versionar configuracao publica apropriada ou tornar a integracao Figma opcional
-   no build independente, preservando o comportamento de preview. A validacao
-   nao inventou esse arquivo nem alterou a configuracao do painel.
+2. Painel: bloqueio resolvido. site.config.json versiona metadados reais do produto
+   e config/site-config.js admite override Figma somente quando presente. Nao foi
+   criado .figma/make/site.json. Plugins e pontos de extensao do HTML foram mantidos.
+   Cinco testes comprovaram ausencia de Figma, overrides, JSON invalido, API padrao
+   e explicita e recursos JS/CSS com HTTP 200 na raiz e em /painel/. npm ci e build
+   passaram; permanece aviso de chunk JS acima de 500 kB. VITE_API_URL continua
+   independente dos metadados e do base estatico. Veja o guia BUILD.md do painel.
 3. Release: app/build.gradle.kts nao define versionCode. Impacto: bundleRelease
    falha. Definir versionCode/versionName conforme politica de versoes do projeto,
    revisar targetSdk e compatibilidade SDK/AGP, e configurar assinatura release

@@ -167,8 +167,9 @@ npm run build
 ~~~
 
 VITE_API_URL configura a API do painel; o padrao e http://localhost:3000.
-**Limitacoes comprovadas:** o build limpo do painel falha por ausencia de
-.figma/make/site.json; bundleRelease falha por falta de versionCode; nenhum
+O painel agora compila com metadados reais versionados e override Figma opcional;
+veja [o guia de build](src/Entrega%202/Painel%20Administrativo2.0/BUILD.md).
+**Limitacoes comprovadas:** bundleRelease falha por falta de versionCode; nenhum
 AAB/release de producao foi gerado. A consulta de historico foi integrada, mas
 check-in QR/camera permanece pendente da definicao de validade/janela da ONG.
 Nao houve validacao visual em dispositivo, deploy ou troca de senhas reais.
