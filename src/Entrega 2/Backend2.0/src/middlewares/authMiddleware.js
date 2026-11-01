@@ -14,12 +14,21 @@ function requireAuth(req, res, next) {
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ["HS256"] });
 
-    if (typeof payload.exp !== "number" || typeof payload.usuario_id !== "string" || !payload.usuario_id) {
+    if (
+      typeof payload.exp !== "number" ||
+      typeof payload.usuario_id !== "string" ||
+      !payload.usuario_id
+    ) {
       return res.status(401).json({ erro: "Não autorizado" });
     }
 
     const usuario = profilesModel.buscarEstadoAutenticacao(payload.usuario_id);
-    if (!usuario || usuario.ativo !== 1 || usuario.bloqueado !== 0 || !["aluno", "admin_operador", "admin_super"].includes(usuario.papel)) {
+    if (
+      !usuario ||
+      usuario.ativo !== 1 ||
+      usuario.bloqueado !== 0 ||
+      !["aluno", "admin_operador", "admin_super"].includes(usuario.papel)
+    ) {
       return res.status(401).json({ erro: "Não autorizado" });
     }
 

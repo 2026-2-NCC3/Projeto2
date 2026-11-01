@@ -6,7 +6,13 @@ function login(req, res, next) {
   try {
     const { email, senha } = req.body;
 
-    if (typeof email !== "string" || typeof senha !== "string" || !email.trim() || !senha || Buffer.byteLength(senha, "utf8") > 72) {
+    if (
+      typeof email !== "string" ||
+      typeof senha !== "string" ||
+      !email.trim() ||
+      !senha ||
+      Buffer.byteLength(senha, "utf8") > 72
+    ) {
       return res.status(401).json({ erro: "Credenciais inválidas" });
     }
 

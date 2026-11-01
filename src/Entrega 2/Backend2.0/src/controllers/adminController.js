@@ -39,7 +39,9 @@ function criar(req, res, next) {
       });
     }
 
-    if (!validEmail(admin.email)) return res.status(400).json({ erro: "Informe um email valido" });
+    if (!validEmail(admin.email)) {
+      return res.status(400).json({ erro: "Informe um email valido" });
+    }
     admin.email = admin.email.trim();
     if (!papelAdministrativoValido(admin.papel)) {
       return res.status(400).json({
@@ -47,7 +49,11 @@ function criar(req, res, next) {
       });
     }
 
-    if (!validPassword(req.body.senha)) return res.status(400).json({ erro: "Senha deve ter ao menos 12 caracteres e no maximo 72 bytes" });
+    if (!validPassword(req.body.senha)) {
+      return res.status(400).json({
+        erro: "Senha deve ter ao menos 12 caracteres e no maximo 72 bytes"
+      });
+    }
     if (adminModel.buscarPorEmail(admin.email)) {
       return res.status(400).json({
         erro: "Este e-mail já está cadastrado"

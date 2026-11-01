@@ -20,8 +20,17 @@ function dadosDoPerfil(body, atual = {}) {
 }
 
 function perfilPublico(perfil, administrativo) {
-  if (administrativo) return perfil;
-  const { ativo, bloqueado, motivo_bloqueio, criado_em, atualizado_em, ...pessoal } = perfil;
+  if (administrativo) {
+    return perfil;
+  }
+  const {
+    ativo,
+    bloqueado,
+    motivo_bloqueio,
+    criado_em,
+    atualizado_em,
+    ...pessoal
+  } = perfil;
   return pessoal;
 }
 
@@ -39,7 +48,9 @@ function listar(req, res, next) {
 
 function buscarPorId(req, res, next) {
   try {
-    if (!ehAdmin(req) && req.usuario.id !== req.params.id) return res.status(403).json({ erro: "Acesso negado" });
+    if (!ehAdmin(req) && req.usuario.id !== req.params.id) {
+      return res.status(403).json({ erro: "Acesso negado" });
+    }
     const perfil = model.buscarPorId(req.params.id);
 
     if (!perfil) {
@@ -102,7 +113,9 @@ function criar(req, res, next) {
 
 function atualizar(req, res, next) {
   return executarEscrita(res, next, () => {
-    if (!ehAdmin(req) && req.usuario.id !== req.params.id) return res.status(403).json({ erro: "Acesso negado" });
+    if (!ehAdmin(req) && req.usuario.id !== req.params.id) {
+      return res.status(403).json({ erro: "Acesso negado" });
+    }
     const atual = model.buscarPorId(req.params.id);
 
     if (!atual) {
