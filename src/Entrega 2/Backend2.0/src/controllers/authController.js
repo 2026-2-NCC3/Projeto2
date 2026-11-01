@@ -6,7 +6,7 @@ function login(req, res, next) {
   try {
     const { email, senha } = req.body;
 
-    if (!email || !senha) {
+    if (typeof email !== "string" || typeof senha !== "string" || !email.trim() || !senha || Buffer.byteLength(senha, "utf8") > 72) {
       return res.status(401).json({ erro: "Credenciais inválidas" });
     }
 
@@ -16,8 +16,8 @@ function login(req, res, next) {
       INNER JOIN credenciais c ON c.usuario_id = u.id
       INNER JOIN papeis p ON p.usuario_id = u.id
       LEFT JOIN alunos a ON a.usuario_id = u.id
-      WHERE u.email = ? AND u.ativo = 1 AND COALESCE(a.bloqueado, 0) = 0
-    `).get(email);
+      WHERE u.email = ? COLLATE NOCASE AND u.ativo = 1 AND COALESCE(a.bloqueado, 0) = 0
+    `).get(email.trim());
 
     if (!usuario || !bcrypt.compareSync(senha, usuario.senha_hash)) {
       return res.status(401).json({ erro: "Credenciais inválidas" });
@@ -32,7 +32,7 @@ function login(req, res, next) {
     const token = jwt.sign(
       { usuario_id: usuario.id, papel: usuario.papel },
       process.env.JWT_SECRET,
-      { expiresIn: "8h" }
+      { expiresIn: "8h", algorithm: "HS256" }
     );
 
     return res.status(200).json({

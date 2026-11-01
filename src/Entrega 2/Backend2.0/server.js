@@ -61,6 +61,13 @@ app.get("/api/health", (req, res) => {
     }
 });
 
+// Nunca envie SQL, stack traces ou credenciais ao cliente.
+app.use((erro, req, res, next) => {
+    if (res.headersSent) return next(erro);
+    const status = erro.type === "entity.parse.failed" ? 400 : 500;
+    res.status(status).json({ erro: status === 400 ? "JSON invalido" : "Nao foi possivel concluir a operacao" });
+});
+
 // Inicializa o servidor
 const server = app.listen(PORT, "0.0.0.0", () => {
     console.log(`Servidor executando em http://localhost:${server.address().port}`);

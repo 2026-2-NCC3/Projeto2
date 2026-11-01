@@ -19,6 +19,12 @@ function dadosDoPerfil(body, atual = {}) {
   };
 }
 
+function perfilPublico(perfil, administrativo) {
+  if (administrativo) return perfil;
+  const { ativo, bloqueado, motivo_bloqueio, criado_em, atualizado_em, ...pessoal } = perfil;
+  return pessoal;
+}
+
 function ehAdmin(req) {
   return ["admin_operador", "admin_super"].includes(req.usuario.papel);
 }
@@ -33,6 +39,7 @@ function listar(req, res, next) {
 
 function buscarPorId(req, res, next) {
   try {
+    if (!ehAdmin(req) && req.usuario.id !== req.params.id) return res.status(403).json({ erro: "Acesso negado" });
     const perfil = model.buscarPorId(req.params.id);
 
     if (!perfil) {
@@ -45,7 +52,7 @@ function buscarPorId(req, res, next) {
       });
     }
 
-    return res.json(perfil);
+    return res.json(perfilPublico(perfil, ehAdmin(req)));
   } catch (erro) {
     return next(erro);
   }
@@ -89,12 +96,13 @@ function criar(req, res, next) {
       valoresDepois: criado
     });
 
-    return res.status(201).json(criado);
+    return res.status(201).json(perfilPublico(criado, false));
   });
 }
 
 function atualizar(req, res, next) {
   return executarEscrita(res, next, () => {
+    if (!ehAdmin(req) && req.usuario.id !== req.params.id) return res.status(403).json({ erro: "Acesso negado" });
     const atual = model.buscarPorId(req.params.id);
 
     if (!atual) {
@@ -126,7 +134,7 @@ function atualizar(req, res, next) {
       valoresDepois: atualizado
     });
 
-    return res.json(atualizado);
+    return res.json(perfilPublico(atualizado, ehAdmin(req)));
   });
 }
 
