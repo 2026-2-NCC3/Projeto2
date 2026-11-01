@@ -208,25 +208,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void salvarSessao(JSONObject response) throws JSONException {
-        String token = response.getString("token");
-        JSONObject usuario = response.getJSONObject("usuario");
-
-        SharedPreferences preferences = getSharedPreferences(
-                "sessao_usuario",
-                MODE_PRIVATE
-        );
-
-        preferences.edit()
-                .putString("token", token)
-                .putString("usuario_id", usuario.getString("id"))
-                .putString(
-                        "nome_completo",
-                        usuario.optString("nome_completo", "")
-                )
-                .putString("email", usuario.optString("email", ""))
-                .putString("papel", usuario.optString("papel", ""))
-                .putBoolean("usuario_logado", true)
-                .apply();
+        new SessionManager(this).save(response);
     }
 
     private void alterarEstadoDoBotao(boolean carregando) {
