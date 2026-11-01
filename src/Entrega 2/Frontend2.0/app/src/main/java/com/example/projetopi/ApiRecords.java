@@ -18,7 +18,8 @@ public final class ApiRecords {
             if(kind.equals("cursos")) {
                 Object hours=item.get("carga_horaria_horas");
                 if(!(hours instanceof Number) || ((Number)hours).intValue()<0) throw new JSONException("Carga horaria invalida");
-            } else if(kind.equals("agenda")) {
+            } else if(kind.equals("agenda") || kind.equals("historico")) {
+                if(kind.equals("historico")) {text(item,"checkin_em");text(item,"atividade_id");}
                 text(item,"curso_id"); text(item,"data"); text(item,"hora_inicio"); text(item,"hora_fim");
             }
         }

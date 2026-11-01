@@ -38,6 +38,7 @@ app.use("/api/admins", adminRoutes);
 app.use("/api/atividades", atividadesRoutes);
 app.use("/api/inscricoes", inscricoesRoutes);
 app.use("/api/agenda", require("./src/routes/agendaRoutes"));
+app.use("/api/presencas", require("./src/routes/presencasRoutes"));
 
 // Rota inicial da API
 app.get("/", (req, res) => {

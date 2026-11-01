@@ -78,6 +78,7 @@ public abstract class DataListActivity extends AppCompatActivity {
     }
     protected String details(JSONObject item) {
         if(kind().equals("cursos")) return item.optInt("carga_horaria_horas")+"h • "+item.optString("modalidade","")+"\n"+item.optString("data_inicio","");
+        if(kind().equals("historico")) return "Presenca confirmada pelo servidor • "+item.optString("metodo","")+"\n"+item.optString("checkin_em","");
         return item.optString("data","")+" • "+item.optString("hora_inicio","")+" - "+item.optString("hora_fim","")+" (horario da ONG)\n"+item.optString("curso_titulo","");
     }
     protected void select(JSONObject item) {
