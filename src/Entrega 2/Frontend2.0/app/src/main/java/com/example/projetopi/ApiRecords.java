@@ -3,38 +3,105 @@ package com.example.projetopi;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashSet;
 import java.util.Set;
 
 public final class ApiRecords {
-    private ApiRecords() {}
-    public static JSONArray parse(String body, String kind) throws JSONException {
-        JSONArray array=new JSONArray(body);
-        Set<String> ids=new HashSet<>();
-        JSONArray clean=new JSONArray();
-        for(int i=0;i<array.length();i++) {
-            JSONObject item=array.getJSONObject(i);
-            String id=text(item,"id"), title=text(item,"titulo");
-            if(!ids.add(id)) throw new JSONException("Identificador duplicado");
-            if(kind.equals("cursos")) {
-                Object hours=item.get("carga_horaria_horas");
-                if(!(hours instanceof Number) || ((Number)hours).intValue()<0) throw new JSONException("Carga horaria invalida");
-            } else if(kind.equals("agenda") || kind.equals("historico")) {
-                if(kind.equals("historico")) {text(item,"checkin_em");text(item,"atividade_id");}
-                text(item,"curso_id"); text(item,"data"); text(item,"hora_inicio"); text(item,"hora_fim");
-            }
-            JSONObject safe=new JSONObject();
-            String[] allowed=kind.equals("cursos")
-                ? new String[]{"id","titulo","descricao","carga_horaria_horas","modalidade","data_inicio","data_fim","vagas_disponiveis","status","universidade_id"}
-                : new String[]{"id","titulo","curso_id","curso_titulo","data","hora_inicio","hora_fim","local","link_online","inscricao_id","atividade_id","checkin_em","metodo"};
-            for(String field:allowed) if(item.has(field)) safe.put(field,item.get(field));
-            clean.put(safe);
-        }
-        return clean;
+    private static final String[] COURSE_FIELDS = {
+        "id",
+        "titulo",
+        "descricao",
+        "carga_horaria_horas",
+        "modalidade",
+        "data_inicio",
+        "data_fim",
+        "vagas_disponiveis",
+        "status",
+        "universidade_id"
+    };
+    private static final String[] ACTIVITY_FIELDS = {
+        "id",
+        "titulo",
+        "curso_id",
+        "curso_titulo",
+        "data",
+        "hora_inicio",
+        "hora_fim",
+        "local",
+        "link_online",
+        "inscricao_id",
+        "atividade_id",
+        "checkin_em",
+        "metodo"
+    };
+
+    private ApiRecords() {
     }
-    private static String text(JSONObject item,String field) throws JSONException {
-        Object value=item.get(field);
-        if(!(value instanceof String) || ((String)value).trim().isEmpty()) throw new JSONException("Campo invalido");
-        return (String)value;
+
+    public static JSONArray parse(String body, String recordType) throws JSONException {
+        JSONArray responseRecords = new JSONArray(body);
+        Set<String> seenRecordIds = new HashSet<>();
+        JSONArray projectedRecords = new JSONArray();
+
+        for (int index = 0; index < responseRecords.length(); index++) {
+            JSONObject record = responseRecords.getJSONObject(index);
+            String recordId = text(record, "id");
+            text(record, "titulo");
+
+            if (!seenRecordIds.add(recordId)) {
+                throw new JSONException("Identificador duplicado");
+            }
+
+            validateRecordFields(record, recordType);
+            projectedRecords.put(copyAllowedFields(record, recordType));
+        }
+
+        return projectedRecords;
+    }
+
+    private static void validateRecordFields(JSONObject record, String recordType)
+            throws JSONException {
+        if (recordType.equals("cursos")) {
+            Object courseHours = record.get("carga_horaria_horas");
+            if (!(courseHours instanceof Number) || ((Number) courseHours).intValue() < 0) {
+                throw new JSONException("Carga horaria invalida");
+            }
+        } else if (recordType.equals("agenda") || recordType.equals("historico")) {
+            if (recordType.equals("historico")) {
+                text(record, "checkin_em");
+                text(record, "atividade_id");
+            }
+            text(record, "curso_id");
+            text(record, "data");
+            text(record, "hora_inicio");
+            text(record, "hora_fim");
+        }
+    }
+
+    private static JSONObject copyAllowedFields(JSONObject record, String recordType)
+            throws JSONException {
+        String[] allowedFields;
+        if (recordType.equals("cursos")) {
+            allowedFields = COURSE_FIELDS;
+        } else {
+            allowedFields = ACTIVITY_FIELDS;
+        }
+
+        JSONObject projectedRecord = new JSONObject();
+        for (String field : allowedFields) {
+            if (record.has(field)) {
+                projectedRecord.put(field, record.get(field));
+            }
+        }
+        return projectedRecord;
+    }
+
+    private static String text(JSONObject record, String field) throws JSONException {
+        Object fieldValue = record.get(field);
+        if (!(fieldValue instanceof String) || ((String) fieldValue).trim().isEmpty()) {
+            throw new JSONException("Campo invalido");
+        }
+        return (String) fieldValue;
     }
 }

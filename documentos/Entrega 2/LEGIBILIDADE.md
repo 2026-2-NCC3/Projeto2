@@ -55,7 +55,41 @@ Arquivos alterados nesta area:
   e coberto pela suite). Melhorar a validacao seria mudanca funcional e nao foi feito.
 - ApiRecords aceita alguns valores numericos fracionarios de carga horaria porque
   usa Number.intValue para a verificacao de sinal. Nao foi alterada essa regra.
-- SnapshotStore ignora falhas de delete/rename de limpeza; pode deixar arquivos
+- SnapshotStore ignora o retorno de delete() na limpeza; pode deixar arquivos
   residuais se o armazenamento negar a exclusao. A politica de erros foi preservada.
 
 Esses pontos nao foram corrigidos silenciosamente nesta tarefa.
+
+## Android
+
+ApiRecords ganhou listas de campos nomeadas, validacao e copia separadas e nomes
+como recordType, projectedRecord e allowedFields. Os nomes publicos, campos JSON,
+Snapshot.data e o fallback de tipos desconhecidos foram preservados. SnapshotStore
+mantem synchronized(SnapshotStore.class), publicacao por rename, fsync, formato e
+isolamento, com leitura/publicacao/limpeza divididas em metodos. Falhas de exclusao
+continuam com a politica original; falha no rename de publicacao continua sendo erro.
+DataListActivity separa navegacao, ciclo de sincronizacao, estados HTTP, persistencia
+e criacao de cards. Constantes mantem as mesmas medidas em px e sp; nenhum recurso
+Android, texto de tela, versao, permissao ou configuracao de compilacao foi alterado.
+
+Validacao: cinco testes de caracterizacao adicionados para lacunas reais (allowlists,
+nulos, campos ausentes, fallback, dono e versao do envelope). Os mesmos 17 testes
+JUnit passaram contra as classes originais f056294 recuperadas em pasta temporaria
+e contra as classes refatoradas. Os testes tambem foram executados pelo Gradle.
+assembleDebug, bundleRelease e lintDebug passaram. A pasta antiga de resultados
+do Gradle falhou ao ser excluida pelo sistema de arquivos; um init script temporario
+redirecionou apenas os resultados dos testes, sem alterar configuracao versionada.
+Nao foi um erro de assercao ou compilacao. Nao houve validacao visual em dispositivo.
+
+Arquivos alterados nesta area:
+- src/Entrega 2/Frontend2.0/app/src/main/java/com/example/projetopi/AgendaActivity.java
+- src/Entrega 2/Frontend2.0/app/src/main/java/com/example/projetopi/ApiClient.java
+- src/Entrega 2/Frontend2.0/app/src/main/java/com/example/projetopi/ApiRecords.java
+- src/Entrega 2/Frontend2.0/app/src/main/java/com/example/projetopi/CursosActivity.java
+- src/Entrega 2/Frontend2.0/app/src/main/java/com/example/projetopi/DataListActivity.java
+- src/Entrega 2/Frontend2.0/app/src/main/java/com/example/projetopi/HistoricoActivity.java
+- src/Entrega 2/Frontend2.0/app/src/main/java/com/example/projetopi/SessionManager.java
+- src/Entrega 2/Frontend2.0/app/src/main/java/com/example/projetopi/SnapshotStore.java
+- src/Entrega 2/Frontend2.0/app/src/main/java/com/example/projetopi/SyncGate.java
+- src/Entrega 2/Frontend2.0/app/src/test/java/com/example/projetopi/ApiRecordsTest.java
+- src/Entrega 2/Frontend2.0/app/src/test/java/com/example/projetopi/SnapshotStoreTest.java

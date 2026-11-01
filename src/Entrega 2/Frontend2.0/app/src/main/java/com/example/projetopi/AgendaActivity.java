@@ -1,18 +1,38 @@
 package com.example.projetopi;
 
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
 public class AgendaActivity extends DataListActivity {
-    @Override protected void onCreate(android.os.Bundle state) {
+    @Override
+    protected void onCreate(Bundle state) {
         super.onCreate(state);
-        android.widget.Button history=new android.widget.Button(this);
-        history.setText("Historico de presenca");
-        history.setOnClickListener(v->startActivity(new android.content.Intent(this,HistoricoActivity.class)));
-        ((android.widget.LinearLayout)findViewById(R.id.dataActions)).addView(history);
+        Button historyButton = new Button(this);
+        historyButton.setText("Historico de presenca");
+        historyButton.setOnClickListener(view ->
+                startActivity(new Intent(this, HistoricoActivity.class)));
+        ((LinearLayout) findViewById(R.id.dataActions)).addView(historyButton);
     }
-    @Override protected String route() {
-        String course=getIntent().getStringExtra("curso_id");
-        return "/api/agenda"+(course==null?"":"?curso_id="+Uri.encode(course));
+
+    @Override
+    protected String route() {
+        String courseId = getIntent().getStringExtra("curso_id");
+        if (courseId == null) {
+            return "/api/agenda";
+        }
+        return "/api/agenda" + "?curso_id=" + Uri.encode(courseId);
     }
-    @Override protected String kind() { return "agenda"; }
-    @Override protected String title() { return "Minha agenda"; }
+
+    @Override
+    protected String kind() {
+        return "agenda";
+    }
+
+    @Override
+    protected String title() {
+        return "Minha agenda";
+    }
 }
