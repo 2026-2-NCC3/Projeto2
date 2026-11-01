@@ -169,8 +169,11 @@ npm run build
 VITE_API_URL configura a API do painel; o padrao e http://localhost:3000.
 O painel agora compila com metadados reais versionados e override Figma opcional;
 veja [o guia de build](src/Entrega%202/Painel%20Administrativo2.0/BUILD.md).
-**Limitacoes comprovadas:** bundleRelease falha por falta de versionCode; nenhum
-AAB/release de producao foi gerado. A consulta de historico foi integrada, mas
+O Android tambem gera AAB release local, nao assinado, com codigo 2 / nome 1.1.0;
+veja [versionamento e limites de publicacao](src/Entrega%202/Frontend2.0/VERSIONING.md).
+O maior versionCode publicado nao foi comprovado: este AAB nao e evidencia de
+aceitacao pela loja, assinatura de producao ou publicacao.
+A consulta de historico foi integrada, mas
 check-in QR/camera permanece pendente da definicao de validade/janela da ONG.
 Nao houve validacao visual em dispositivo, deploy ou troca de senhas reais.
 O relatorio acima distingue aprovacoes, falhas e verificacoes nao executadas.

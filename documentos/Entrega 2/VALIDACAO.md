@@ -4,6 +4,10 @@ Validacao realizada em 01/11/2026, na branch fix/p0-seguranca-entrega2,
 sobre o repositorio principal. Nenhum banco real foi aberto, migrado ou alterado.
 Nao houve deploy, push, force-push ou alteracao de main.
 
+Atualizacao desta etapa: os dois bloqueios de compilacao foram resolvidos.
+Os logs das falhas originais foram preservados como historico, junto dos logs
+de sucesso e verificacoes dos artefatos. Isso nao aprova as pendencias funcionais.
+
 ## Fontes e limites dos requisitos
 
 O README descreve cursos, atividades, agenda, presenca, certificados, mensagens
@@ -43,7 +47,8 @@ ele nao comprova o fluxo QR nem representa um registro feito pelo aplicativo.
 | Backend2.0 | node --check server.js; node --check src/config/migrationRunner.js | Aprovado na revisao da missao inicial; sintaxe tambem carregada pela suite atual |
 | Frontend2.0 | gradlew.bat :app:assembleDebug :app:testDebugUnitTest | BUILD SUCCESSFUL; 12 testes JVM, zero falhas |
 | Frontend2.0 | gradlew.bat :app:lintDebug | BUILD SUCCESSFUL; zero erros, 263 avisos |
-| Frontend2.0 | gradlew.bat :app:bundleRelease | Falhou: Version code not found in manifest |
+| Frontend2.0 | gradlew.bat :app:bundleRelease | Aprovado: AAB local nao assinado, versionCode 2 / versionName 1.1.0 |
+| AAB/variantes | bundletool validate/dump manifest; jarsigner; aapt2 | Bundle valido, versoes internas confirmadas; release sem assinatura; APK Android Debug |
 | Painel Administrativo2.0 | npm ci; npm test; npm run build | Aprovado: 5 testes e build, sem .figma/make/site.json |
 | API configurada | GET http://127.0.0.1:3000/api/health | Sem resposta disponivel. Os health checks dos servidores temporarios passaram |
 | Android | adb devices | Nenhum dispositivo/emulador conectado |
@@ -57,7 +62,9 @@ funcionamento visual, seguranca integral ou aprovacao academica.
 
 Logs sanitizados: [backend](evidencias/backend-tests.txt),
 [Android debug/testes/lint](evidencias/android-debug-tests-lint.txt),
-[falha de release](evidencias/android-release-falha.txt),
+[falha original de release](evidencias/android-release-falha.txt),
+[Android corrigido](evidencias/android-release-ok.txt),
+[metadados verificados do AAB](evidencias/android-release-metadados.txt),
 [falha original do painel](evidencias/painel-build-falha.txt),
 [painel corrigido e testes](evidencias/painel-build-ok.txt).
 A execucao final do Gradle aproveitou tarefas e resultados incrementais validos;
@@ -66,14 +73,26 @@ a primeira execucao dos testes JVM e da compilacao tambem passou.
 ## Artefatos encontrados e gerados
 
 O APK atual esta em src/Entrega 2/Frontend2.0/app/build/outputs/apk/debug/app-debug.apk.
-Tem 5.916.310 bytes e SHA-256
-493b47c67e4a524e56136c4c83e941cd7759fe4aeb27fccb25ecdd88001e1523.
+Tem 5898958 bytes e SHA-256
+89a069e43d3f40860180ae2638bfc232a8de022f36893beb0e30950a5ed16900.
 Foi verificado pelo apksigner e esta assinado como Android Debug. E um APK de
-desenvolvimento; nao e release, nao foi instalado em dispositivo nem publicado.
-O arquivo permanece na pasta de build ignorada pelo Git, evitando duplicar
-binarios no historico. Os APKs em documentos/Entrega 1 sao historicos e nao sao
-prova desta Entrega 2. Nenhum AAB release valido foi gerado nesta validacao.
-Veja tambem [metadados do artefato](evidencias/artefato-android.json).
+desenvolvimento, sem instalacao ou publicacao nesta etapa.
+
+O AAB atual esta em src/Entrega 2/Frontend2.0/app/build/outputs/bundle/release/app-release.aab.
+Tem 4274465 bytes e SHA-256
+64f07f30e4fa92c588e13499f8f0e8a88888975f030e7ec6227bbe758367ffcf.
+bundletool 1.18.3 validate aprovou sua estrutura e dump manifest confirmou codigo 2,
+nome 1.1.0. Os manifests efetivos de debug/release e aapt2 no APK confirmaram
+os mesmos valores. jarsigner confirmou que o bundle e nao assinado; o nome da
+tarefa Gradle signReleaseBundle no log nao comprova assinatura de producao.
+
+Os binarios permanecem nas pastas de build ignoradas pelo Git. Os APKs de
+Entrega 1 sao historicos e registram codigo 1 / nome 1.0. Nao comprovam a maior
+versao publicada. Nao houve acesso ao Play Console ou outro registro da loja:
+gerar um AAB local nao comprova aceitacao da versao, assinatura de producao,
+compatibilidade de atualizacao ou publicacao. Confira o maior codigo distribuido
+antes de qualquer publicacao e use um valor superior. Veja o guia VERSIONING.md
+do Android e [metadados e hashes](evidencias/artefato-android.json).
 
 ## Falhas e pendencias externas ou fora do escopo desta validacao
 
@@ -92,11 +111,13 @@ Veja tambem [metadados do artefato](evidencias/artefato-android.json).
    e explicita e recursos JS/CSS com HTTP 200 na raiz e em /painel/. npm ci e build
    passaram; permanece aviso de chunk JS acima de 500 kB. VITE_API_URL continua
    independente dos metadados e do base estatico. Veja o guia BUILD.md do painel.
-3. Release: app/build.gradle.kts nao define versionCode. Impacto: bundleRelease
-   falha. Definir versionCode/versionName conforme politica de versoes do projeto,
-   revisar targetSdk e compatibilidade SDK/AGP, e configurar assinatura release
-   em ambiente seguro antes de distribuicao. Nenhuma assinatura de producao existe
-   como evidencia aqui; nao foi criada chave de release.
+3. Release: bloqueio de compilacao resolvido. defaultConfig define codigo 2 e
+   nome 1.1.0 para debug/release; nao ha flavors ou overrides de versao no codigo.
+   O commit aa3c733 removeu codigo 1 / nome 1.0, presentes desde e44d9db e nos dois
+   APKs historicos. O proximo codigo local e 2, mas o maior codigo publicado nao
+   foi comprovado. Bundle, APK, testes JVM e lint passaram. Publicacao continua
+   pendente de conferir o registro da loja, targetSdk, compatibilidade SDK/AGP e
+   assinatura release autorizada. Nao foi criada chave nem houve publicacao.
 4. Credenciais antigas: o responsavel pelo ambiente precisa rotacionar as senhas
    reais e avaliar a invalidacao de sessoes. Nao ha evidencia de que isso ocorreu.
 5. Validacao visual: sem emulador/dispositivo, camera negada, offline em processo
@@ -134,4 +155,5 @@ Veja tambem [metadados do artefato](evidencias/artefato-android.json).
    camera negada, QR expirado/adulterado, aluno sem inscricao e duplicidade concorrente.
 
 A Entrega 2 nao foi declarada integralmente concluida: P5 continua parcial e as
-falhas de build e validacoes ausentes estao explicitadas acima.
+pendencias funcionais e validacoes ausentes estao explicitadas acima; os dois
+bloqueios de compilacao desta etapa foram resolvidos.

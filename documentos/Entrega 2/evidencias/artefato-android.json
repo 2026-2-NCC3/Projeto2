@@ -1,10 +1,31 @@
 {
-  "artifact": "src/Entrega 2/Frontend2.0/app/build/outputs/apk/debug/app-debug.apk",
-  "type": "debug APK",
-  "bytes": 5916310,
-  "sha256": "493b47c67e4a524e56136c4c83e941cd7759fe4aeb27fccb25ecdd88001e1523",
-  "signature": "Android Debug; verificada com apksigner",
-  "installed": false,
-  "published": false,
-  "releaseBundle": "Nao gerado: versionCode ausente"
+  "validatedOn": "2026-11-01",
+  "artifacts": [
+    {
+      "type": "APK debug",
+      "artifact": "src/Entrega 2/Frontend2.0/app/build/outputs/apk/debug/app-debug.apk",
+      "bytes": 5898958,
+      "sha256": "89a069e43d3f40860180ae2638bfc232a8de022f36893beb0e30950a5ed16900",
+      "versionCode": 2,
+      "versionName": "1.1.0",
+      "signature": "Android Debug; apksigner aprovado",
+      "installed": false,
+      "published": false
+    },
+    {
+      "type": "AAB release local",
+      "artifact": "src/Entrega 2/Frontend2.0/app/build/outputs/bundle/release/app-release.aab",
+      "bytes": 4274465,
+      "sha256": "64f07f30e4fa92c588e13499f8f0e8a88888975f030e7ec6227bbe758367ffcf",
+      "versionCode": 2,
+      "versionName": "1.1.0",
+      "signature": "Nao assinado; jarsigner confirmou jar is unsigned",
+      "installed": false,
+      "published": false
+    }
+  ],
+  "bundleValidation": "bundletool 1.18.3 validate aprovado; manifesto interno confirmado: 2 / 1.1.0",
+  "highestProvenHistoricalCode": 1,
+  "highestPublishedCode": null,
+  "publicationLimitation": "Sem acesso ao registro da loja. AAB local nao comprova aceitacao pela loja, assinatura de producao ou compatibilidade de atualizacao."
 }

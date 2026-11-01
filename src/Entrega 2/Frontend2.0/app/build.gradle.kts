@@ -11,6 +11,10 @@ android {
     defaultConfig {
         applicationId = "com.example.projetopi"
         minSdk = 24
+        // Maior valor comprovado no Git/APKs historicos: 1 (1.0).
+        // A publicacao exige conferir o maior codigo da loja; veja VERSIONING.md.
+        versionCode = 2
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
