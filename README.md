@@ -108,6 +108,72 @@ O sistema será composto por um aplicativo mobile, uma API REST e um banco de da
 
 Execute os comandos em `src/Entrega 2/Backend2.0`. Consulte [o procedimento de migrações e WAL](src/Entrega%202/Backend2.0/database/MIGRATIONS.md). `CONFIRMAR_DROP` foi removido e não habilita operações destrutivas.
 
+## Entrega 2: reproducao e estado atual
+
+A implementacao atual usa Node.js/Express, SQLite/better-sqlite3, Android Java
+com Volley e painel React/Vite. As referencias anteriores a PostgreSQL/Supabase
+sao historicas; nao configuram o backend ativo da Entrega 2.
+
+- [Matriz de requisitos, testes, artefatos e pendencias](documentos/Entrega%202/VALIDACAO.md).
+- [Diagramas e contratos atuais](documentos/Entrega%202/ARQUITETURA.md).
+- [Banco novo, banco existente, transacoes e WAL](src/Entrega%202/Backend2.0/database/MIGRATIONS.md).
+- [Provisionamento manual e rotacao pendente](src/Entrega%202/Backend2.0/database/ADMINISTRATORS.md).
+- [Cache por usuario e limites de consulta offline](src/Entrega%202/Frontend2.0/OFFLINE.md).
+
+Pre-requisitos: Node.js 24 (validado), npm, Android Studio/JDK compativel com AGP
+9.0.1 e SDK da plataforma 37.0. Use os wrappers e lockfiles versionados. O Gradle
+wrapper atual e 9.5.0. AGP emite aviso de compatibilidade com SDK 37.0; nao foi
+silenciado. Nunca use dados reais para reproduzir os testes.
+
+No backend, execute a partir de src/Entrega 2/Backend2.0:
+
+~~~sh
+npm ci
+# Copie .env.example para .env e preencha JWT_SECRET com chave aleatoria local.
+# DB_PATH opcional aponta para o banco desejado. Use o mesmo caminho em tudo.
+# Somente em banco vazio:
+npm run db:init
+# Em banco existente: pare os escritores, faca backup e execute migrate:
+# npm run db:backup
+# npm run migrate
+npm test
+npm start
+~~~
+
+JWT_SECRET nao tem valor padrao. Nunca comite .env. Para criar o primeiro admin,
+configure ADMIN_EMAIL/ADMIN_PASSWORD explicitamente e execute npm run seed:admin
+manualmente apos preparar o banco; repeticoes recusam contas existentes. Nao
+existe reset como procedimento normal nem seed/migracao automatica no startup.
+
+No Android, execute em src/Entrega 2/Frontend2.0:
+
+~~~sh
+# Configure JAVA_HOME e ANDROID_HOME de acordo com seu ambiente.
+./gradlew.bat :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
+~~~
+
+ApiConfig.BASE_URL centraliza o endereco: http://10.0.2.2:3000 para o host do
+emulador padrao. Para dispositivo fisico ou outro ambiente, ajuste somente essa
+configuracao e use HTTPS fora do desenvolvimento local. Cursos, agenda e
+historico buscam a API; agenda considera as inscricoes do aluno autenticado.
+O cache e apenas de leitura e a interface identifica os dados salvos.
+O APK gerado e de debug em app/build/outputs/apk/debug/app-debug.apk.
+
+No painel, execute em src/Entrega 2/Painel Administrativo2.0:
+
+~~~sh
+npm ci
+npm run build
+~~~
+
+VITE_API_URL configura a API do painel; o padrao e http://localhost:3000.
+**Limitacoes comprovadas:** o build limpo do painel falha por ausencia de
+.figma/make/site.json; bundleRelease falha por falta de versionCode; nenhum
+AAB/release de producao foi gerado. A consulta de historico foi integrada, mas
+check-in QR/camera permanece pendente da definicao de validade/janela da ONG.
+Nao houve validacao visual em dispositivo, deploy ou troca de senhas reais.
+O relatorio acima distingue aprovacoes, falhas e verificacoes nao executadas.
+
 # Instalação
 
 ## Windows

@@ -1,0 +1,27 @@
+
+> figma-make-app@1.0.0 build
+> vite build
+
+failed to load config from [REPO]\src\Entrega 2\Painel Administrativo2.0\vite.config.js
+error during build:
+Error: Build failed with 1 error:
+
+[UNRESOLVED_IMPORT] Could not resolve './.figma/make/site.json' in vite.config.js
+   ╭─[ vite.config.js:5:31 ]
+   │
+ 5 │ import siteConfiguration from './.figma/make/site.json';
+   │                               ────────────┬────────────
+   │                                           ╰────────────── Module not found.
+───╯
+
+    at aggregateBindingErrorsIntoJsError (file:///[REPO]/src/Entrega%202/Painel%20Administrativo2.0/node_modules/rolldown/dist/shared/error-CGhV1ebk.mjs:48:18)
+    at unwrapBindingResult (file:///[REPO]/src/Entrega%202/Painel%20Administrativo2.0/node_modules/rolldown/dist/shared/error-CGhV1ebk.mjs:18:128)
+    at #build (file:///[REPO]/src/Entrega%202/Painel%20Administrativo2.0/node_modules/rolldown/dist/shared/rolldown-Ld3ZGGCt.mjs:133:34)
+    at async bundleConfigFile (file:///[REPO]/src/Entrega%202/Painel%20Administrativo2.0/node_modules/vite/dist/node/chunks/node.js:37448:12)
+    at async bundleAndLoadConfigFile (file:///[REPO]/src/Entrega%202/Painel%20Administrativo2.0/node_modules/vite/dist/node/chunks/node.js:37344:18)
+    at async loadConfigFromFile (file:///[REPO]/src/Entrega%202/Painel%20Administrativo2.0/node_modules/vite/dist/node/chunks/node.js:37305:42)
+    at async resolveConfig (file:///[REPO]/src/Entrega%202/Painel%20Administrativo2.0/node_modules/vite/dist/node/chunks/node.js:36906:22)
+    at async createBuilder (file:///[REPO]/src/Entrega%202/Painel%20Administrativo2.0/node_modules/vite/dist/node/chunks/node.js:34478:17)
+    at async CAC.<anonymous> (file:///[REPO]/src/Entrega%202/Painel%20Administrativo2.0/node_modules/vite/dist/node/cli.js:769:19) {
+  errors: [Getter/Setter]
+}

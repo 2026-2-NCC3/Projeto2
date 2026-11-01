@@ -1,0 +1,10 @@
+{
+  "artifact": "src/Entrega 2/Frontend2.0/app/build/outputs/apk/debug/app-debug.apk",
+  "type": "debug APK",
+  "bytes": 5916310,
+  "sha256": "493b47c67e4a524e56136c4c83e941cd7759fe4aeb27fccb25ecdd88001e1523",
+  "signature": "Android Debug; verificada com apksigner",
+  "installed": false,
+  "published": false,
+  "releaseBundle": "Nao gerado: versionCode ausente"
+}
