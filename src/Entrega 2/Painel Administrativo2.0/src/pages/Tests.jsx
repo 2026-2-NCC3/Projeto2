@@ -39,17 +39,17 @@ export default function Tests() {
     const [tab, setTab] = useState('builder');
     const [questions, setQuestions] = useState(INITIAL_QUESTIONS);
     const toggleExpand = (id) => {
-        setQuestions(prev => prev.map(q => q.id === id ? { ...q, expanded: !q.expanded } : q));
+        setQuestions(prev => prev.map(question => question.id === id ? { ...question, expanded: !question.expanded } : question));
     };
     const deleteQuestion = (id) => {
-        setQuestions(prev => prev.filter(q => q.id !== id));
+        setQuestions(prev => prev.filter(question => question.id !== id));
         toast('Pergunta removida', 'info');
     };
     const updateQuestionText = (id, text) => {
-        setQuestions(prev => prev.map(q => q.id === id ? { ...q, text } : q));
+        setQuestions(prev => prev.map(question => question.id === id ? { ...question, text } : question));
     };
     const addQuestion = () => {
-        const newQ = {
+        const newQuestion = {
             id: Date.now(),
             text: 'Nova pergunta',
             expanded: true,
@@ -58,28 +58,65 @@ export default function Tests() {
                 { id: Date.now() + 2, text: 'Alternativa B', weight: 2 },
             ],
         };
-        setQuestions(prev => [...prev, newQ]);
+        setQuestions(prev => [...prev, newQuestion]);
         toast('Pergunta adicionada', 'success');
     };
-    const addAlternative = (qId) => {
-        setQuestions(prev => prev.map(q => q.id === qId
-            ? { ...q, alternatives: [...q.alternatives, { id: Date.now(), text: 'Nova alternativa', weight: 1 }] }
-            : q));
+    const addAlternative = (questionId) => {
+        setQuestions(previousQuestions => previousQuestions.map(question => {
+            if (question.id !== questionId) {
+                return question;
+            }
+            return {
+                ...question,
+                alternatives: [
+                    ...question.alternatives,
+                    { id: Date.now(), text: 'Nova alternativa', weight: 1 }
+                ]
+            };
+        }));
     };
-    const updateAlternativeText = (qId, altId, text) => {
-        setQuestions(prev => prev.map(q => q.id === qId
-            ? { ...q, alternatives: q.alternatives.map(a => a.id === altId ? { ...a, text } : a) }
-            : q));
+    const updateAlternativeText = (questionId, alternativeId, text) => {
+        setQuestions(previousQuestions => previousQuestions.map(question => {
+            if (question.id !== questionId) {
+                return question;
+            }
+            return {
+                ...question,
+                alternatives: question.alternatives.map(alternative => {
+                    if (alternative.id === alternativeId) {
+                        return { ...alternative, text };
+                    }
+                    return alternative;
+                })
+            };
+        }));
     };
-    const updateAlternativeWeight = (qId, altId, weight) => {
-        setQuestions(prev => prev.map(q => q.id === qId
-            ? { ...q, alternatives: q.alternatives.map(a => a.id === altId ? { ...a, weight } : a) }
-            : q));
+    const updateAlternativeWeight = (questionId, alternativeId, weight) => {
+        setQuestions(previousQuestions => previousQuestions.map(question => {
+            if (question.id !== questionId) {
+                return question;
+            }
+            return {
+                ...question,
+                alternatives: question.alternatives.map(alternative => {
+                    if (alternative.id === alternativeId) {
+                        return { ...alternative, weight };
+                    }
+                    return alternative;
+                })
+            };
+        }));
     };
-    const deleteAlternative = (qId, altId) => {
-        setQuestions(prev => prev.map(q => q.id === qId
-            ? { ...q, alternatives: q.alternatives.filter(a => a.id !== altId) }
-            : q));
+    const deleteAlternative = (questionId, alternativeId) => {
+        setQuestions(previousQuestions => previousQuestions.map(question => {
+            if (question.id !== questionId) {
+                return question;
+            }
+            return {
+                ...question,
+                alternatives: question.alternatives.filter(alternative => alternative.id !== alternativeId)
+            };
+        }));
     };
     const handleSaveTest = () => {
         toast('Teste salvo com sucesso');
@@ -96,7 +133,15 @@ export default function Tests() {
       </div>
 
       <div className="flex border-b border-gray-200">
-        {[{ id: 'builder', label: 'Construtor de teste' }, { id: 'results', label: 'Resultados' }].map(t => (<button key={t.id} onClick={() => setTab(t.id)} className={`px-4 py-2.5 text-sm border-b-2 transition-colors ${tab === t.id ? 'border-blue-600 text-blue-700 font-medium' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
+        {[{ id: 'builder', label: 'Construtor de teste' }, { id: 'results', label: 'Resultados' }].map(t => (<button
+          key={t.id}
+          onClick={() => setTab(t.id)}
+          className={`px-4 py-2.5 text-sm border-b-2 transition-colors ${
+            tab === t.id
+              ? "border-blue-600 text-blue-700 font-medium"
+              : "border-transparent text-gray-500 hover:text-gray-700"
+          }`}
+        >
             {t.label}
           </button>))}
       </div>
@@ -118,43 +163,83 @@ export default function Tests() {
             <button className="px-3 py-1.5 border border-gray-200 text-sm text-gray-600 rounded-lg hover:bg-gray-50 transition-colors">Configurações</button>
           </div>
 
-          {questions.map((q, qi) => (<div key={q.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-              <div className="flex items-center gap-3 p-4 cursor-pointer" onClick={() => toggleExpand(q.id)}>
+          {questions.map((question, qi) => (<div key={question.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div className="flex items-center gap-3 p-4 cursor-pointer" onClick={() => toggleExpand(question.id)}>
                 <GripVertical size={16} className="text-gray-300 flex-shrink-0"/>
                 <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold flex items-center justify-center flex-shrink-0">{qi + 1}</span>
-                <span className="flex-1 text-sm font-medium text-gray-900 truncate">{q.text || 'Pergunta sem texto'}</span>
-                <button onClick={e => { e.stopPropagation(); deleteQuestion(q.id); }} className="p-1 rounded hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors flex-shrink-0">
+                <span className="flex-1 text-sm font-medium text-gray-900 truncate">{question.text || 'Pergunta sem texto'}</span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteQuestion(question.id);
+                  }}
+                  className="p-1 rounded hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors flex-shrink-0"
+                >
                   <Trash2 size={14}/>
                 </button>
-                {q.expanded ? <ChevronUp size={15} className="text-gray-400 flex-shrink-0"/> : <ChevronDown size={15} className="text-gray-400 flex-shrink-0"/>}
+                {question.expanded ? <ChevronUp size={15} className="text-gray-400 flex-shrink-0"/> : <ChevronDown size={15} className="text-gray-400 flex-shrink-0"/>}
               </div>
 
-              {q.expanded && (<div className="border-t border-gray-100 p-4 space-y-3">
+              {question.expanded && (<div className="border-t border-gray-100 p-4 space-y-3">
                   <div>
                     <label className="block text-xs font-medium text-gray-500 mb-1">Texto da pergunta</label>
-                    <input type="text" value={q.text} onChange={e => updateQuestionText(q.id, e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                    <input
+                      type="text"
+                      value={question.text}
+                      onChange={(e) =>
+                        updateQuestionText(question.id, e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
                   </div>
                   <div className="space-y-2">
                     <label className="block text-xs font-medium text-gray-500">Alternativas</label>
-                    {q.alternatives.map((alt, ai) => (<div key={alt.id} className="flex items-center gap-2">
+                    {question.alternatives.map((alt, ai) => (<div key={alt.id} className="flex items-center gap-2">
                         <span className="w-5 text-xs text-gray-400 text-right flex-shrink-0">{String.fromCharCode(65 + ai)}.</span>
-                        <input type="text" value={alt.text} onChange={e => updateAlternativeText(q.id, alt.id, e.target.value)} className="flex-1 px-2.5 py-1.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                        <input
+                          type="text"
+                          value={alt.text}
+                          onChange={(e) =>
+                            updateAlternativeText(
+                              question.id,
+                              alt.id,
+                              e.target.value,
+                            )
+                          }
+                          className="flex-1 px-2.5 py-1.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
                         <div className="flex items-center gap-1 flex-shrink-0">
                           <span className="text-xs text-gray-400">Peso:</span>
-                          <input type="number" value={alt.weight} min={1} max={5} onChange={e => updateAlternativeWeight(q.id, alt.id, Number(e.target.value))} className="w-12 px-2 py-1.5 border border-gray-200 rounded-lg text-sm text-center focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                          <input
+                            type="number"
+                            value={alt.weight}
+                            min={1}
+                            max={5}
+                            onChange={(e) =>
+                              updateAlternativeWeight(
+                                question.id,
+                                alt.id,
+                                Number(e.target.value),
+                              )
+                            }
+                            className="w-12 px-2 py-1.5 border border-gray-200 rounded-lg text-sm text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
                         </div>
-                        <button onClick={() => deleteAlternative(q.id, alt.id)} className="p-1 rounded hover:bg-red-50 text-gray-300 hover:text-red-400 transition-colors flex-shrink-0">
+                        <button onClick={() => deleteAlternative(question.id, alt.id)} className="p-1 rounded hover:bg-red-50 text-gray-300 hover:text-red-400 transition-colors flex-shrink-0">
                           <Trash2 size={13}/>
                         </button>
                       </div>))}
                   </div>
-                  <button onClick={() => addAlternative(q.id)} className="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                  <button onClick={() => addAlternative(question.id)} className="text-xs text-blue-600 hover:underline flex items-center gap-1">
                     <Plus size={12}/> Adicionar alternativa
                   </button>
                 </div>)}
             </div>))}
 
-          <button onClick={addQuestion} className="w-full py-3 border-2 border-dashed border-gray-300 rounded-xl text-sm text-gray-500 hover:border-blue-400 hover:text-blue-600 transition-colors flex items-center justify-center gap-2">
+          <button
+            onClick={addQuestion}
+            className="w-full py-3 border-2 border-dashed border-gray-300 rounded-xl text-sm text-gray-500 hover:border-blue-400 hover:text-blue-600 transition-colors flex items-center justify-center gap-2"
+          >
             <Plus size={16}/>
             Adicionar pergunta
           </button>

@@ -93,3 +93,114 @@ Arquivos alterados nesta area:
 - src/Entrega 2/Frontend2.0/app/src/main/java/com/example/projetopi/SyncGate.java
 - src/Entrega 2/Frontend2.0/app/src/test/java/com/example/projetopi/ApiRecordsTest.java
 - src/Entrega 2/Frontend2.0/app/src/test/java/com/example/projetopi/SnapshotStoreTest.java
+
+## Painel administrativo
+
+Foram expandidos somente blocos JSX comprimidos dos formularios e modais,
+sem reformatar os arquivos claros da area nem o projeto inteiro. A expansao
+foi conferida pela arvore compilada para preservar textos, atributos, classes
+e callbacks. Em Tests.jsx foram expandidos apenas os atributos extensos: o texto
+foi mantido literalmente para nao introduzir espacos ou fragmentos adicionais.
+
+As tres telas CRUD passaram a usar replaceOrPrependRecord para a mesma
+politica anterior: edicao substitui correspondencias estritas, sem inserir um
+ID ausente; criacao insere no inicio sem deduplicar implicitamente. Quatro
+testes cobrem imutabilidade, ordem, referencias, duplicatas e tipos de IDs.
+Handlers de alunos foram expandidos, erros mantem as mesmas mensagens e a
+selecao de API criar/atualizar usa condicionais explicitas. Alternativas de
+perguntas usam guardas e nomes como questionId e alternativeId. O timer de
+toasts ganhou constante nomeada e configuracoes de site ganharam chaves
+explicitas sem trocar valores, URL da API ou funcionamento do preview.
+
+Validacao: npm test — 9 testes aprovados (5 de build existentes e 4 da politica
+de listas); npm run build aprovado. Os testes verificam API padrao/explicita,
+recursos estaticos na raiz e em subdiretorio, configuracao Figma e erros. Doze
+cenarios dos callbacks de alternativas foram comparados ao codigo original
+com IDs presentes, ausentes e de tipos diferentes, sem diferencas ou mutacao
+dos dados de entrada. Ajustes finais de terminadores preservaram a AST.
+O aviso de bundle maior que 500 kB ja existia e continua registrado.
+
+Arquivos alterados nesta area:
+- src/Entrega 2/Painel Administrativo2.0/config/site-config.js
+- src/Entrega 2/Painel Administrativo2.0/src/components/Navbar.jsx
+- src/Entrega 2/Painel Administrativo2.0/src/components/Toast.jsx
+- src/Entrega 2/Painel Administrativo2.0/src/pages/Certificates.jsx
+- src/Entrega 2/Painel Administrativo2.0/src/pages/Courses.jsx
+- src/Entrega 2/Painel Administrativo2.0/src/pages/Login.jsx
+- src/Entrega 2/Painel Administrativo2.0/src/pages/Messages.jsx
+- src/Entrega 2/Painel Administrativo2.0/src/pages/Reports.jsx
+- src/Entrega 2/Painel Administrativo2.0/src/pages/Students.jsx
+- src/Entrega 2/Painel Administrativo2.0/src/pages/Tests.jsx
+- src/Entrega 2/Painel Administrativo2.0/src/pages/Universities.jsx
+- src/Entrega 2/Painel Administrativo2.0/src/utils/records.js
+- src/Entrega 2/Painel Administrativo2.0/test/build.test.js
+- src/Entrega 2/Painel Administrativo2.0/test/records.test.js
+
+Possivel bug adicional mantido fora desta refatoracao: IDs de toast gerados
+somente com Date.now podem colidir quando duas notificacoes sao criadas no
+mesmo milissegundo. Nao foi alterada a geracao de IDs nesta tarefa.
+
+## Exemplos representativos
+
+Android, antes:
+
+```java
+for(String field:allowed) if(item.has(field)) safe.put(field,item.get(field));
+```
+
+Android, depois, em copyAllowedFields:
+
+```java
+for (String field : allowedFields) {
+    if (record.has(field)) {
+        projectedRecord.put(field, record.get(field));
+    }
+}
+```
+
+Backend, antes:
+
+```js
+const old=token('a1'); db.prepare("UPDATE alunos SET bloqueado=1 WHERE usuario_id='a1'").run();
+```
+
+Backend, depois:
+
+```js
+const tokenBeforeBlocking = token("a1");
+db.prepare("UPDATE alunos SET bloqueado=1 WHERE usuario_id='a1'").run();
+```
+
+Painel, antes:
+
+```js
+setCursos((atuais) => cursoEmEdicao ? atuais.map((curso) => curso.id === salvo.id ? salvo : curso) : [salvo, ...atuais]);
+```
+
+Painel, depois:
+
+```js
+setCursos((cursosAtuais) => replaceOrPrependRecord(
+    cursosAtuais, cursoSalvo, Boolean(cursoEmEdicao)
+));
+```
+
+O helper tem um if explicito para criacao e um map com nomes do dominio para
+edicao; seus casos de comportamento estao em test/records.test.js.
+
+## Conferencia final e limites
+
+- Backend: 15 testes aprovados. Android: 17 testes JUnit aprovados, builds debug
+  e release e lint aprovados. Painel: 9 testes e build aprovados.
+- Permanecem os 263 avisos de lint Android, o aviso AGP/SDK e o aviso de tamanho
+  do bundle do painel. Nao foram ocultados ou tratados como novas regras.
+- Nenhuma dependencia, migracao, checksum, schema.sql, recurso/ID Android,
+  permissao, versao ou arquivo de build versionado foi alterado.
+- O contrato textual de schema_migrations permaneceu identico. A referencia main
+  foi comparada com a referencia inicial e permaneceu em e44d9db.
+- Arquivos de build foram somente gerados pelas ferramentas de validacao e nao
+  entram nos commits. Hashes dos artefatos de validacoes anteriores sao historicos;
+  nao se pretende que os novos binarios tenham identidade de bytes com os antigos.
+- Nenhum banco real foi aberto ou alterado. Nao houve push, deploy ou mudanca em main.
+- Nao foram feitos testes visuais em dispositivo. Os possiveis bugs listados acima
+  continuam pendentes de uma tarefa funcional separada.

@@ -38,88 +38,174 @@ export default function Certificates() {
         setCerts(prev => prev.map(c => c.id === cert.id ? { ...c, status: 'emitido', issued: dateStr } : c));
         toast(`Certificado emitido para ${cert.student}`, 'success');
     };
-    return (<div className="p-6 space-y-4">
-      <div>
-        <h1 className="text-xl font-semibold text-gray-900">Certificados</h1>
-        <p className="text-sm text-gray-500 mt-0.5">Emissão e gestão de certificados</p>
-      </div>
+    return (
+      <div className="p-6 space-y-4">
+        <div>
+          <h1 className="text-xl font-semibold text-gray-900">Certificados</h1>
+          <p className="text-sm text-gray-500 mt-0.5">
+            Emissão e gestão de certificados
+          </p>
+        </div>
 
-      {/* Summary */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
-        {['emitido', 'pronto', 'pendente', 'revogado'].map(s => {
-            const count = certs.filter(c => c.status === s).length;
+        {/* Summary */}
+        <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
+          {["emitido", "pronto", "pendente", "revogado"].map((s) => {
+            const count = certs.filter((c) => c.status === s).length;
             const { label, badge } = STATUS_STYLES[s];
-            const [textCls, bgCls, borderCls] = badge.split(' ');
-            return (<div key={s} className={`rounded-xl border p-4 ${bgCls} ${borderCls}`}>
-              <p className={`text-2xl font-semibold ${textCls}`}>{count}</p>
-              <p className={`text-xs mt-0.5 ${textCls} opacity-80`}>{label}</p>
-            </div>);
-        })}
-      </div>
-
-      {/* Filters */}
-      <div className="bg-white rounded-xl border border-gray-200 p-4 flex flex-wrap gap-3 items-center">
-        <div className="flex items-center gap-2 flex-1 min-w-[180px] bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
-          <Search size={15} className="text-gray-400 flex-shrink-0"/>
-          <input type="text" placeholder="Buscar aluno ou curso..." value={search} onChange={e => setSearch(e.target.value)} className="flex-1 bg-transparent text-sm text-gray-900 placeholder-gray-400 outline-none"/>
+            const [textCls, bgCls, borderCls] = badge.split(" ");
+            return (
+              <div
+                key={s}
+                className={`rounded-xl border p-4 ${bgCls} ${borderCls}`}
+              >
+                <p className={`text-2xl font-semibold ${textCls}`}>{count}</p>
+                <p className={`text-xs mt-0.5 ${textCls} opacity-80`}>{label}</p>
+              </div>
+            );
+          })}
         </div>
-        <div className="flex gap-2 flex-wrap">
-          {['todos', 'pronto', 'pendente', 'emitido', 'revogado'].map(f => (<button key={f} onClick={() => setFilter(f)} className={`text-xs px-2.5 py-1 rounded-full border transition-colors capitalize ${filter === f ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-400'}`}>
-              {f === 'todos' ? 'Todos' : STATUS_STYLES[f]?.label}
-            </button>))}
-        </div>
-      </div>
 
-      {/* Table */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-gray-200 bg-gray-50">
-              {['Aluno', 'Curso', 'Status', 'Critérios', 'Data emissão', 'Ações'].map(h => (<th key={h} className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">{h}</th>))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {filtered.map(cert => {
-            const s = STATUS_STYLES[cert.status];
-            const metCount = Object.values(cert.criteria).filter(Boolean).length;
-            const total = Object.keys(cert.criteria).length;
-            const missingLabels = Object.entries(cert.criteria).filter(([, v]) => !v).map(([k]) => CRITERIA_LABELS[k] || k);
-            return (<tr key={cert.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-3 font-medium text-gray-900">{cert.student}</td>
-                  <td className="px-4 py-3 text-gray-600">{cert.course}</td>
-                  <td className="px-4 py-3">
-                    <span className={`text-xs px-2.5 py-0.5 rounded-full font-medium flex items-center gap-1 w-fit ${s.badge}`}>
-                      <s.icon size={11}/>
-                      {s.label}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <div className="flex gap-1">
-                        {Object.entries(cert.criteria).map(([key, met]) => (<div key={key} title={`${CRITERIA_LABELS[key]}: ${met ? 'OK' : 'Pendente'}`} className={`w-4 h-4 rounded-full flex items-center justify-center ${met ? 'bg-green-500' : 'bg-gray-200'}`}>
-                            {met ? <CheckCircle size={10} className="text-white"/> : <XCircle size={10} className="text-gray-400"/>}
-                          </div>))}
+        {/* Filters */}
+        <div className="bg-white rounded-xl border border-gray-200 p-4 flex flex-wrap gap-3 items-center">
+          <div className="flex items-center gap-2 flex-1 min-w-[180px] bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
+            <Search size={15} className="text-gray-400 flex-shrink-0" />
+            <input
+              type="text"
+              placeholder="Buscar aluno ou curso..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="flex-1 bg-transparent text-sm text-gray-900 placeholder-gray-400 outline-none"
+            />
+          </div>
+          <div className="flex gap-2 flex-wrap">
+            {["todos", "pronto", "pendente", "emitido", "revogado"].map((f) => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={`text-xs px-2.5 py-1 rounded-full border transition-colors capitalize ${
+                  filter === f
+                    ? "bg-blue-600 text-white border-blue-600"
+                    : "bg-white text-gray-600 border-gray-200 hover:border-blue-400"
+                }`}
+              >
+                {f === "todos" ? "Todos" : STATUS_STYLES[f]?.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-gray-200 bg-gray-50">
+                {[
+                  "Aluno",
+                  "Curso",
+                  "Status",
+                  "Critérios",
+                  "Data emissão",
+                  "Ações",
+                ].map((h) => (
+                  <th
+                    key={h}
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide"
+                  >
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {filtered.map((cert) => {
+                const s = STATUS_STYLES[cert.status];
+                const metCount = Object.values(cert.criteria).filter(
+                  Boolean,
+                ).length;
+                const total = Object.keys(cert.criteria).length;
+                const missingLabels = Object.entries(cert.criteria)
+                  .filter(([, v]) => !v)
+                  .map(([k]) => CRITERIA_LABELS[k] || k);
+                return (
+                  <tr
+                    key={cert.id}
+                    className="hover:bg-gray-50 transition-colors"
+                  >
+                    <td className="px-4 py-3 font-medium text-gray-900">
+                      {cert.student}
+                    </td>
+                    <td className="px-4 py-3 text-gray-600">{cert.course}</td>
+                    <td className="px-4 py-3">
+                      <span
+                        className={`text-xs px-2.5 py-0.5 rounded-full font-medium flex items-center gap-1 w-fit ${s.badge}`}
+                      >
+                        <s.icon size={11} />
+                        {s.label}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <div className="flex gap-1">
+                          {Object.entries(cert.criteria).map(([key, met]) => (
+                            <div
+                              key={key}
+                              title={`${CRITERIA_LABELS[key]}: ${
+                                met ? "OK" : "Pendente"
+                              }`}
+                              className={`w-4 h-4 rounded-full flex items-center justify-center ${
+                                met ? "bg-green-500" : "bg-gray-200"
+                              }`}
+                            >
+                              {met ? (
+                                <CheckCircle size={10} className="text-white" />
+                              ) : (
+                                <XCircle size={10} className="text-gray-400" />
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                        <span className="text-xs text-gray-500">
+                          {metCount}/{total}
+                        </span>
                       </div>
-                      <span className="text-xs text-gray-500">{metCount}/{total}</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-gray-500 text-xs">{cert.issued || '—'}</td>
-                  <td className="px-4 py-3">
-                    {cert.status === 'pronto' && (<button onClick={() => emit(cert)} className="px-3 py-1 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-1">
-                        <Award size={12}/>Emitir
-                      </button>)}
-                    {cert.status === 'pendente' && (<button disabled title={`Falta(m): ${missingLabels.join(', ')}`} className="px-3 py-1 bg-gray-100 text-gray-400 text-xs font-medium rounded-lg cursor-not-allowed">
-                        Emitir
-                      </button>)}
-                    {cert.status === 'emitido' && (<button className="px-3 py-1 border border-gray-200 text-gray-600 text-xs rounded-lg hover:bg-gray-50 transition-colors">
-                        Baixar PDF
-                      </button>)}
-                    {cert.status === 'revogado' && (<span className="text-xs text-gray-400">—</span>)}
-                  </td>
-                </tr>);
-        })}
-          </tbody>
-        </table>
+                    </td>
+                    <td className="px-4 py-3 text-gray-500 text-xs">
+                      {cert.issued || "—"}
+                    </td>
+                    <td className="px-4 py-3">
+                      {cert.status === "pronto" && (
+                        <button
+                          onClick={() => emit(cert)}
+                          className="px-3 py-1 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-1"
+                        >
+                          <Award size={12} />
+                          Emitir
+                        </button>
+                      )}
+                      {cert.status === "pendente" && (
+                        <button
+                          disabled
+                          title={`Falta(m): ${missingLabels.join(", ")}`}
+                          className="px-3 py-1 bg-gray-100 text-gray-400 text-xs font-medium rounded-lg cursor-not-allowed"
+                        >
+                          Emitir
+                        </button>
+                      )}
+                      {cert.status === "emitido" && (
+                        <button className="px-3 py-1 border border-gray-200 text-gray-600 text-xs rounded-lg hover:bg-gray-50 transition-colors">
+                          Baixar PDF
+                        </button>
+                      )}
+                      {cert.status === "revogado" && (
+                        <span className="text-xs text-gray-400">—</span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>);
+    );
 }

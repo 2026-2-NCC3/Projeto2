@@ -18,12 +18,24 @@ export function loadSiteConfiguration(root) {
     try {
         override = readObject(overridePath);
     } catch (error) {
-        if (error.code === 'ENOENT') return defaults;
+        if (error.code === 'ENOENT') {
+            return defaults;
+        }
         throw error; // Configuração presente mas inválida não é ignorada.
     }
     const result = { ...defaults, ...override };
-    for (const key of ['icons', 'openGraph', 'analytics', 'customScripts', 'robots', 'accessibility']) {
-        if (defaults[key] || override[key]) result[key] = { ...defaults[key], ...override[key] };
+    const configurableSections = [
+        'icons',
+        'openGraph',
+        'analytics',
+        'customScripts',
+        'robots',
+        'accessibility'
+    ];
+    for (const section of configurableSections) {
+        if (defaults[section] || override[section]) {
+            result[section] = { ...defaults[section], ...override[section] };
+        }
     }
     return result;
 }
