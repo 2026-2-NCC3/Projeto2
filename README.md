@@ -99,9 +99,14 @@ O sistema será composto por um aplicativo mobile, uma API REST e um banco de da
 
 ## Backend da Entrega 2: banco de dados
 
-- `npm start`: se o banco estiver vazio, cria as 21 tabelas; se estiver completo, não altera nada; se estiver incompleto, não inicia, para proteger os dados. Não cria administradores.
+- `npm run db:init`: cria o esquema original e registra as migrações, exclusivamente em banco vazio.
+- `npm run db:backup`: cria backup consistente pela API do SQLite, incluindo registros no WAL.
+- `npm run migrate`: aplica migrações incrementais em banco existente; adota o v5 compatível sem recriar tabelas. Esquemas incompatíveis são recusados sem conversão automática.
+- `npm start`: valida esquema, versões e integridade antes de abrir HTTP. Não cria nem migra tabelas e não cria administradores. Em banco novo, execute `db:init` antes; em v5 existente, faça backup e execute `migrate` explicitamente.
 - `npm run seed:admin`: cria o primeiro administrador a partir das variáveis `ADMIN_EMAIL` e `ADMIN_PASSWORD` (senha com no mínimo 12 caracteres).
-- `npm run migrate`: **apaga todos os dados** e recria o banco. Só roda com `CONFIRMAR_DROP=sim`. Não use no Render nem coloque no start/build.
+- `npm test`: testes de migração e inicialização com bancos temporários e dados fictícios.
+
+Execute os comandos em `src/Entrega 2/Backend2.0`. Consulte [o procedimento de migrações e WAL](src/Entrega%202/Backend2.0/database/MIGRATIONS.md). `CONFIRMAR_DROP` foi removido e não habilita operações destrutivas.
 
 # Instalação
 

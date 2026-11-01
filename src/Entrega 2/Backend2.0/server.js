@@ -1,14 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const banco = require("./database/database");
+let banco;
 const ensureSchema = require("./src/config/ensureSchema");
 
 try {
-    ensureSchema();
+    banco = require("./database/database");
+    ensureSchema(banco);
 } catch (erro) {
-    console.error("Servidor nao iniciado:", erro.message);
-    banco.close();
+    console.error("Servidor nao iniciado. Verifique o banco e execute db:init (vazio) ou migrate (existente). Consulte database/MIGRATIONS.md.");
+    if (banco) banco.close();
     process.exit(1);
 }
 const authRoutes = require("./src/routes/authRoutes");
@@ -21,7 +22,7 @@ const inscricoesRoutes = require("./src/routes/inscricoesRoutes");
 
 
 const app = express();
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = process.env.PORT === undefined ? 3000 : Number(process.env.PORT);
 
 // Permite que a API receba dados no formato JSON
 app.use(express.json());
@@ -61,6 +62,18 @@ app.get("/api/health", (req, res) => {
 });
 
 // Inicializa o servidor
-app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Servidor executando em http://localhost:${PORT}`);
+const server = app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Servidor executando em http://localhost:${server.address().port}`);
 });
+
+server.on("error", () => {
+    console.error("Servidor interrompido: nao foi possivel abrir a porta HTTP.");
+    banco.close();
+    process.exitCode = 1;
+});
+
+for (const signal of ["SIGINT", "SIGTERM"]) {
+    process.once(signal, () => {
+        server.close(() => banco.close());
+    });
+}
