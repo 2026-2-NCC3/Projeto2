@@ -36,12 +36,26 @@
             android:src="@drawable/ic_notification"
             app:tint="@color/acao_primaria" />
 
+        <TextView
+            android:id="@+id/btnSair"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/espacamento_md"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:text="Sair"
+            android:textColor="@color/acao_primaria"
+            android:textSize="@dimen/texto_subtitulo_app"
+            android:textStyle="bold" />
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgAvatar"
             android:layout_width="@dimen/tamanho_avatar"
             android:layout_height="@dimen/tamanho_avatar"
             android:contentDescription="Foto de perfil"
             android:src="@drawable/foto_perfil" />
+
     </LinearLayout>
 
     <ScrollView
@@ -64,7 +78,7 @@
                 android:id="@+id/txtSaudacao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Olá, Maria! 👋"
+                android:text="Olá! 👋"
                 android:textColor="@color/texto_primario"
                 android:textSize="@dimen/texto_saudacao"
                 android:textStyle="bold" />
@@ -73,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/espacamento_xs"
-                android:text="Bem-vinda de volta"
+                android:text="Bem-vindo de volta"
                 android:textColor="@color/texto_secundario"
                 android:textSize="@dimen/texto_subtitulo_app" />
 
@@ -141,6 +155,7 @@
                         android:layout_height="@dimen/tamanho_icone_jornada"
                         android:contentDescription="Próxima etapa"
                         android:src="@drawable/ic_step_pendente" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -185,7 +200,9 @@
                         android:text="Módulo 2"
                         android:textColor="@color/texto_secundario"
                         android:textSize="@dimen/texto_rotulo" />
+
                 </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -225,6 +242,7 @@
                         android:contentDescription="Ver agenda"
                         android:src="@drawable/ic_calendar"
                         app:tint="@color/acao_primaria" />
+
                 </LinearLayout>
 
                 <TextView
@@ -263,6 +281,7 @@
                     android:textColor="@color/acao_primaria"
                     android:textSize="@dimen/texto_subtitulo_app"
                     android:textStyle="bold" />
+
             </LinearLayout>
 
             <TextView
@@ -288,6 +307,8 @@
                     android:layout_columnWeight="1"
                     android:layout_margin="@dimen/espacamento_entre_cards"
                     android:background="@drawable/bg_card_branco"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="@dimen/padding_card">
@@ -306,6 +327,7 @@
                         android:text="Meus Cursos"
                         android:textColor="@color/texto_primario"
                         android:textSize="@dimen/texto_subtitulo_app" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -315,6 +337,8 @@
                     android:layout_columnWeight="1"
                     android:layout_margin="@dimen/espacamento_entre_cards"
                     android:background="@drawable/bg_card_branco"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="@dimen/padding_card">
@@ -333,6 +357,7 @@
                         android:text="Agenda"
                         android:textColor="@color/texto_primario"
                         android:textSize="@dimen/texto_subtitulo_app" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -342,6 +367,8 @@
                     android:layout_columnWeight="1"
                     android:layout_margin="@dimen/espacamento_entre_cards"
                     android:background="@drawable/bg_card_branco"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="@dimen/padding_card">
@@ -360,14 +387,18 @@
                         android:text="Carteirinha"
                         android:textColor="@color/texto_primario"
                         android:textSize="@dimen/texto_subtitulo_app" />
+
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/atalhoMateriais"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="@dimen/espacamento_entre_cards"
                     android:background="@drawable/bg_card_branco"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="@dimen/padding_card">
@@ -386,9 +417,13 @@
                         android:text="Materiais"
                         android:textColor="@color/texto_primario"
                         android:textSize="@dimen/texto_subtitulo_app" />
+
                 </LinearLayout>
+
             </GridLayout>
+
         </LinearLayout>
+
     </ScrollView>
 
     <LinearLayout
@@ -408,6 +443,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -426,6 +463,7 @@
                 android:text="Início"
                 android:textColor="@color/acao_primaria"
                 android:textSize="@dimen/texto_rodape" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -433,6 +471,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -450,6 +490,7 @@
                 android:text="Cursos"
                 android:textColor="@color/texto_secundario"
                 android:textSize="@dimen/texto_rodape" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -457,6 +498,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -474,6 +517,7 @@
                 android:text="Agenda"
                 android:textColor="@color/texto_secundario"
                 android:textSize="@dimen/texto_rodape" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -481,6 +525,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -498,6 +544,9 @@
                 android:text="Perfil"
                 android:textColor="@color/texto_secundario"
                 android:textSize="@dimen/texto_rodape" />
+
         </LinearLayout>
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
