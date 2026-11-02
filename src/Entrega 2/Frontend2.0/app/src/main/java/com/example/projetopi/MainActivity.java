@@ -1,7 +1,7 @@
 package com.example.projetopi;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnEntrar;
     private TextView txtErroLogin;
     private TextView txtCadastro;
+    private SessionManager sessionManager;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Override
@@ -43,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        sessionManager = new SessionManager(this);
+
+        if (sessionManager.usuarioEstaLogado()) {
+            abrirTelaInicial(sessionManager.getNomeCompleto());
+            return;
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(
                 findViewById(R.id.main),
@@ -182,51 +190,33 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            salvarSessao(json);
-
-            Intent intent = new Intent(
-                    MainActivity.this,
-                    TelaInicial.class
-            );
+            sessionManager.salvarSessao(json);
 
             JSONObject usuario = json.getJSONObject("usuario");
-            intent.putExtra(
-                    "nomeUsuario",
+
+            abrirTelaInicial(
                     usuario.optString("nome_completo", "")
             );
-
-            intent.addFlags(
-                    Intent.FLAG_ACTIVITY_NEW_TASK
-                            | Intent.FLAG_ACTIVITY_CLEAR_TASK
-            );
-
-            startActivity(intent);
-            finish();
         } catch (JSONException erro) {
             mostrarErro("Resposta inválida recebida do servidor.");
         }
     }
 
-    private void salvarSessao(JSONObject response) throws JSONException {
-        String token = response.getString("token");
-        JSONObject usuario = response.getJSONObject("usuario");
-
-        SharedPreferences preferences = getSharedPreferences(
-                "sessao_usuario",
-                MODE_PRIVATE
+    private void abrirTelaInicial(String nomeUsuario) {
+        Intent intent = new Intent(
+                MainActivity.this,
+                TelaInicial.class
         );
 
-        preferences.edit()
-                .putString("token", token)
-                .putString("usuario_id", usuario.getString("id"))
-                .putString(
-                        "nome_completo",
-                        usuario.optString("nome_completo", "")
-                )
-                .putString("email", usuario.optString("email", ""))
-                .putString("papel", usuario.optString("papel", ""))
-                .putBoolean("usuario_logado", true)
-                .apply();
+        intent.putExtra("nomeUsuario", nomeUsuario);
+
+        intent.addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_CLEAR_TASK
+        );
+
+        startActivity(intent);
+        finish();
     }
 
     private void alterarEstadoDoBotao(boolean carregando) {
