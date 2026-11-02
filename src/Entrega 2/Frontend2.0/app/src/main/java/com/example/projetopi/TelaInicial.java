@@ -1,19 +1,17 @@
 package com.example.projetopi;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.projetopi.R;
-
 public class TelaInicial extends AppCompatActivity {
 
     private TextView txtSaudacao;
+    private TextView btnSair;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,26 +19,30 @@ public class TelaInicial extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_paginainicial);
 
+        sessionManager = new SessionManager(this);
+
+        if (!sessionManager.usuarioEstaLogado()) {
+            abrirTelaDeLogin();
+            return;
+        }
+
         txtSaudacao = findViewById(R.id.txtSaudacao);
+        btnSair = findViewById(R.id.btnSair);
 
         exibirNomeDoUsuario();
         configurarNavegacao();
+        configurarLogout();
     }
 
     private void exibirNomeDoUsuario() {
-        String nome = getIntent().getStringExtra("nomeUsuario");
-
-        if (nome == null || nome.trim().isEmpty()) {
-            SharedPreferences preferences = getSharedPreferences(
-                    "sessao_usuario",
-                    MODE_PRIVATE
-            );
-
-            nome = preferences.getString("nome_completo", "");
-        }
+        String nome = sessionManager.getNomeCompleto();
 
         if (nome != null && !nome.trim().isEmpty()) {
-            txtSaudacao.setText("Olá, " + nome.trim() + "! 👋");
+            txtSaudacao.setText(
+                    "Olá, " + nome.trim() + "! 👋"
+            );
+        } else {
+            txtSaudacao.setText("Olá! 👋");
         }
     }
 
@@ -70,9 +72,30 @@ public class TelaInicial extends AppCompatActivity {
         );
     }
 
+    private void configurarLogout() {
+        btnSair.setOnClickListener(view -> {
+            sessionManager.encerrarSessao();
+            abrirTelaDeLogin();
+        });
+    }
+
+    private void abrirTelaDeLogin() {
+        Intent intent = new Intent(
+                TelaInicial.this,
+                MainActivity.class
+        );
+
+        intent.addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_CLEAR_TASK
+        );
+
+        startActivity(intent);
+        finish();
+    }
+
     private void abrirTela(Class<?> tela) {
         Intent intent = new Intent(this, tela);
-
         startActivity(intent);
     }
 }
