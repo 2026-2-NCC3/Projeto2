@@ -1,6 +1,7 @@
 const express = require("express");
 const banco = require("../../database/database");
-const { requireAuth } = require("../middlewares/authMiddleware");
+const { requireAuth, requireAdmin } = require("../middlewares/authMiddleware");
+const checkinController = require("../controllers/presencasCheckinController");
 const router = express.Router();
 function listarHistoricoDoAluno(alunoId) {
   return banco
@@ -14,6 +15,8 @@ function listarHistoricoDoAluno(alunoId) {
     .all(alunoId);
 }
 router.use(requireAuth);
+router.post("/qr-token", requireAdmin, checkinController.emitirQrToken);
+router.post("/check-in", checkinController.registrarCheckin);
 router.get("/minhas", (req, res, next) => {
   if (req.usuario.papel !== "aluno") {
     return res
