@@ -11,8 +11,10 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+
     repositories {
         google()
         mavenCentral()
@@ -20,7 +22,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "ProjetoPI"
-include(":app")
-include(":app")
-include(":app")
 include(":app")
