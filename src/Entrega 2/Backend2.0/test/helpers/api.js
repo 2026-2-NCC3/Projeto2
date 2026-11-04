@@ -120,6 +120,7 @@ async function withApi(testContext) {
   return {
     db: database,
     filename: databaseFilename,
+    baseUrl: "http://127.0.0.1:" + port,
     request,
     token,
     dir: temporaryDirectory,
