@@ -97,7 +97,7 @@ test("autenticacao, privacidade e autorizacao usam identidade e estado atual no 
     "POST",
     { email: "new@example.invalid", nome_completo: "Teste", senha: {} },
   );
-  assert.equal(invalidRegistrationResponse.status, 500);
+  assert.equal(invalidRegistrationResponse.status, 400);
   assert.doesNotMatch(
     JSON.stringify(invalidRegistrationResponse.body),
     /TypeError|bcrypt|sqlite|stack/i,

@@ -1,6 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
+require("dotenv").config({ path: require("path").join(__dirname, ".env") });
+if (!process.env.JWT_SECRET || !process.env.JWT_SECRET.trim()) {
+    console.error("Servidor nao iniciado: configure JWT_SECRET no .env local.");
+    process.exit(1);
+}
 let banco;
 const ensureSchema = require("./src/config/ensureSchema");
 
@@ -71,15 +75,20 @@ app.use((erro, req, res, next) => {
 });
 
 // Inicializa o servidor
-const server = app.listen(PORT, "0.0.0.0", () => {
+const server = require("node:http").createServer(app);
+server.once("listening", () => {
     console.log(`Servidor executando em http://localhost:${server.address().port}`);
 });
 
-server.on("error", () => {
-    console.error("Servidor interrompido: nao foi possivel abrir a porta HTTP.");
+server.on("error", (erro) => {
+    console.error(erro.code === "EADDRINUSE"
+        ? "Servidor nao iniciado: a porta HTTP ja esta em uso. Encerre a outra instancia antes de iniciar."
+        : "Servidor interrompido: nao foi possivel abrir a porta HTTP.");
     banco.close();
     process.exitCode = 1;
 });
+
+server.listen(PORT, "0.0.0.0");
 
 for (const signal of ["SIGINT", "SIGTERM"]) {
     process.once(signal, () => {
