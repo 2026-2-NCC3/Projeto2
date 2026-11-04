@@ -3,6 +3,8 @@ package com.example.projetopi;
 import android.content.Context;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
@@ -22,6 +24,11 @@ public final class ApiClient {
         void failure(int status);
     }
 
+    public interface StatusCallback {
+        void success(int status, String body);
+        void failure(int status);
+    }
+
     private final Context context;
 
     public ApiClient(Context context) {
@@ -30,16 +37,38 @@ public final class ApiClient {
 
     public void request(Object tag, String route, int method, JSONObject body,
                         String token, Callback callback) {
+        requestWithStatus(tag, route, method, body, token, new StatusCallback() {
+            @Override
+            public void success(int status, String responseBody) {
+                callback.success(responseBody);
+            }
+
+            @Override
+            public void failure(int status) {
+                callback.failure(status);
+            }
+        });
+    }
+
+    public void requestWithStatus(Object tag, String route, int method, JSONObject body,
+                                  String token, StatusCallback callback) {
+        final int[] responseStatus = {NO_HTTP_RESPONSE};
         StringRequest request = new StringRequest(
                 method,
                 ApiConfig.BASE_URL + route,
-                callback::success,
+                responseBody -> callback.success(responseStatus[0], responseBody),
                 error -> {
                     int httpStatus = error.networkResponse == null
                             ? NO_HTTP_RESPONSE
                             : error.networkResponse.statusCode;
                     callback.failure(httpStatus);
                 }) {
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                responseStatus[0] = response.statusCode;
+                return super.parseNetworkResponse(response);
+            }
+
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
