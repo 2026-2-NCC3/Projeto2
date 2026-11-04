@@ -10,6 +10,11 @@ public class AgendaActivity extends DataListActivity {
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
+        Button checkinButton = new Button(this);
+        checkinButton.setText(R.string.checkin_title);
+        checkinButton.setOnClickListener(view ->
+                startActivity(new Intent(this, QrCheckinActivity.class)));
+        ((LinearLayout) findViewById(R.id.dataActions)).addView(checkinButton);
         Button historyButton = new Button(this);
         historyButton.setText("Historico de presenca");
         historyButton.setOnClickListener(view ->
