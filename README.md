@@ -111,19 +111,19 @@ Execute os comandos em `src/Entrega 2/Backend2.0`. Consulte [o procedimento de m
 ## Entrega 2: reproducao e estado atual
 
 A implementacao atual usa Node.js/Express, SQLite/better-sqlite3, Android Java
-com Volley e painel React/Vite.
+com Volley e painel React/Vite. As referencias anteriores a PostgreSQL/Supabase
+sao historicas; nao configuram o backend ativo da Entrega 2.
 
-- [Matriz de validacao funcional](documentos/Entrega%202/VALIDACAO.md).
+- [Matriz de requisitos, testes, artefatos e pendencias](documentos/Entrega%202/VALIDACAO.md).
 - [Diagramas e contratos atuais](documentos/Entrega%202/ARQUITETURA.md).
 - [Banco novo, banco existente, transacoes e WAL](src/Entrega%202/Backend2.0/database/MIGRATIONS.md).
-- [Provisionamento de administradores](src/Entrega%202/Backend2.0/database/ADMINISTRATORS.md).
+- [Provisionamento manual e rotacao pendente](src/Entrega%202/Backend2.0/database/ADMINISTRATORS.md).
 - [Cache por usuario e limites de consulta offline](src/Entrega%202/Frontend2.0/OFFLINE.md).
 
-Pre-requisitos: Node.js 24, npm, Git e Android Studio com Android SDK 37 e
-Platform-Tools. O projeto usa AGP 9.0.1 e Gradle Wrapper 9.5.0; os criterios
-do daemon exigem JDK 25, embora o codigo Java seja compilado com source/target 11.
-Ha aviso de compatibilidade entre AGP 9.0.1 e SDK 37; nao foi suprimido.
-Use os wrappers e lockfiles versionados. Nunca use dados reais nos testes.
+Pre-requisitos: Node.js 24 (validado), npm, Android Studio/JDK compativel com AGP
+9.0.1 e SDK da plataforma 37.0. Use os wrappers e lockfiles versionados. O Gradle
+wrapper atual e 9.5.0. AGP emite aviso de compatibilidade com SDK 37.0; nao foi
+silenciado. Nunca use dados reais para reproduzir os testes.
 
 No backend, execute a partir de src/Entrega 2/Backend2.0:
 
@@ -148,83 +148,35 @@ existe reset como procedimento normal nem seed/migracao automatica no startup.
 No Android, execute em src/Entrega 2/Frontend2.0:
 
 ~~~sh
-# Configure JAVA_HOME (JDK 25) e ANDROID_HOME de acordo com seu ambiente.
-# No PowerShell, sobrescreva o caminho de JDK fixado em gradle.properties:
-./gradlew.bat "-Dorg.gradle.java.home=$env:JAVA_HOME" :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
+# Configure JAVA_HOME e ANDROID_HOME de acordo com seu ambiente.
+./gradlew.bat :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
 ~~~
 
-ApiConfig.BASE_URL usa http://127.0.0.1:3000 em desenvolvimento. Depois de iniciar
-o backend e conectar um emulador ou aparelho autorizado por USB, execute a partir
-da raiz do repositorio, no PowerShell:
-
-~~~powershell
-& .\scripts\conectar-android.ps1
-# Opcional: manter a ponte apos reconexoes:
-# & .\scripts\conectar-android.ps1 -Watch
-~~~
-
-O script configura adb reverse tcp:3000 tcp:3000 em cada dispositivo autorizado.
-Se o SDK estiver em outro local, informe -AdbPath com o caminho de adb.exe.
-A ponte e local: nao publica a API na internet. Use HTTPS fora do desenvolvimento.
-Cursos, agenda e historico usam a API e respeitam o aluno autenticado.
-O cache e de leitura; nao ha fila de check-in offline nem SQLite/Room no Android.
+ApiConfig.BASE_URL centraliza o endereco: http://10.0.2.2:3000 para o host do
+emulador padrao. Para dispositivo fisico ou outro ambiente, ajuste somente essa
+configuracao e use HTTPS fora do desenvolvimento local. Cursos, agenda e
+historico buscam a API; agenda considera as inscricoes do aluno autenticado.
+O cache e apenas de leitura e a interface identifica os dados salvos.
 O APK gerado e de debug em app/build/outputs/apk/debug/app-debug.apk.
 
 No painel, execute em src/Entrega 2/Painel Administrativo2.0:
 
 ~~~sh
 npm ci
-npm test
 npm run build
-npm run dev -- --host 127.0.0.1
 ~~~
 
 VITE_API_URL configura a API do painel; o padrao e http://localhost:3000.
-Consulte [o guia de build](src/Entrega%202/Painel%20Administrativo2.0/BUILD.md).
+O painel agora compila com metadados reais versionados e override Figma opcional;
+veja [o guia de build](src/Entrega%202/Painel%20Administrativo2.0/BUILD.md).
 O Android tambem gera AAB release local, nao assinado, com codigo 2 / nome 1.1.0;
 veja [versionamento e limites de publicacao](src/Entrega%202/Frontend2.0/VERSIONING.md).
-O maior versionCode publicado nao foi comprovado; o AAB local nao comprova
+O maior versionCode publicado nao foi comprovado: este AAB nao e evidencia de
 aceitacao pela loja, assinatura de producao ou publicacao.
-O painel permite gerar QR de atividades existentes, com validade definida por um
-administrador. O Android le o token e somente confirma presenca apos resposta valida
-da API; o historico consulta registros persistidos. A leitura pela camera precisa
-ser demonstrada em dispositivo. Nao ha presenca confirmada offline.
-
-Para continuar em outro computador (PowerShell):
-
-~~~powershell
-git clone --branch fix/p0-seguranca-entrega2 --single-branch https://github.com/2026-2-NCC3/Projeto2.git
-cd Projeto2
-git status
-cd "src/Entrega 2/Backend2.0"
-npm ci
-# Cria .env apenas se ainda nao existir, com JWT_SECRET novo, sem exibi-lo:
-node -e "const fs=require('node:fs'),crypto=require('node:crypto'); if(fs.existsSync('.env')) throw Error('.env ja existe; preserve-o'); const template=fs.readFileSync('.env.example','utf8'); fs.writeFileSync('.env',template.replace(/^JWT_SECRET=.*$/m,'JWT_SECRET='+crypto.randomBytes(48).toString('base64url')),{flag:'wx'});"
-# Apenas numa copia nova e sem banco existente:
-if (-not (Test-Path "database/proxima_etapa.db")) { npm run db:init }
-npm test
-npm start
-~~~
-
-Confirme DB_PATH antes de inicializar: o comando acima pressupoe o valor vazio do
-modelo versionado e o banco padrao. Se houver banco existente ou DB_PATH customizado,
-nao inicialize automaticamente. Nunca copie .env, bancos reais, WAL/SHM ou senhas para
-o Git. Para transferir dados autorizados, use o backup consistente do SQLite por
-canal privado; esta publicacao do codigo nao transfere o banco local.
-
-Em outro terminal, na raiz do clone, inicie o painel com os comandos acima e abra
-o endereco informado pelo Vite (porta padrao 8443). No Android Studio, abra
-src/Entrega 2/Frontend2.0, configure o SDK local e o JDK 25, inicie o emulador e execute
-o script ADB. local.properties e configuracao da maquina; nao deve ser versionado.
-O caminho org.gradle.java.home atual e especifico de uma instalacao Windows:
-use a sobrescrita -D mostrada acima para builds em outra instalacao.
-
-O administrador nao e criado no startup. Configure ADMIN_EMAIL e ADMIN_PASSWORD
-(senha propria com pelo menos 12 caracteres) apenas no ambiente local e execute
-npm run seed:admin manualmente, antes de iniciar o backend. Nao ha credencial padrao.
-Novas contas de aluno podem ser cadastradas pelo aplicativo; a agenda exige inscricoes
-reais do ambiente de demonstracao. O QR exige uma atividade existente e uma inscricao
-ativa; nao crie dados pessoais reais para testes.
+A consulta de historico foi integrada, mas
+check-in QR/camera permanece pendente da definicao de validade/janela da ONG.
+Nao houve validacao visual em dispositivo, deploy ou troca de senhas reais.
+O relatorio acima distingue aprovacoes, falhas e verificacoes nao executadas.
 
 # Instalação
 
@@ -334,3 +286,4 @@ do parceiro institucional.
 2. **DEITEL, Paul.** *Android: Como Programar*. Bookman, 2ª Ed, 2015 [1, 2].
 3. **DEITEL, Paul et al.** *Android para Programadores: Uma Abordagem Baseada em Aplicativos*. Bookman, 2ª Ed, 2015 [1, 2].
 4. **Roteiro do Projeto Interdisciplinar** – *Próxima Etapa – App do Aluno* (Versão FINAL 2026) [3].
+5. **Inventário de Dados e API** – Documentação técnica do banco de dados PostgreSQL/Supabase e endpoints REST [4, 5].
