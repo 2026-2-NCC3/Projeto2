@@ -41,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (new SessionManager(this).active()) {
+            startActivity(new Intent(this, TelaInicial.class));
+            finish();
+            return;
+        }
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 

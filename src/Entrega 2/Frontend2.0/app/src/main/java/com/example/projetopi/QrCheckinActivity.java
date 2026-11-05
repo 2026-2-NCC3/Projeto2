@@ -35,6 +35,8 @@ import java.util.List;
 public class QrCheckinActivity extends AppCompatActivity {
     private SessionManager session;
     private ApiClient api;
+    private LocalStudentStore store;
+    private PresenceSynchronizer presenceSync;
     private String openingSessionVersion;
     private DecoratedBarcodeView scanner;
     private TextView status;
@@ -68,6 +70,8 @@ public class QrCheckinActivity extends AppCompatActivity {
         session = new SessionManager(this);
         openingSessionVersion = session.version();
         api = new ApiClient(this);
+        store = LocalStudentStore.get(this);
+        presenceSync = new PresenceSynchronizer(session, store, api);
         scanner = findViewById(R.id.checkinScanner);
         status = findViewById(R.id.checkinStatus);
         scanButton = findViewById(R.id.checkinScan);
@@ -114,6 +118,7 @@ public class QrCheckinActivity extends AppCompatActivity {
         resumed = false;
         generation++;
         api.cancel(this);
+        presenceSync.cancel();
         boolean interrupted = scanning || sending;
         stopCamera();
         sending = false;
@@ -205,6 +210,13 @@ public class QrCheckinActivity extends AppCompatActivity {
         if (!ensureSession()) {
             return;
         }
+        try {
+            store.markHistoryPending(session.userId(), ApiConfig.BASE_URL);
+        } catch (RuntimeException error) {
+            status.setText(R.string.checkin_local_unavailable);
+            scanButton.setEnabled(true);
+            return;
+        }
         sending = true;
         scanButton.setEnabled(false);
         progress.setVisibility(View.VISIBLE);
@@ -218,6 +230,15 @@ public class QrCheckinActivity extends AppCompatActivity {
                             return;
                         }
                         CheckinContract.Result result = CheckinContract.result(httpStatus, responseBody);
+                        if (result != CheckinContract.Result.UNCONFIRMED) {
+                            try {
+                                store.recordReceipt(session.userId(), ApiConfig.BASE_URL, httpStatus, responseBody);
+                            } catch (Exception error) {
+                                status.setText(R.string.checkin_confirmed_without_local);
+                                return;
+                            }
+                            presenceSync.start(() -> { if (resumed) ensureSession(); });
+                        }
                         if (result == CheckinContract.Result.CONFIRMED) {
                             status.setText(R.string.checkin_confirmed);
                         } else if (result == CheckinContract.Result.ALREADY_RECORDED) {

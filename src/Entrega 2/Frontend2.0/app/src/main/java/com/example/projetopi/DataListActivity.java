@@ -16,7 +16,6 @@ import com.android.volley.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
@@ -37,7 +36,9 @@ public abstract class DataListActivity extends AppCompatActivity {
 
     private boolean loading;
     private int generation;
-    private SnapshotStore store;
+    private LocalStudentStore store;
+    private PresenceSynchronizer presenceSync;
+    private long requestedHistoryRevision;
     private SyncGate.Ticket ticket;
     private ConnectivityManager connectivity;
     private ConnectivityManager.NetworkCallback networkCallback;
@@ -53,7 +54,8 @@ public abstract class DataListActivity extends AppCompatActivity {
 
         session = new SessionManager(this);
         api = new ApiClient(this);
-        store = new SnapshotStore(new File(getNoBackupFilesDir(), "snapshots"));
+        store = LocalStudentStore.get(this);
+        presenceSync = new PresenceSynchronizer(session, store, api);
         items = findViewById(R.id.dataItems);
         status = findViewById(R.id.dataStatus);
         ((TextView) findViewById(R.id.dataTitle)).setText(title());
@@ -108,6 +110,7 @@ public abstract class DataListActivity extends AppCompatActivity {
         generation++;
         loading = false;
         api.cancel(this);
+        presenceSync.cancel();
         SyncGate.GLOBAL.finish(ticket);
         ticket = null;
         if (connectivity != null && networkCallback != null) {
@@ -137,11 +140,13 @@ public abstract class DataListActivity extends AppCompatActivity {
         SnapshotStore.Snapshot cachedSnapshot = store.read(session.userId(), cacheKey(), kind());
         if (cachedSnapshot == null) {
             items.removeAllViews();
-            status.setText(message + " Nenhum dado salvo.");
-            return false;
+            int confirmed = appendLocalReceipts(new JSONArray());
+            status.setText(confirmed > 0 ? getString(R.string.history_local_receipts) : message + " Nenhum dado salvo.");
+            return confirmed > 0;
         }
         try {
             render(cachedSnapshot.data);
+            appendLocalReceipts(cachedSnapshot.data);
             status.setText(message + "\n" + savedMessage(cachedSnapshot.updatedAt));
             return true;
         } catch (Exception error) {
@@ -151,6 +156,33 @@ public abstract class DataListActivity extends AppCompatActivity {
         }
     }
 
+    private int appendLocalReceipts(JSONArray detailedHistory) {
+        if (!kind().equals("historico")) return 0;
+        int added = 0;
+        try {
+            java.util.Set<String> detailedIds = new java.util.HashSet<>();
+            for (int index = 0; index < detailedHistory.length(); index++) {
+                detailedIds.add(detailedHistory.getJSONObject(index).getString("id"));
+            }
+            JSONArray receipts = store.receipts(session.userId(), ApiConfig.BASE_URL);
+            for (int index = 0; index < receipts.length(); index++) {
+                JSONObject receipt = receipts.getJSONObject(index);
+                if (detailedIds.contains(receipt.getString("id"))) continue;
+                TextView card = new TextView(this);
+                card.setText(getString(R.string.history_local_receipt, receipt.getString("atividade_id"),
+                        receipt.getString("checkin_em"), receipt.getString("metodo")));
+                card.setTextSize(CARD_TEXT_SIZE_SP);
+                card.setPadding(CARD_PADDING_PX, CARD_PADDING_PX, CARD_PADDING_PX, CARD_PADDING_PX);
+                card.setBackgroundResource(R.drawable.bg_card_branco);
+                items.addView(card);
+                added++;
+            }
+        } catch (Exception ignored) {
+            // Nao monta registros de presenca a partir de dados incompletos.
+        }
+        return added;
+    }
+
     protected void refresh() {
         if (!session.active()) {
             toLogin();
@@ -158,6 +190,15 @@ public abstract class DataListActivity extends AppCompatActivity {
         }
         if (loading) {
             return;
+        }
+        if (!kind().equals("historico")) {
+            presenceSync.start(() -> { if (!session.active()) toLogin(); });
+        }
+        try {
+            requestedHistoryRevision = kind().equals("historico")
+                    ? store.historyRevision(session.userId(), ApiConfig.BASE_URL) : -1;
+        } catch (RuntimeException error) {
+            requestedHistoryRevision = -1;
         }
         ticket = SyncGate.GLOBAL.begin(session.version(), cacheKey());
         if (ticket == null) {
@@ -213,7 +254,8 @@ public abstract class DataListActivity extends AppCompatActivity {
         render(records);
         try {
             SnapshotStore.Snapshot savedSnapshot = store.save(
-                    session.userId(), cacheKey(), kind(), records.toString(), System.currentTimeMillis());
+                    session.userId(), cacheKey(), kind(), records.toString(),
+                    System.currentTimeMillis(), requestedHistoryRevision);
             String updateMessage = records.length() == 0
                     ? "Nenhum registro encontrado. "
                     : "Dados atualizados. ";
@@ -230,7 +272,7 @@ public abstract class DataListActivity extends AppCompatActivity {
             return;
         }
         if (httpStatus == HTTP_FORBIDDEN) {
-            store.clear(session.userId());
+            try { store.clear(session.userId()); } catch (RuntimeException ignored) { }
             items.removeAllViews();
             status.setText("Acesso nao autorizado.");
             return;

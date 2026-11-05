@@ -35,4 +35,8 @@
     <string name="signup_timeout">Tempo de espera esgotado. O resultado não foi confirmado; tente entrar antes de repetir o cadastro.</string>
     <string name="signup_interrupted">Envio interrompido. Tente entrar antes de repetir o cadastro.</string>
     <string name="signup_invalid_response">O servidor não confirmou o cadastro com uma resposta válida. Tente entrar antes de repetir.</string>
+    <string name="history_local_receipts">Presenças confirmadas salvas neste aparelho. Detalhes aguardam atualização pela API.</string>
+    <string name="history_local_receipt">Presença confirmada pelo servidor\nAtividade: %1$s\nCheck-in: %2$s · %3$s\nDetalhes do encontro aguardam sincronização.</string>
+    <string name="checkin_local_unavailable">Não foi possível preparar a persistência local. Tente novamente antes de ler outro QR.</string>
+    <string name="checkin_confirmed_without_local">O servidor confirmou a presença, mas não foi possível salvá-la neste aparelho. Consulte o histórico online.</string>
 </resources>

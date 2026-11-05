@@ -14,8 +14,14 @@ import java.util.UUID;
 public final class SessionManager {
     private final SharedPreferences preferences;
     private final File snapshotDirectory;
+    private final LocalStudentStore localStore;
 
     public SessionManager(Context context) {
+        this(context, LocalStudentStore.get(context));
+    }
+
+    SessionManager(Context context, LocalStudentStore localStore) {
+        this.localStore = localStore;
         preferences = context.getSharedPreferences("sessao_usuario", Context.MODE_PRIVATE);
         snapshotDirectory = new File(context.getNoBackupFilesDir(), "snapshots");
     }
@@ -58,8 +64,14 @@ public final class SessionManager {
     }
 
     public void clear() {
-        new SnapshotStore(snapshotDirectory).clear(userId());
-        preferences.edit().clear().commit();
+        try {
+            localStore.clear(userId());
+        } catch (RuntimeException error) {
+            // Uma falha no cache nao pode manter credenciais ativas apos logout.
+            new SnapshotStore(snapshotDirectory).clear(userId());
+        } finally {
+            preferences.edit().clear().commit();
+        }
     }
 
     public void save(JSONObject response) throws JSONException {
@@ -70,7 +82,11 @@ public final class SessionManager {
             throw new JSONException("Sessao invalida");
         }
 
-        new SnapshotStore(snapshotDirectory).clear(userId());
+        try {
+            localStore.clear(userId());
+        } catch (RuntimeException error) {
+            throw new JSONException("Nao foi possivel limpar os dados da sessao anterior");
+        }
         preferences.edit()
                 .clear()
                 .putString("usuario_id", userId)
