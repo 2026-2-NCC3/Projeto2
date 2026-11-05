@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ProjetoPI</string>
+    <string name="api_not_configured">O endereço do servidor ainda não foi configurado nesta versão. Procure a organização.</string>
     <string name="checkin_title">Registrar presença</string>
     <string name="checkin_ready">Leia o QR disponibilizado pela organização para esta atividade.</string>
     <string name="checkin_scan">Ler QR Code</string>

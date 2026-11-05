@@ -1,5 +1,16 @@
+import java.net.URI
+
 plugins {
     alias(libs.plugins.android.application)
+}
+
+val releaseApiUrl = providers.gradleProperty("proximaReleaseApiUrl").orElse("").get().trim().trimEnd('/')
+if (releaseApiUrl.isNotEmpty()) {
+    val uri = URI(releaseApiUrl)
+    require(uri.scheme == "https" && uri.host != null && uri.userInfo == null &&
+        uri.query == null && uri.fragment == null) {
+        "proximaReleaseApiUrl deve ser uma URL HTTPS sem credenciais, consulta ou fragmento."
+    }
 }
 
 android {
@@ -20,11 +31,18 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "API_BASE_URL", "\"http://127.0.0.1:3000\"")
+        }
         release {
+            buildConfigField("String", "API_BASE_URL", "\"$releaseApiUrl\"")
             optimization {
                 enable = false
             }
         }
+    }
+    buildFeatures {
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

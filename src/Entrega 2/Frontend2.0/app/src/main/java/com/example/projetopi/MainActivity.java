@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (new SessionManager(this).active()) {
+        if (!ApiConfig.BASE_URL.isEmpty() && new SessionManager(this).active()) {
             startActivity(new Intent(this, TelaInicial.class));
             finish();
             return;
@@ -72,6 +72,13 @@ public class MainActivity extends AppCompatActivity {
         btnEntrar = findViewById(R.id.btnEntrar);
         txtErroLogin = findViewById(R.id.txtErroLogin);
         txtCadastro = findViewById(R.id.txtCadastro);
+
+        if (ApiConfig.BASE_URL.isEmpty()) {
+            btnEntrar.setEnabled(false);
+            txtCadastro.setEnabled(false);
+            mostrarErro(getString(R.string.api_not_configured));
+            return;
+        }
 
         txtCadastro.setOnClickListener(view -> {
             Intent intent = new Intent(
