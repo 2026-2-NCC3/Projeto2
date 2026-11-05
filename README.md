@@ -114,8 +114,9 @@ A implementacao atual usa Node.js/Express, SQLite/better-sqlite3, Android Java
 com Volley e painel React/Vite. As referencias anteriores a PostgreSQL/Supabase
 sao historicas; nao configuram o backend ativo da Entrega 2.
 
-- [Matriz de requisitos, testes, artefatos e pendencias](documentos/Entrega%202/VALIDACAO.md).
-- [Diagramas e contratos atuais](documentos/Entrega%202/ARQUITETURA.md).
+- [Matriz de conformidade acadêmica](docs/MATRIZ_CONFORMIDADE_ACADEMICA.md).
+- [README de POO e Estruturas de Dados](documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos%20e%20Estrutura%20de%20Dados/README.md).
+- [Diagrama de classes](docs/DIAGRAMA_CLASSES_ENTREGA2.md), [contratos REST](docs/API_REST_ENTREGA2.md) e [evidências de testes](docs/EVIDENCIAS_TESTES_ENTREGA2.md).
 - [Banco novo, banco existente, transacoes e WAL](src/Entrega%202/Backend2.0/database/MIGRATIONS.md).
 - [Provisionamento manual e rotacao pendente](src/Entrega%202/Backend2.0/database/ADMINISTRATORS.md).
 - [Cache por usuario e limites de consulta offline](src/Entrega%202/Frontend2.0/OFFLINE.md).
@@ -129,7 +130,7 @@ No backend, execute a partir de src/Entrega 2/Backend2.0:
 
 ~~~sh
 npm ci
-# Copie .env.example para .env e preencha JWT_SECRET com chave aleatoria local.
+# Crie um .env privado com JWT_SECRET aleatório próprio.
 # DB_PATH opcional aponta para o banco desejado. Use o mesmo caminho em tudo.
 # Somente em banco vazio:
 npm run db:init
@@ -152,12 +153,11 @@ No Android, execute em src/Entrega 2/Frontend2.0:
 ./gradlew.bat :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
 ~~~
 
-ApiConfig.BASE_URL centraliza o endereco: http://10.0.2.2:3000 para o host do
-emulador padrao. Para dispositivo fisico ou outro ambiente, ajuste somente essa
-configuracao e use HTTPS fora do desenvolvimento local. Cursos, agenda e
-historico buscam a API; agenda considera as inscricoes do aluno autenticado.
-O cache e apenas de leitura e a interface identifica os dados salvos.
-O APK gerado e de debug em app/build/outputs/apk/debug/app-debug.apk.
+**Debug.** Com o backend local na porta 3000, use `adb -s emulator-5554 reverse tcp:3000 tcp:3000` e substitua o serial quando necessário. O app acessa `http://127.0.0.1:3000`. O APK fica em `app/build/outputs/apk/debug/app-debug.apk`.
+
+**Release.** Execute `gradlew.bat :app:assembleRelease :app:bundleRelease -PproximaReleaseApiUrl=https://HOST_AUTORIZADO` com a URL HTTPS real. Sem a propriedade, o app exibe um aviso de configuração. A compilação local gera artefatos sem assinatura de distribuição. A URL pública de avaliação ainda não foi confirmada.
+
+Cursos, agenda e histórico consultam a API. A agenda usa as inscrições do aluno autenticado. O SQLite local mantém snapshots por conta e recibos de presença que o servidor confirmou. [Guia técnico](docs/ENTREGA2_GUIA_TECNICO.md)
 
 No painel, execute em src/Entrega 2/Painel Administrativo2.0:
 
@@ -173,12 +173,11 @@ O Android tambem gera AAB release local, nao assinado, com codigo 2 / nome 1.1.0
 veja [versionamento e limites de publicacao](src/Entrega%202/Frontend2.0/VERSIONING.md).
 O maior versionCode publicado nao foi comprovado: este AAB nao e evidencia de
 aceitacao pela loja, assinatura de producao ou publicacao.
-A consulta de historico foi integrada, mas
-check-in QR/camera permanece pendente da definicao de validade/janela da ONG.
-Nao houve validacao visual em dispositivo, deploy ou troca de senhas reais.
-O relatorio acima distingue aprovacoes, falhas e verificacoes nao executadas.
+O painel emite o QR com janela de validade e o aluno confirma a presença no Android. A integração com a API, a persistência e a reconciliação do histórico foram validadas no emulador com dados fictícios. Consulte as evidências para os limites de cada execução.
 
 # Instalação
+
+Para executar a Entrega 2, abra `src/Entrega 2/Frontend2.0` no Android Studio e prepare o backend e o encaminhamento ADB conforme a seção de reprodução acima. O clone remoto, por si só, não inclui os incrementos locais desta branch.
 
 ## Windows
 
@@ -267,9 +266,7 @@ Este tutorial é indicado para quem nunca utilizou o Android Studio.
 
 # Testando no Celular
 
-## Em breve
-
-A versão para testes diretamente em dispositivos móveis será disponibilizada futuramente.
+O debug usa o mesmo encaminhamento ADB em um aparelho conectado por USB. Use o serial exibido em `adb devices`. A instalação e os testes registrados para a Entrega 2 foram feitos no emulador. A distribuição release depende de assinatura autorizada e da URL HTTPS da API.
 
 ## 📋 Licença/License
 Este projeto está licenciado sob a licença MIT — veja o arquivo 

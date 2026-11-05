@@ -14,6 +14,8 @@ Para compilar release com uma URL de demonstração autorizada, forneça `-Pprox
 
 ## Contratos REST dos fluxos demonstrados
 
+Para o catálogo completo de métodos, permissões, parâmetros e respostas, consulte os [contratos REST da Entrega 2](API_REST_ENTREGA2.md).
+
 Envie JSON em requisições com corpo e `Authorization: Bearer <token>` nas operações protegidas. O servidor verifica assinatura, expiração e papel atual no banco. O token da sessão e o token do QR têm finalidades diferentes.
 
 | Método e rota | Acesso | Entrada e resposta relevantes |

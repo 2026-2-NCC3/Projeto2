@@ -2,7 +2,7 @@
 
 ## Fase 1 — Estabilização — 05/11/2026
 
-Base verificada: `90e472c0f35cf775fa50aa5be1e39eb7c50fe058`. Para identificar o hash do incremento local que introduziu este registro, execute `git log -1 --format=%H -- docs/ANDROID_MIGRATION_CHANGELOG.md` na branch de trabalho.
+Base verificada: `90e472c0f35cf775fa50aa5be1e39eb7c50fe058`. Commit local da estabilização: `94bac71241964c22432b10e667db127e6f4c85e3`.
 
 ### Correção e rastreabilidade
 
@@ -34,3 +34,10 @@ O arquivo `alteracoes-locais.zip.dpapi` registra os bytes dos arquivos alterados
 ### Pendências
 
 URL HTTPS autorizada, assinatura de distribuição, materiais acadêmicos finais ainda não localizados, diagrama atualizado, README de POO e submissão institucional. A Fase 2 aguarda instrução. [Matriz de conformidade](MATRIZ_CONFORMIDADE_ACADEMICA.md)
+
+## Fechamento documental da Entrega 2 — 05/11/2026
+
+- E2-08 passou de NÃO ATENDIDO a ATENDIDO com o README de POO. E2-07, E2-09, E2-10 e E2-11 passaram de PARCIALMENTE ATENDIDO a ATENDIDO com README principal atualizado, diagramas do código atual, evidências consolidadas e catálogo dos contratos REST registrados.
+- Criados README da UC, diagrama, evidências e contratos REST. Atualizados README principal, matriz, guia técnico e changelog. Código, configuração de execução e dependências permaneceram como na base técnica.
+- A verificação documental cobre links relativos, correspondência de rotas com o servidor, contagem da matriz e `git diff --check`. Os resultados das suítes foram reaproveitados das bases identificadas no documento de evidências.
+- A URL autorizada, a assinatura de distribuição, os materiais acadêmicos tratados separadamente e a submissão institucional seguem pendentes. O commit deste registro é identificável por `git log -1 --format=%H -- docs/EVIDENCIAS_TESTES_ENTREGA2.md`.
