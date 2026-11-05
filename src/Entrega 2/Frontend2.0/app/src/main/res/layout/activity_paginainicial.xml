@@ -28,13 +28,31 @@
             android:textSize="@dimen/texto_titulo_tela"
             android:textStyle="bold" />
 
-        <ImageView
-            android:layout_width="@dimen/tamanho_icone_topo"
-            android:layout_height="@dimen/tamanho_icone_topo"
-            android:layout_marginEnd="@dimen/espacamento_md"
-            android:contentDescription="Notificações"
-            android:src="@drawable/ic_notification"
-            app:tint="@color/acao_primaria" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/espacamento_md">
+            <ImageButton
+                android:id="@+id/notificationButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/notifications_title"
+                android:src="@drawable/ic_notification"
+                app:tint="@color/acao_primaria" />
+            <TextView
+                android:id="@+id/notificationBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|top"
+                android:background="@color/certificate_purple"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:paddingHorizontal="4dp"
+                android:importantForAccessibility="no"
+                android:visibility="gone" />
+        </FrameLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgAvatar"

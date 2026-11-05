@@ -14,6 +14,10 @@ import com.example.projetopi.R;
 public class TelaInicial extends AppCompatActivity {
 
     private TextView txtSaudacao;
+    private NotificationBadgeController notifications;
+
+    protected LocalStudentStore createStore() { return LocalStudentStore.get(this); }
+    protected SessionManager createSession(LocalStudentStore store) { return new SessionManager(this, store); }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,9 @@ public class TelaInicial extends AppCompatActivity {
 
         exibirNomeDoUsuario();
         configurarNavegacao();
+        LocalStudentStore store = createStore();
+        notifications = new NotificationBadgeController(createSession(store), store, new ApiClient(this),
+                findViewById(R.id.notificationBadge), findViewById(R.id.notificationButton));
     }
 
     private void exibirNomeDoUsuario() {
@@ -44,7 +51,18 @@ public class TelaInicial extends AppCompatActivity {
         }
     }
 
+    @Override protected void onStart() {
+        super.onStart();
+        notifications.start();
+    }
+
+    @Override protected void onStop() {
+        notifications.stop();
+        super.onStop();
+    }
+
     private void configurarNavegacao() {
+        findViewById(R.id.notificationButton).setOnClickListener(view -> abrirTela(NotificationsActivity.class));
         findViewById(R.id.atalhoMensagens).setOnClickListener(view -> abrirTela(MessagesActivity.class));
         findViewById(R.id.navCursos).setOnClickListener(
                 view -> abrirTela(CursosActivity.class)

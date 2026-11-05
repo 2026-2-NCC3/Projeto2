@@ -74,9 +74,9 @@ async function instrument(className, argument) {
         await instrument('MessageApiInstrumentedTest#onlineRefreshReplacesStaleSnapshotAfterConnectionReturns', 'fixture_api');
         assert.deepEqual(api.db.prepare('SELECT * FROM mensagens ORDER BY id').all(), before);
         assert.deepEqual(api.db.pragma('foreign_key_check'), []);
-        assert.equal(api.db.prepare('SELECT COUNT(*) AS n FROM notificacoes').get().n, 0);
+        assert.equal(api.db.prepare('SELECT COUNT(*) AS n FROM notificacoes').get().n, 4);
         assert.equal((await api.request('/api/mensagens', 'op')).body.length, 3);
-        console.log('Publicacoes preservadas; FKs integras; nenhuma notificacao criada.');
+        console.log('Publicacoes preservadas; FKs integras; alertas internos sem duplicidades.');
     } finally {
         try {
             if (changed) {

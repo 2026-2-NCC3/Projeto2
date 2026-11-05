@@ -34,6 +34,7 @@ public abstract class DataListActivity extends AppCompatActivity {
     protected LinearLayout items;
     protected TextView status;
 
+    private boolean relatedRecordOpened;
     private boolean loading;
     private int generation;
     private LocalStudentStore store;
@@ -46,6 +47,8 @@ public abstract class DataListActivity extends AppCompatActivity {
     protected abstract String route();
     protected abstract String kind();
     protected abstract String title();
+    protected int refreshMethod() { return Request.Method.GET; }
+    protected JSONObject refreshBody() { return null; }
     protected int layoutResource() { return R.layout.activity_data_list; }
     protected LocalStudentStore createStore() { return LocalStudentStore.get(this); }
     protected SessionManager createSession(LocalStudentStore store) { return new SessionManager(this, store); }
@@ -214,7 +217,7 @@ public abstract class DataListActivity extends AppCompatActivity {
         status.setText("Atualizando pela API...");
         findViewById(R.id.dataProgress).setVisibility(View.VISIBLE);
 
-        api.request(this, route(), Request.Method.GET, null, session.token(), new ApiClient.Callback() {
+        api.request(this, route(), refreshMethod(), refreshBody(), session.token(), new ApiClient.Callback() {
             @Override
             public void success(String responseBody) {
                 if (!isCurrentRequest(requestGeneration, sessionVersion)) {
@@ -263,6 +266,7 @@ public abstract class DataListActivity extends AppCompatActivity {
     private void displayOnlineRecords(String responseBody) throws Exception {
         JSONArray records = ApiRecords.parse(responseBody, kind());
         render(records);
+        focusRelatedRecord(records);
         try {
             SnapshotStore.Snapshot savedSnapshot = store.save(
                     session.userId(), cacheKey(), kind(), records.toString(),
@@ -273,6 +277,27 @@ public abstract class DataListActivity extends AppCompatActivity {
             status.setText(updateMessage + savedMessage(savedSnapshot.updatedAt));
         } catch (IOException error) {
             status.setText("Dados online. Nao foi possivel salvar para consulta offline.");
+        }
+    }
+
+    private void focusRelatedRecord(JSONArray records) throws Exception {
+        String requestedId = getIntent().getStringExtra("registro_id");
+        if (relatedRecordOpened || requestedId == null) return;
+        for (int index = 0; index < records.length(); index++) {
+            if (!requestedId.equals(records.getJSONObject(index).getString("id"))) continue;
+            View card = items.getChildAt(index);
+            if (card == null) return;
+            relatedRecordOpened = true;
+            String version = session.version();
+            card.post(() -> {
+                if (!isFinishing() && card.getParent() == items && session.active() && version.equals(session.version())) {
+                    card.setFocusableInTouchMode(true);
+                    card.requestFocus();
+                    card.requestRectangleOnScreen(new android.graphics.Rect(0, 0, card.getWidth(), card.getHeight()));
+                    if (card.hasOnClickListeners()) card.performClick();
+                }
+            });
+            return;
         }
     }
 

@@ -47,6 +47,7 @@
         <activity android:name=".HistoricoActivity" android:exported="false" />
         <activity android:name=".QrCheckinActivity" android:exported="false" />
         <activity android:name=".CertificatesActivity" android:exported="false" />
+        <activity android:name=".NotificationsActivity" android:exported="false" />
         <activity android:name=".MessagesActivity" android:exported="false" />
     </application>
 

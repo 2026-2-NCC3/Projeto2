@@ -150,7 +150,7 @@ const publicar = banco.transaction((userId, id) => {
   for (const studentId of ids) insert.run(crypto.randomUUID(), id, studentId);
   banco.prepare("UPDATE mensagens SET enviado_em=strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id=?").run(id);
   audit(userId, "editar", id, "publicar", ids.length);
-  // RFM13 futuro: notificacoes internas e push sao servicos distintos; nenhuma e criada aqui.
+  require("../services/notificationService").mensagemPublicada(adminMessage(id), ids);
   return { created: true, message: adminMessage(id) };
 });
 

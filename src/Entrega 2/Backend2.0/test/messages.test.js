@@ -51,7 +51,7 @@ test("publicacao global, individual e por curso respeita destinatarios e vinculo
   assert.deepEqual(api.db.pragma("foreign_key_check"), []);
 });
 
-test("leitura e idempotente, pertence ao aluno e alimenta contagens reais sem criar notificacoes", async t => {
+test("leitura e idempotente, pertence ao aluno e alimenta contagens reais sem confundir leitura de alertas", async t => {
   const api = await withApi(t);
   const message = await create(api); await publish(api, message.id);
   const first = await api.request("/api/mensagens/" + message.id + "/leitura", "a1", "PUT", {});
@@ -65,7 +65,7 @@ test("leitura e idempotente, pertence ao aluno e alimenta contagens reais sem cr
   const admin = (await api.request("/api/mensagens", "op")).body[0];
   assert.equal(admin.total_lidos, 1);
   assert.equal(admin.total_destinatarios, 2);
-  assert.equal(api.db.prepare("SELECT COUNT(*) AS n FROM notificacoes").get().n, 0);
+  assert.equal(api.db.prepare("SELECT COUNT(*) AS n FROM notificacoes").get().n, 2);
 });
 
 test("edicao e exclusao ficam restritas a rascunhos e preservam comunicados publicados", async t => {

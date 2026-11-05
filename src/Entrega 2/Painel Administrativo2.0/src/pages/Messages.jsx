@@ -167,7 +167,7 @@ function MessagesContent() {
             </div>
             <div className="rounded-xl border border-blue-200 bg-blue-50 p-4 text-sm text-blue-900">
                 Destinatários são definidos na publicação. Grupos por curso consideram vínculos não cancelados.
-                Agendamento, notificações internas e push não são enviados por esta tela.
+                A publicação também gera um alerta na central do aluno. Agendamento e envio push não estão disponíveis.
             </div>
             <button disabled={loading} onClick={refresh} className="rounded-lg border bg-white px-4 py-2 text-sm">{loading ? 'Consultando…' : 'Atualizar'}</button>
             {error && <p role="alert" className="rounded-lg bg-red-50 p-4 text-sm text-red-700">{error}</p>}

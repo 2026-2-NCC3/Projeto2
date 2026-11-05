@@ -45,6 +45,10 @@ public final class ApiRecords {
         "id", "titulo", "corpo", "origem", "publico_alvo", "curso_id", "curso_titulo", "enviado_em", "lido_em"
     };
 
+    private static final String[] NOTIFICATION_FIELDS = {
+        "id", "tipo", "titulo", "corpo", "lida", "criado_em", "destino"
+    };
+
     private ApiRecords() {
     }
 
@@ -71,7 +75,9 @@ public final class ApiRecords {
 
     private static void validateRecordFields(JSONObject record, String recordType)
             throws JSONException {
-        if (recordType.equals("mensagens")) {
+        if (recordType.equals("notificacoes")) {
+            NotificationContract.validate(record);
+        } else if (recordType.equals("mensagens")) {
             MessageContract.validate(record);
         } else if (recordType.equals("certificados")) {
             CertificateContract.validate(record);
@@ -95,7 +101,9 @@ public final class ApiRecords {
     private static JSONObject copyAllowedFields(JSONObject record, String recordType)
             throws JSONException {
         String[] allowedFields;
-        if (recordType.equals("mensagens")) {
+        if (recordType.equals("notificacoes")) {
+            allowedFields = NOTIFICATION_FIELDS;
+        } else if (recordType.equals("mensagens")) {
             allowedFields = MESSAGE_FIELDS;
         } else if (recordType.equals("certificados")) {
             allowedFields = CERTIFICATE_FIELDS;
@@ -108,7 +116,9 @@ public final class ApiRecords {
         JSONObject projectedRecord = new JSONObject();
         for (String field : allowedFields) {
             if (record.has(field)) {
-                if (recordType.equals("certificados") && field.equals("criterios")) {
+                if (recordType.equals("notificacoes") && field.equals("destino")) {
+                    projectedRecord.put(field, NotificationContract.safeDestination(record.get(field)));
+                } else if (recordType.equals("certificados") && field.equals("criterios")) {
                     projectedRecord.put(field, CertificateContract.safeCriteria(record.getJSONArray(field)));
                 } else {
                     projectedRecord.put(field, record.get(field));

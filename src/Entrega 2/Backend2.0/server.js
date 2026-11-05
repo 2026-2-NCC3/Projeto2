@@ -45,6 +45,7 @@ app.use("/api/agenda", require("./src/routes/agendaRoutes"));
 app.use("/api/presencas", require("./src/routes/presencasRoutes"));
 app.use("/api/certificados", require("./src/routes/certificadosRoutes"));
 app.use("/api/mensagens", require("./src/routes/mensagensRoutes"));
+app.use("/api/notificacoes", require("./src/routes/notificacoesRoutes"));
 
 // Rota inicial da API
 app.get("/", (req, res) => {

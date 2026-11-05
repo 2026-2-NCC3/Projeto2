@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notifications_title">Notificações</string>
+    <string name="notifications_intro">Cursos, agenda e novidades da Próxima Etapa.</string>
+    <string name="notifications_refresh">Atualizar notificações</string>
+    <string name="notifications_empty">Nenhuma notificação neste filtro.</string>
+    <string name="notifications_offline">Sem conexão, você pode consultar os alertas salvos. O conteúdo e as permissões serão atualizados ao reconectar. Esta central não envia push com o aplicativo fechado.</string>
+    <string name="notifications_all">Todas</string>
+    <string name="notifications_unread">Não lidas</string>
+    <string name="notifications_origin">Próxima Etapa</string>
+    <string name="notification_open">Abrir conteúdo</string>
+    <string name="notification_read_unconfirmed">Não foi possível confirmar a leitura. Atualize com conexão para consultar a situação.</string>
+    <string name="notification_open_offline">Conecte-se para validar o acesso e abrir o conteúdo atualizado.</string>
+    <string name="notifications_invalid">Não foi possível validar a atualização. Tente novamente.</string>
+    <plurals name="notifications_badge_saved">
+        <item quantity="one">Notificações: %d não lida na consulta salva</item>
+        <item quantity="other">Notificações: %d não lidas na consulta salva</item>
+    </plurals>
+    <plurals name="notifications_badge_current">
+        <item quantity="one">Notificações: %d não lida</item>
+        <item quantity="other">Notificações: %d não lidas</item>
+    </plurals>
+    <plurals name="notifications_unread_count">
+        <item quantity="one">%d notificação não lida</item>
+        <item quantity="other">%d notificações não lidas</item>
+    </plurals>
+    <item name="notificationFullBody" type="id" />
+</resources>
