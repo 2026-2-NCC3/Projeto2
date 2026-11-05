@@ -36,6 +36,11 @@ public final class ApiRecords {
         "metodo"
     };
 
+    private static final String[] CERTIFICATE_FIELDS = {
+        "id", "inscricao_id", "curso_id", "titulo", "carga_horaria_horas", "status", "emitido_em",
+        "criterios", "arquivo_disponivel", "arquivo_indisponivel_motivo"
+    };
+
     private ApiRecords() {
     }
 
@@ -62,7 +67,9 @@ public final class ApiRecords {
 
     private static void validateRecordFields(JSONObject record, String recordType)
             throws JSONException {
-        if (recordType.equals("cursos")) {
+        if (recordType.equals("certificados")) {
+            CertificateContract.validate(record);
+        } else if (recordType.equals("cursos")) {
             Object courseHours = record.get("carga_horaria_horas");
             if (!(courseHours instanceof Number) || ((Number) courseHours).intValue() < 0) {
                 throw new JSONException("Carga horaria invalida");
@@ -82,7 +89,9 @@ public final class ApiRecords {
     private static JSONObject copyAllowedFields(JSONObject record, String recordType)
             throws JSONException {
         String[] allowedFields;
-        if (recordType.equals("cursos")) {
+        if (recordType.equals("certificados")) {
+            allowedFields = CERTIFICATE_FIELDS;
+        } else if (recordType.equals("cursos")) {
             allowedFields = COURSE_FIELDS;
         } else {
             allowedFields = ACTIVITY_FIELDS;
@@ -91,7 +100,11 @@ public final class ApiRecords {
         JSONObject projectedRecord = new JSONObject();
         for (String field : allowedFields) {
             if (record.has(field)) {
-                projectedRecord.put(field, record.get(field));
+                if (recordType.equals("certificados") && field.equals("criterios")) {
+                    projectedRecord.put(field, CertificateContract.safeCriteria(record.getJSONArray(field)));
+                } else {
+                    projectedRecord.put(field, record.get(field));
+                }
             }
         }
         return projectedRecord;

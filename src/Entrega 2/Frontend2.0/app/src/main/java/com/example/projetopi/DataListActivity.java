@@ -46,15 +46,18 @@ public abstract class DataListActivity extends AppCompatActivity {
     protected abstract String route();
     protected abstract String kind();
     protected abstract String title();
+    protected int layoutResource() { return R.layout.activity_data_list; }
+    protected LocalStudentStore createStore() { return LocalStudentStore.get(this); }
+    protected SessionManager createSession(LocalStudentStore store) { return new SessionManager(this, store); }
 
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
-        setContentView(R.layout.activity_data_list);
+        setContentView(layoutResource());
 
-        session = new SessionManager(this);
+        store = createStore();
+        session = createSession(store);
         api = new ApiClient(this);
-        store = LocalStudentStore.get(this);
         presenceSync = new PresenceSynchronizer(session, store, api);
         items = findViewById(R.id.dataItems);
         status = findViewById(R.id.dataStatus);
@@ -62,7 +65,7 @@ public abstract class DataListActivity extends AppCompatActivity {
         configureNavigation();
     }
 
-    private void configureNavigation() {
+    protected void configureNavigation() {
         findViewById(R.id.dataRetry).setOnClickListener(view -> refresh());
         findViewById(R.id.dataLogout).setOnClickListener(view -> {
             session.clear();

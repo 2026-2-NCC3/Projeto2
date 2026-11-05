@@ -173,3 +173,7 @@ export function emitirQrPresenca(janela, opcoes = {}) {
 export function listarPresencasDoAluno(alunoId, opcoes = {}) {
     return requisicao(`/api/presencas/alunos/${encodeURIComponent(alunoId)}`, opcoesDeConsulta(opcoes), true);
 }
+
+export function listarCertificados(opcoes = {}) {
+    return requisicao('/api/certificados', opcoesDeConsulta(opcoes), true);
+}
