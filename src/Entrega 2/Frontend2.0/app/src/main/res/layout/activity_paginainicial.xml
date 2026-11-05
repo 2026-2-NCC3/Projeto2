@@ -362,7 +362,7 @@
                         android:textSize="@dimen/texto_subtitulo_app" />
                 </LinearLayout>
 
-                <LinearLayout
+                <LinearLayout android:id="@+id/atalhoMensagens" android:clickable="true" android:focusable="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -375,15 +375,15 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/tamanho_icone_atalho"
                         android:layout_height="@dimen/tamanho_icone_atalho"
-                        android:contentDescription="Materiais"
-                        android:src="@drawable/ic_folder"
+                        android:contentDescription="@string/messages_title"
+                        android:src="@drawable/ic_email"
                         app:tint="@color/acao_primaria" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/espacamento_sm"
-                        android:text="Materiais"
+                        android:text="@string/messages_title"
                         android:textColor="@color/texto_primario"
                         android:textSize="@dimen/texto_subtitulo_app" />
                 </LinearLayout>

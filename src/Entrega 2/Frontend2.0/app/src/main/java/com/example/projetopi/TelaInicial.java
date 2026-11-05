@@ -45,6 +45,7 @@ public class TelaInicial extends AppCompatActivity {
     }
 
     private void configurarNavegacao() {
+        findViewById(R.id.atalhoMensagens).setOnClickListener(view -> abrirTela(MessagesActivity.class));
         findViewById(R.id.navCursos).setOnClickListener(
                 view -> abrirTela(CursosActivity.class)
         );

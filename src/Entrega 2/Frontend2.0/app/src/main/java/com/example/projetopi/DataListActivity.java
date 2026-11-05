@@ -252,6 +252,14 @@ public abstract class DataListActivity extends AppCompatActivity {
         findViewById(R.id.dataProgress).setVisibility(View.GONE);
     }
 
+    // A confirmacao de escrita invalida GETs anteriores antes de atualizar o snapshot.
+    protected final void applyMutationSnapshot(String responseBody) throws Exception {
+        generation++;
+        api.cancel(this);
+        finishRefresh();
+        displayOnlineRecords(responseBody);
+    }
+
     private void displayOnlineRecords(String responseBody) throws Exception {
         JSONArray records = ApiRecords.parse(responseBody, kind());
         render(records);
@@ -268,7 +276,7 @@ public abstract class DataListActivity extends AppCompatActivity {
         }
     }
 
-    private void handleRefreshFailure(int httpStatus) {
+    protected void handleRefreshFailure(int httpStatus) {
         if (httpStatus == HTTP_UNAUTHORIZED) {
             session.clear();
             toLogin();

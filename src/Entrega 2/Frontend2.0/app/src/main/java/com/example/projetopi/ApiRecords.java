@@ -41,6 +41,10 @@ public final class ApiRecords {
         "criterios", "arquivo_disponivel", "arquivo_indisponivel_motivo"
     };
 
+    private static final String[] MESSAGE_FIELDS = {
+        "id", "titulo", "corpo", "origem", "publico_alvo", "curso_id", "curso_titulo", "enviado_em", "lido_em"
+    };
+
     private ApiRecords() {
     }
 
@@ -67,7 +71,9 @@ public final class ApiRecords {
 
     private static void validateRecordFields(JSONObject record, String recordType)
             throws JSONException {
-        if (recordType.equals("certificados")) {
+        if (recordType.equals("mensagens")) {
+            MessageContract.validate(record);
+        } else if (recordType.equals("certificados")) {
             CertificateContract.validate(record);
         } else if (recordType.equals("cursos")) {
             Object courseHours = record.get("carga_horaria_horas");
@@ -89,7 +95,9 @@ public final class ApiRecords {
     private static JSONObject copyAllowedFields(JSONObject record, String recordType)
             throws JSONException {
         String[] allowedFields;
-        if (recordType.equals("certificados")) {
+        if (recordType.equals("mensagens")) {
+            allowedFields = MESSAGE_FIELDS;
+        } else if (recordType.equals("certificados")) {
             allowedFields = CERTIFICATE_FIELDS;
         } else if (recordType.equals("cursos")) {
             allowedFields = COURSE_FIELDS;

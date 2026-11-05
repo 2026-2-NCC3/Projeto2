@@ -86,8 +86,8 @@ export async function fazerLogin(email, senha) {
         body: JSON.stringify({ email, senha }),
     });
 }
-export function listarCursos() {
-    return requisicao('/api/cursos');
+export function listarCursos(opcoes) {
+    return requisicao('/api/cursos', opcoes ? opcoesDeConsulta(opcoes) : {});
 }
 export function criarCurso(dados) {
     return requisicao('/api/cursos', {
@@ -176,4 +176,39 @@ export function listarPresencasDoAluno(alunoId, opcoes = {}) {
 
 export function listarCertificados(opcoes = {}) {
     return requisicao('/api/certificados', opcoesDeConsulta(opcoes), true);
+}
+
+export function listarMensagens(opcoes = {}) {
+    return requisicao('/api/mensagens', opcoesDeConsulta(opcoes), true);
+}
+
+export function criarMensagem(body, opcoes = {}) {
+    return requisicao('/api/mensagens', {
+        ...opcoesDeConsulta(opcoes),
+        method: 'POST',
+        body: JSON.stringify(body),
+    }, true);
+}
+
+export function editarMensagem(id, body, opcoes = {}) {
+    return requisicao('/api/mensagens/' + encodeURIComponent(id), {
+        ...opcoesDeConsulta(opcoes),
+        method: 'PUT',
+        body: JSON.stringify(body),
+    }, true);
+}
+
+export function excluirMensagem(id, opcoes = {}) {
+    return requisicao('/api/mensagens/' + encodeURIComponent(id), {
+        ...opcoesDeConsulta(opcoes),
+        method: 'DELETE',
+    }, true);
+}
+
+export function publicarMensagem(id, opcoes = {}) {
+    return requisicao('/api/mensagens/' + encodeURIComponent(id) + '/publicar', {
+        ...opcoesDeConsulta(opcoes),
+        method: 'POST',
+        body: '{}',
+    }, true);
 }
