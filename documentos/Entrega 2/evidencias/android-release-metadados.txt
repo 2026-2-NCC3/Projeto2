@@ -1,0 +1,5 @@
+bundletool 1.18.3: validate aprovado
+AAB versionCode=2
+AAB versionName=1.1.0
+jarsigner: jar is unsigned (verificacao separada)
+APK debug e manifests efetivos: versionCode=2; versionName=1.1.0

@@ -32,7 +32,7 @@ function buscarPorEmail(email) {
   return banco.prepare(`
     SELECT id, email
     FROM usuarios
-    WHERE email = ?
+    WHERE email = ? COLLATE NOCASE
   `).get(email);
 }
 

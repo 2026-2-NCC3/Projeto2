@@ -36,6 +36,9 @@ public class CarteirinhaActivity extends AppCompatActivity {
     }
 
     private void configurarNavegacao() {
+        findViewById(R.id.btnCertificados).setOnClickListener(
+                view -> abrirTela(CertificatesActivity.class)
+        );
         findViewById(R.id.navInicio).setOnClickListener(
                 view -> abrirTela(TelaInicial.class)
         );

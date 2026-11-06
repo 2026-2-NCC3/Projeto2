@@ -19,28 +19,70 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Próxima Etapa"
-            android:textColor="@color/acao_primaria"
-            android:textSize="@dimen/texto_titulo_tela"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="@dimen/tamanho_icone_topo"
-            android:layout_height="@dimen/tamanho_icone_topo"
-            android:layout_marginEnd="@dimen/espacamento_md"
-            android:contentDescription="Notificações"
-            android:src="@drawable/ic_notification"
-            app:tint="@color/acao_primaria" />
+            <TextView
+                android:id="@+id/dashboardDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/texto_secundario"
+                android:textSize="@dimen/texto_rodape" />
+
+            <TextView
+                android:id="@+id/txtSaudacao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacamento_xxs"
+                android:text="@string/dashboard_greeting"
+                android:textColor="@color/texto_primario"
+                android:textSize="@dimen/texto_saudacao"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacamento_xxs"
+                android:text="@string/dashboard_welcome"
+                android:textColor="@color/texto_secundario"
+                android:textSize="@dimen/texto_subtitulo_app" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/espacamento_xs"
+            android:layout_marginEnd="@dimen/espacamento_xxs">
+            <ImageButton
+                android:id="@+id/notificationButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/notifications_title"
+                android:src="@drawable/ic_notification"
+                app:tint="@color/acao_primaria" />
+            <TextView
+                android:id="@+id/notificationBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|top"
+                android:background="@color/certificate_purple"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:paddingHorizontal="4dp"
+                android:importantForAccessibility="no"
+                android:visibility="gone" />
+        </FrameLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgAvatar"
             android:layout_width="@dimen/tamanho_avatar"
             android:layout_height="@dimen/tamanho_avatar"
-            android:contentDescription="Foto de perfil"
+            android:contentDescription="@string/dashboard_profile"
             android:src="@drawable/foto_perfil" />
     </LinearLayout>
 
@@ -60,208 +102,47 @@
             android:orientation="vertical"
             android:padding="@dimen/padding_tela_interna">
 
-            <TextView
-                android:id="@+id/txtSaudacao"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Olá, Maria! 👋"
-                android:textColor="@color/texto_primario"
-                android:textSize="@dimen/texto_saudacao"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/espacamento_xs"
-                android:text="Bem-vinda de volta"
-                android:textColor="@color/texto_secundario"
-                android:textSize="@dimen/texto_subtitulo_app" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/espacamento_lg"
-                android:background="@drawable/bg_card_branco"
+                android:background="@drawable/bg_hero_roxo"
                 android:orientation="vertical"
-                android:padding="@dimen/padding_card">
+                android:padding="20dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sua Jornada"
-                    android:textColor="@color/texto_primario"
-                    android:textSize="@dimen/texto_titulo_secao"
+                    android:text="@string/dashboard_hero_label"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacamento_sm"
+                    android:text="@string/dashboard_hero_title"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacamento_sm"
+                    android:text="@string/dashboard_hero_description"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/dashboardExplore"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/espacamento_md"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/tamanho_icone_jornada"
-                        android:layout_height="@dimen/tamanho_icone_jornada"
-                        android:contentDescription="Etapa concluída"
-                        android:src="@drawable/ic_step_done" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/altura_linha_jornada"
-                        android:layout_weight="1"
-                        android:background="@color/acao_primaria" />
-
-                    <ImageView
-                        android:layout_width="@dimen/tamanho_icone_jornada"
-                        android:layout_height="@dimen/tamanho_icone_jornada"
-                        android:contentDescription="Etapa concluída"
-                        android:src="@drawable/ic_step_done" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/altura_linha_jornada"
-                        android:layout_weight="1"
-                        android:background="@color/acao_primaria" />
-
-                    <ImageView
-                        android:layout_width="@dimen/tamanho_icone_jornada"
-                        android:layout_height="@dimen/tamanho_icone_jornada"
-                        android:contentDescription="Etapa atual"
-                        android:src="@drawable/ic_step_atual" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/altura_linha_jornada"
-                        android:layout_weight="1"
-                        android:background="@color/borda_discreta" />
-
-                    <ImageView
-                        android:layout_width="@dimen/tamanho_icone_jornada"
-                        android:layout_height="@dimen/tamanho_icone_jornada"
-                        android:contentDescription="Próxima etapa"
-                        android:src="@drawable/ic_step_pendente" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/espacamento_entre_cards"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Inscrição"
-                        android:textColor="@color/texto_secundario"
-                        android:textSize="@dimen/texto_rotulo" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Nivelamento"
-                        android:textColor="@color/texto_secundario"
-                        android:textSize="@dimen/texto_rotulo" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Módulo 1"
-                        android:textColor="@color/texto_primario"
-                        android:textSize="@dimen/texto_rotulo"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Módulo 2"
-                        android:textColor="@color/texto_secundario"
-                        android:textSize="@dimen/texto_rotulo" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/espacamento_card"
-                android:background="@drawable/bg_card_branco"
-                android:orientation="vertical"
-                android:padding="@dimen/padding_card">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/tamanho_icone_atividade"
-                        android:layout_height="@dimen/tamanho_icone_atividade"
-                        android:contentDescription="Próxima atividade"
-                        android:src="@drawable/ic_calendar"
-                        app:tint="@color/acao_primaria" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/espacamento_entre_cards"
-                        android:layout_weight="1"
-                        android:text="PRÓXIMA ATIVIDADE"
-                        android:textColor="@color/acao_primaria"
-                        android:textSize="@dimen/texto_rodape"
-                        android:textStyle="bold" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/tamanho_icone_atividade"
-                        android:layout_height="@dimen/tamanho_icone_atividade"
-                        android:contentDescription="Ver agenda"
-                        android:src="@drawable/ic_calendar"
-                        app:tint="@color/acao_primaria" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/espacamento_sm"
-                    android:text="Aula de Redação"
-                    android:textColor="@color/texto_primario"
-                    android:textSize="@dimen/texto_titulo_card"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/espacamento_xxs"
-                    android:text="Sábado, 13 Set • 09:00 - 11:30"
-                    android:textColor="@color/texto_secundario"
-                    android:textSize="@dimen/texto_subtitulo_app" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/espacamento_xs"
-                    android:text="FECAP - Sala 302"
-                    android:textColor="@color/texto_secundario"
-                    android:textSize="@dimen/texto_subtitulo_app" />
-
-                <TextView
-                    android:id="@+id/txtVerDetalhes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/espacamento_sm"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="Ver detalhes →"
+                    android:background="@drawable/bg_card_branco"
+                    android:gravity="center"
+                    android:minHeight="48dp"
+                    android:paddingHorizontal="@dimen/padding_tela_interna"
+                    android:text="@string/dashboard_explore"
                     android:textColor="@color/acao_primaria"
-                    android:textSize="@dimen/texto_subtitulo_app"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -269,7 +150,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/espacamento_lg"
-                android:text="Atalhos Rápidos"
+                android:text="@string/dashboard_shortcuts"
                 android:textColor="@color/texto_primario"
                 android:textSize="@dimen/texto_titulo_secao"
                 android:textStyle="bold" />
@@ -279,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/espacamento_sm"
                 android:columnCount="2"
-                android:rowCount="2">
+                android:rowCount="3">
 
                 <LinearLayout
                     android:id="@+id/atalhoCursos"
@@ -303,7 +184,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/espacamento_sm"
-                        android:text="Meus Cursos"
+                        android:text="@string/dashboard_courses"
                         android:textColor="@color/texto_primario"
                         android:textSize="@dimen/texto_subtitulo_app" />
                 </LinearLayout>
@@ -330,7 +211,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/espacamento_sm"
-                        android:text="Agenda"
+                        android:text="@string/dashboard_agenda"
                         android:textColor="@color/texto_primario"
                         android:textSize="@dimen/texto_subtitulo_app" />
                 </LinearLayout>
@@ -362,7 +243,7 @@
                         android:textSize="@dimen/texto_subtitulo_app" />
                 </LinearLayout>
 
-                <LinearLayout
+                <LinearLayout android:id="@+id/atalhoMensagens" android:clickable="true" android:focusable="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -375,19 +256,137 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/tamanho_icone_atalho"
                         android:layout_height="@dimen/tamanho_icone_atalho"
-                        android:contentDescription="Materiais"
-                        android:src="@drawable/ic_folder"
+                        android:contentDescription="@string/messages_title"
+                        android:src="@drawable/ic_email"
                         app:tint="@color/acao_primaria" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/espacamento_sm"
-                        android:text="Materiais"
+                        android:text="@string/messages_title"
+                        android:textColor="@color/texto_primario"
+                        android:textSize="@dimen/texto_subtitulo_app" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/dashboardCheckin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/espacamento_entre_cards"
+                    android:background="@drawable/bg_card_branco"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_card">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/tamanho_icone_atalho"
+                        android:layout_height="@dimen/tamanho_icone_atalho"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_qr_placeholder"
+                        app:tint="@color/acao_primaria" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/espacamento_sm"
+                        android:text="@string/dashboard_checkin"
+                        android:textColor="@color/texto_primario"
+                        android:textSize="@dimen/texto_subtitulo_app" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/dashboardCertificates"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/espacamento_entre_cards"
+                    android:background="@drawable/bg_card_branco"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_card">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/tamanho_icone_atalho"
+                        android:layout_height="@dimen/tamanho_icone_atalho"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_badge"
+                        app:tint="@color/acao_primaria" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/espacamento_sm"
+                        android:text="@string/dashboard_certificates"
                         android:textColor="@color/texto_primario"
                         android:textSize="@dimen/texto_subtitulo_app" />
                 </LinearLayout>
             </GridLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacamento_lg"
+                android:text="@string/dashboard_next_activity"
+                android:textColor="@color/texto_primario"
+                android:textSize="@dimen/texto_titulo_secao"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacamento_sm"
+                android:background="@drawable/bg_card_branco"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_card">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_nav_item_ativo"
+                    android:importantForAccessibility="no"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_calendar"
+                    app:tint="@color/acao_primaria" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/espacamento_card"
+                    android:layout_weight="1"
+                    android:accessibilityLiveRegion="polite"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/dashboardActivityTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dashboard_activity_loading"
+                        android:textColor="@color/texto_primario"
+                        android:textSize="@dimen/texto_titulo_card"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/dashboardActivityDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/espacamento_xxs"
+                        android:textColor="@color/texto_secundario"
+                        android:textSize="@dimen/texto_subtitulo_app"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/txtVerDetalhes"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/dashboard_open_agenda"
+                    android:src="@drawable/ic_chevron_right"
+                    app:tint="@color/acao_primaria" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

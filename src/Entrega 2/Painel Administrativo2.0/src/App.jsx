@@ -8,6 +8,7 @@ import Students from './pages/Students';
 import Courses from './pages/Courses';
 import Certificates from './pages/Certificates';
 import Attendance from './pages/Attendance';
+import Activities from './pages/Activities';
 import Tests from './pages/Tests';
 import Messages from './pages/Messages';
 import Reports from './pages/Reports';
@@ -18,7 +19,7 @@ const PAGES = {
     dashboard: Dashboard,
     students: Students,
     courses: Courses,
-    activities: () => <Placeholder title="Atividades / Encontros" description="Gestão de atividades vinculadas aos cursos"/>,
+    activities: Activities,
     universities: Universities,
     attendance: Attendance,
     certificates: Certificates,
@@ -55,7 +56,7 @@ function AdminShell({ usuario, onLogout, }) {
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         <Navbar activeItem={activeItem} darkMode={darkMode} onToggleDark={() => setDarkMode(!darkMode)} onLogout={onLogout} usuario={usuario}/>
         <main className="flex-1 overflow-y-auto bg-gray-50">
-          <PageComponent />
+          <PageComponent usuario={usuario} />
         </main>
       </div>
     </div>);

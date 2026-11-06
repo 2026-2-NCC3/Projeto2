@@ -1,5 +1,6 @@
 require("dotenv").config();
 const crypto = require("crypto");
+const { validEmail, validPassword } = require("../utils/credentials");
 
 let banco;
 
@@ -7,7 +8,7 @@ try {
   const email = (process.env.ADMIN_EMAIL || "").trim();
   const senha = process.env.ADMIN_PASSWORD;
 
-  if (!email || !senha || senha.length < 12) {
+  if (!validEmail(email) || !validPassword(senha)) {
     throw new Error("Informe ADMIN_EMAIL e ADMIN_PASSWORD com no minimo 12 caracteres.");
   }
 
@@ -20,7 +21,7 @@ try {
     ).get(email);
 
     if (existente) {
-      return false;
+      throw new Error("ACCOUNT_ALREADY_EXISTS");
     }
 
     const id = crypto.randomUUID();
@@ -37,7 +38,7 @@ try {
     `).run(id, "admin_super");
 
     return true;
-  })();
+  }).immediate();
 
   console.log(criado
     ? "Administrador criado com sucesso."

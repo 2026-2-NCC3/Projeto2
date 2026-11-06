@@ -1,5 +1,6 @@
 import { useState, useEffect, createContext, useContext, useCallback } from 'react';
 import { CheckCircle, XCircle, AlertTriangle, Info, X } from 'lucide-react';
+const TOAST_DURATION_MS = 4000;
 const ToastContext = createContext({ toast: () => { } });
 export function useToast() {
     return useContext(ToastContext);
@@ -25,8 +26,8 @@ const ICON_STYLES = {
 function ToastItem({ toast, onDismiss }) {
     const Icon = ICONS[toast.type];
     useEffect(() => {
-        const t = setTimeout(() => onDismiss(toast.id), 4000);
-        return () => clearTimeout(t);
+        const dismissTimer = setTimeout(() => onDismiss(toast.id), TOAST_DURATION_MS);
+        return () => clearTimeout(dismissTimer);
     }, [toast.id, onDismiss]);
     return (<div className={`flex items-start gap-3 px-4 py-3 rounded-xl border shadow-lg max-w-sm w-full ${STYLES[toast.type]} animate-[fadeSlideIn_0.2s_ease-out]`}>
       <Icon size={16} className={`flex-shrink-0 mt-0.5 ${ICON_STYLES[toast.type]}`}/>
@@ -39,7 +40,7 @@ function ToastItem({ toast, onDismiss }) {
 export function ToastProvider({ children }) {
     const [toasts, setToasts] = useState([]);
     const dismiss = useCallback((id) => {
-        setToasts(prev => prev.filter(t => t.id !== id));
+        setToasts(prev => prev.filter(currentToast => currentToast.id !== id));
     }, []);
     const toast = useCallback((message, type = 'success') => {
         setToasts(prev => [...prev, { id: Date.now(), message, type }]);
@@ -47,7 +48,7 @@ export function ToastProvider({ children }) {
     return (<ToastContext.Provider value={{ toast }}>
       {children}
       <div className="fixed bottom-6 right-6 z-[100] flex flex-col gap-2 items-end">
-        {toasts.map(t => (<ToastItem key={t.id} toast={t} onDismiss={dismiss}/>))}
+        {toasts.map(currentToast => (<ToastItem key={currentToast.id} toast={currentToast} onDismiss={dismiss}/>))}
       </div>
     </ToastContext.Provider>);
 }

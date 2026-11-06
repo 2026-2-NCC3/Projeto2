@@ -1,0 +1,27 @@
+
+> proxima-etapa-backend@1.0.0 test
+> node --test test/*.test.js
+
+✔ cursos persistidos e agenda isolada por aluno, sem confiar em IDs do cliente (386.8129ms)
+✔ autenticacao, privacidade e autorizacao usam identidade e estado atual no servidor (394.6727ms)
+✔ historico retorna somente presencas persistidas do proprio aluno ou para admin atual (356.9918ms)
+✔ db:init cria banco vazio, versoes e esquema original; migrate e idempotente (121.1915ms)
+✔ migra v5 populado com WAL ativo preservando todas as linhas, extras e relacionamentos (203.8096ms)
+✔ adota v5 sem user_version e sem substituir registros (49.1739ms)
+✔ falha no segundo indice reverte DDL anterior, historico e versao (116.8787ms)
+✔ esquema legado desconhecido ou parcial e recusado sem alteracao (167.2173ms)
+✔ versao futura e historico adulterado sao recusados (36.8021ms)
+✔ orfao preexistente bloqueia migracao sem tentar corrigir ou apagar dados (32.416ms)
+✔ lock concorrente causa interrupcao sem alteracoes parciais (120.7869ms)
+✔ backup via API inclui registros ainda no WAL sem modificar a origem (119.6697ms)
+✔ startup nao cria arquivo ausente nem inicializa banco vazio ou migra v5 (472.3914ms)
+✔ tres inicializacoes HTTP reais preservam todas as linhas, esquema e historico (1219.7047ms)
+✔ provisionamento e manual, valida entradas e recusa repeticao sem trocar senha ou papel (1297.9468ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2784.724

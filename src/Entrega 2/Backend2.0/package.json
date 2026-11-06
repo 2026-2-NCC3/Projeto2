@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node server.js",
     "migrate": "node src/config/migrate.js",
+    "db:init": "node src/config/migrate.js --init",
+    "db:backup": "node src/config/backup.js",
+    "test": "node --test test/*.test.js",
     "seed:admin": "node src/config/seedAdmin.js"
   },
   "dependencies": {
