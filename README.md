@@ -31,6 +31,8 @@ A solução tem como  facilitar o acompanhamento da jornada educacional dos estu
 O sistema será composto por um aplicativo mobile, uma API REST e um banco de dados integrados, possibilitando a sincronização das informações dos alunos em tempo real. Além disso, contará com recursos como registro de presença por QR Code, emissão de certificados, notificações, testes de perfil profissional e canal de comunicação entre estudantes e a organização.
 <br><br>
 
+[Entrega 2 por disciplina e situação dos entregáveis](documentos/README.md#materiais-da-entrega-2).
+
 ## 🛠 Estrutura de pastas
 ```
 📂 Projeto2/
@@ -114,13 +116,9 @@ A implementacao atual usa Node.js/Express, SQLite/better-sqlite3, Android Java
 com Volley e painel React/Vite. As referencias anteriores a PostgreSQL/Supabase
 sao historicas; nao configuram o backend ativo da Entrega 2.
 
-- [Materiais da Entrega 2 por disciplina](documentos/README.md#materiais-da-entrega-2).
-- [README de POO e Estruturas de Dados](documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos%20e%20Estrutura%20de%20Dados/README.md).
-- [Diagrama de classes](docs/DIAGRAMA_CLASSES_ENTREGA2.md), [contratos REST](docs/API_REST_ENTREGA2.md) e [evidências de testes](docs/EVIDENCIAS_TESTES_ENTREGA2.md).
-- [Banco novo, banco existente, transacoes e WAL](src/Entrega%202/Backend2.0/database/MIGRATIONS.md).
-- [Provisionamento manual e rotacao pendente](src/Entrega%202/Backend2.0/database/ADMINISTRATORS.md).
-- [Cache por usuario e limites de consulta offline](src/Entrega%202/Frontend2.0/OFFLINE.md).
-- [Apoio técnico da Entrega 2](docs/apoio/).
+- [Materiais da Entrega 2 por disciplina e situação de cada item](documentos/README.md#materiais-da-entrega-2).
+- [Guia de execução local](docs/ENTREGA2_GUIA_TECNICO.md#execução-local) e [evidências da Entrega 2](docs/EVIDENCIAS_TESTES_ENTREGA2.md).
+- [README de POO e Estruturas de Dados](documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos%20e%20Estrutura%20de%20Dados/README.md) e [diagrama de classes](docs/DIAGRAMA_CLASSES_ENTREGA2.md).
 
 Pre-requisitos: Node.js 24 (validado), npm, Android Studio/JDK compativel com AGP
 9.0.1 e SDK da plataforma 37.0. Use os wrappers e lockfiles versionados. O Gradle
@@ -278,6 +276,13 @@ propriedade da organização e não estão cobertos por esta licença,
 sendo utilizados neste projeto acadêmico com fins de identificação 
 do parceiro institucional.
 ## 🔗 Referências e Materiais de Apoio
+
+### Apoio operacional da Entrega 2
+
+- [Matriz, checklist e changelog](docs/apoio/).
+- [Banco novo, banco existente, transacoes e WAL](src/Entrega%202/Backend2.0/database/MIGRATIONS.md).
+- [Provisionamento manual e rotacao pendente](src/Entrega%202/Backend2.0/database/ADMINISTRATORS.md).
+- [Cache por usuario e limites de consulta offline](src/Entrega%202/Frontend2.0/OFFLINE.md).
 
 ### 📚 Acadêmicas e Técnicas (Material da Disciplina)
 1. **Documentação Oficial Android** – [developer.android.com](https://developer.android.com/) [1, 2].
