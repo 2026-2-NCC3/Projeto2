@@ -47,3 +47,9 @@ URL HTTPS autorizada, assinatura de distribuição, materiais acadêmicos finais
 - A inspeção do APK confirmou o ID, a versão 1.1.0, o SDK mínimo 24 e a assinatura v2. Os três binários passaram na verificação ZIP e tiveram SHA-256 registrado. A presença de um valor legado no APK debug impede incluí-lo no pacote sem revisão de distribuição.
 - O checklist reúne inventário, classificação das pendências, instalação local e roteiro de demonstração. O pacote privado contém somente documentação técnica, com manifesto SHA-256.
 - A matriz permanece em 8 atendidos, 5 parciais e 6 não atendidos. Foram aproveitados os resultados anteriores. A validação desta preparação é documental e de integridade, sem nova execução de suítes ou builds. [Checklist](CHECKLIST_SUBMISSAO_ENTREGA2.md)
+
+## Fechamento controlado da Entrega 2 — 06/11/2026
+
+- A inspeção do formato do valor legado identificou uma chave pública de cliente Supabase. Os hashes dos três binários permanecem idênticos aos da inspeção anterior. A assinatura e a instalação já documentadas foram reaproveitadas.
+- O pacote técnico privado inclui o código versionado da Entrega 2, documentos técnicos e o APK debug. O checklist registra o conteúdo e as condições para demonstração e submissão.
+- A API local e o fluxo obrigatório mantêm a cobertura registrada na Fase 1. O fechamento verificou a configuração e os artefatos existentes, sem novos builds ou suítes. O ambiente HTTPS, a assinatura release, os materiais acadêmicos pendentes e a autorização de submissão seguem separados. [Checklist](CHECKLIST_SUBMISSAO_ENTREGA2.md)
