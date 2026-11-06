@@ -12,6 +12,7 @@
     <string name="dashboard_greeting_named">Olá, %1$s! 👋</string>
     <string name="dashboard_welcome">Que bom ter você por aqui.</string>
     <string name="dashboard_profile">Abrir perfil</string>
+    <string name="dashboard_sign_out">Sair</string>
     <string name="dashboard_explore">Explorar cursos →</string>
     <string name="dashboard_shortcuts">Acesso rápido</string>
     <string name="dashboard_courses">Meus cursos</string>

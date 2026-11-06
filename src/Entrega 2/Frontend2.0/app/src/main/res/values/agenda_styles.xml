@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Agenda.NavItem">
+    <style name="Agenda.NavItem" parent="">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
@@ -9,11 +9,11 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>
-    <style name="Agenda.NavIcon">
+    <style name="Agenda.NavIcon" parent="">
         <item name="android:layout_width">24dp</item>
         <item name="android:layout_height">24dp</item>
     </style>
-    <style name="Agenda.NavText">
+    <style name="Agenda.NavText" parent="">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">5dp</item>

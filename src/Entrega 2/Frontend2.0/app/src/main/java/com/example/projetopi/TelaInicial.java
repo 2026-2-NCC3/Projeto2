@@ -1,7 +1,6 @@
 package com.example.projetopi;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -60,34 +59,24 @@ public class TelaInicial extends AppCompatActivity {
         activityTitle = findViewById(R.id.dashboardActivityTitle);
         activityDetails = findViewById(R.id.dashboardActivityDetails);
 
-        exibirNomeDoUsuario();
-        configurarNavegacao();
         store = createStore();
         session = createSession(store);
+        configurarNavegacao();
         api = new ApiClient(this);
         notifications = new NotificationBadgeController(session, store, api,
                 findViewById(R.id.notificationBadge), findViewById(R.id.notificationButton));
     }
 
-    private void exibirNomeDoUsuario() {
-        String nome = getIntent().getStringExtra("nomeUsuario");
-
-        if (nome == null || nome.trim().isEmpty()) {
-            SharedPreferences preferences = getSharedPreferences(
-                    "sessao_usuario",
-                    MODE_PRIVATE
-            );
-
-            nome = preferences.getString("nome_completo", "");
-        }
-
-        if (nome != null && !nome.trim().isEmpty()) {
-            txtSaudacao.setText(getString(R.string.dashboard_greeting_named, nome.trim()));
-        }
-    }
-
     @Override protected void onStart() {
         super.onStart();
+        if (!session.active()) {
+            abrirTelaDeLogin();
+            return;
+        }
+
+        String name = session.fullName().trim();
+        txtSaudacao.setText(name.isEmpty() ? getString(R.string.dashboard_greeting)
+                : getString(R.string.dashboard_greeting_named, name));
         notifications.start();
         TextView date = findViewById(R.id.dashboardDate);
         date.setText(new SimpleDateFormat("EEEE, d 'de' MMMM", PORTUGUESE).format(new Date()));
@@ -95,15 +84,33 @@ public class TelaInicial extends AppCompatActivity {
     }
 
     @Override protected void onStop() {
+        cancelarConsultas();
+        super.onStop();
+    }
+
+    private void cancelarConsultas() {
         notifications.stop();
         if (agendaRequest != null) {
             api.cancel(agendaRequest);
             agendaRequest = null;
         }
-        super.onStop();
+    }
+
+    private void sair() {
+        cancelarConsultas();
+        session.clear();
+        abrirTelaDeLogin();
+    }
+
+    private void abrirTelaDeLogin() {
+        Intent login = new Intent(this, MainActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(login);
+        finish();
     }
 
     private void configurarNavegacao() {
+        findViewById(R.id.btnSair).setOnClickListener(view -> sair());
         findViewById(R.id.dashboardExplore).setOnClickListener(view -> abrirTela(CursosActivity.class));
         findViewById(R.id.dashboardCheckin).setOnClickListener(view -> abrirTela(QrCheckinActivity.class));
         findViewById(R.id.dashboardCertificates).setOnClickListener(view -> abrirTela(CertificatesActivity.class));
@@ -161,7 +168,9 @@ public class TelaInicial extends AppCompatActivity {
 
                     @Override public void failure(int status) {
                         if (!isCurrentAgendaRequest(request, sessionVersion)) return;
-                        if (status == 401 || status == 403) {
+                        if (status == 401) {
+                            sair();
+                        } else if (status == 403) {
                             showActivity(getString(R.string.dashboard_activity_unavailable),
                                     getString(R.string.dashboard_activity_sign_in));
                         } else if (status == 0 || status >= 500) {

@@ -78,12 +78,32 @@
                 android:visibility="gone" />
         </FrameLayout>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imgAvatar"
-            android:layout_width="@dimen/tamanho_avatar"
-            android:layout_height="@dimen/tamanho_avatar"
-            android:contentDescription="@string/dashboard_profile"
-            android:src="@drawable/foto_perfil" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgAvatar"
+                android:layout_width="@dimen/tamanho_avatar"
+                android:layout_height="@dimen/tamanho_avatar"
+                android:contentDescription="@string/dashboard_profile"
+                android:src="@drawable/foto_perfil" />
+
+            <TextView
+                android:id="@+id/btnSair"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:gravity="center"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:text="@string/dashboard_sign_out"
+                android:textColor="@color/acao_primaria"
+                android:textSize="@dimen/texto_subtitulo_app"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
     <ScrollView

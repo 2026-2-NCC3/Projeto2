@@ -34,6 +34,10 @@ public final class SessionManager {
         return preferences.getString("token", "");
     }
 
+    public String fullName() {
+        return preferences.getString("nome_completo", "");
+    }
+
     public String version() {
         return preferences.getString("session_version", "") + ":" + userId() + ":" + token();
     }

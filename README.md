@@ -290,3 +290,10 @@ do parceiro institucional.
 3. **DEITEL, Paul et al.** *Android para Programadores: Uma Abordagem Baseada em Aplicativos*. Bookman, 2ª Ed, 2015 [1, 2].
 4. **Roteiro do Projeto Interdisciplinar** – *Próxima Etapa – App do Aluno* (Versão FINAL 2026) [3].
 5. **Inventário de Dados e API** – Documentação técnica do banco de dados PostgreSQL/Supabase e endpoints REST [4, 5].
+
+
+## Programação Orientada a Objetos
+
+A documentação da Entrega 2, incluindo o diagrama de classes, os princípios de POO e as estruturas de dados utilizadas, está disponível no link abaixo:
+
+[Ver documentação de Programação Orientada a Objetos](documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos/README.md)

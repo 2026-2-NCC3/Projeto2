@@ -1,7 +1,6 @@
 package com.example.projetopi;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText editEmail;
     private EditText editSenha;
+    private SessionManager session;
     private Button btnEntrar;
     private TextView txtErroLogin;
     private TextView txtCadastro;
@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!ApiConfig.BASE_URL.isEmpty() && new SessionManager(this).active()) {
-            startActivity(new Intent(this, TelaInicial.class));
-            finish();
+        session = new SessionManager(this);
+        if (!ApiConfig.BASE_URL.isEmpty() && session.active()) {
+            abrirTelaInicial();
             return;
         }
         EdgeToEdge.enable(this);
@@ -194,33 +194,18 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            salvarSessao(json);
-
-            Intent intent = new Intent(
-                    MainActivity.this,
-                    TelaInicial.class
-            );
-
-            JSONObject usuario = json.getJSONObject("usuario");
-            intent.putExtra(
-                    "nomeUsuario",
-                    usuario.optString("nome_completo", "")
-            );
-
-            intent.addFlags(
-                    Intent.FLAG_ACTIVITY_NEW_TASK
-                            | Intent.FLAG_ACTIVITY_CLEAR_TASK
-            );
-
-            startActivity(intent);
-            finish();
+            session.save(json);
+            abrirTelaInicial();
         } catch (JSONException erro) {
             mostrarErro("Resposta inválida recebida do servidor.");
         }
     }
 
-    private void salvarSessao(JSONObject response) throws JSONException {
-        new SessionManager(this).save(response);
+    private void abrirTelaInicial() {
+        Intent dashboard = new Intent(this, TelaInicial.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(dashboard);
+        finish();
     }
 
     private void alterarEstadoDoBotao(boolean carregando) {
