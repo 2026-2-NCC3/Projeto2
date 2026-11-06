@@ -1,211 +1,301 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fundo_principal">
+    android:background="@color/white">
 
-    <FrameLayout
-        android:id="@+id/frameLogo"
-        android:layout_width="160dp"
-        android:layout_height="80dp"
-        android:background="@android:color/transparent"
+    <ScrollView
+        android:id="@+id/loginScroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:background="@drawable/fundo"
+        android:scrollbars="none"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/margem_logo_superior">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:src="@drawable/logo_proxima_etapa"
-            android:scaleType="fitCenter"
-            android:contentDescription="Logo Próxima Etapa" />
-
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/txtNomeApp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login_welcome_title"
-        android:gravity="center"
-        android:textSize="@dimen/texto_titulo_app"
-        android:textStyle="bold"
-        android:textColor="@color/acao_primaria"
-        app:layout_constraintTop_toBottomOf="@id/frameLogo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/espacamento_lg" />
-
-    <TextView
-        android:id="@+id/txtSubtituloApp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login_welcome_subtitle"
-        android:gravity="center"
-        android:textSize="@dimen/texto_subtitulo_app"
-        android:textColor="@color/texto_secundario"
-        app:layout_constraintTop_toBottomOf="@id/txtNomeApp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/espacamento_xs" />
-
-    <LinearLayout
-        android:id="@+id/containerEmail"
-        android:layout_marginHorizontal="@dimen/padding_tela_horizontal"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/altura_campo_login"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@drawable/bg_input_field"
-        android:paddingStart="@dimen/espacamento_md"
-        android:paddingEnd="@dimen/espacamento_md"
-        app:layout_constraintTop_toBottomOf="@id/txtSubtituloApp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/espacamento_xl">
-
-        <ImageView
-            android:layout_width="@dimen/tamanho_icone_campo"
-            android:layout_height="@dimen/tamanho_icone_campo"
-            android:src="@drawable/ic_email"
-            android:contentDescription="Ícone email" />
-
-        <EditText
-            android:id="@+id/editEmail"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/espacamento_sm"
-            android:hint="E-mail"
-            android:inputType="textEmailAddress"
-            android:background="@color/transparente" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/containerSenha"
-        android:layout_marginHorizontal="@dimen/padding_tela_horizontal"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/altura_campo_login"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@drawable/bg_input_field"
-        android:paddingStart="@dimen/espacamento_md"
-        android:paddingEnd="@dimen/espacamento_md"
-        app:layout_constraintTop_toBottomOf="@id/containerEmail"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/espacamento_md">
-
-        <ImageView
-            android:layout_width="@dimen/tamanho_icone_campo"
-            android:layout_height="@dimen/tamanho_icone_campo"
-            android:src="@drawable/ic_lock"
-            android:contentDescription="Ícone senha" />
-
-        <EditText
-            android:id="@+id/editSenha"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/espacamento_sm"
-            android:hint="Senha"
-            android:inputType="textPassword"
-            android:background="@color/transparente" />
-
-        <ImageButton
-            android:id="@+id/btnMostrarSenha"
-            android:layout_width="@dimen/tamanho_icone_olho"
-            android:layout_height="@dimen/tamanho_icone_olho"
-            android:background="@color/transparente"
-            android:src="@drawable/ic_eye"
-            android:contentDescription="Mostrar senha" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/txtEsqueceuSenha"
-        android:layout_marginHorizontal="@dimen/padding_tela_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Esqueceu a senha?"
-        android:textSize="@dimen/texto_subtitulo_app"
-        android:textColor="@color/link_acao"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintTop_toBottomOf="@id/containerSenha"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/espacamento_sm" />
-
-    <Button
-        android:id="@+id/btnEntrar"
-        android:layout_marginHorizontal="@dimen/padding_tela_horizontal"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/altura_botao_primario"
-        android:text="@string/login_sign_in"
-        android:textAllCaps="false"
-        android:textSize="@dimen/texto_botao"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/acao_primaria"
-        app:cornerRadius="@dimen/raio_botao_pill"
-        app:layout_constraintTop_toBottomOf="@id/txtEsqueceuSenha"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/espacamento_xl" />
-    <TextView
-        android:id="@+id/txtErroLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="E-mail ou senha incorretos"
-        android:textSize="@dimen/texto_subtitulo_app"
-        android:textColor="@color/vermelho"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/btnEntrar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/espacamento_xs" />
-
-    <TextView
-        android:id="@+id/txtCadastro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login_create_account"
-        android:gravity="center"
-        android:textSize="@dimen/texto_subtitulo_app"
-        android:textColor="@color/link_acao"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintTop_toBottomOf="@id/txtErroLogin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/espacamento_lg" />
-
-    <View
-        android:id="@+id/linhaRodape"
-        android:layout_width="@dimen/largura_linha_rodape"
-        android:layout_height="@dimen/altura_linha_rodape"
-        android:background="@color/borda_discreta"
-        app:layout_constraintBottom_toTopOf="@id/txtRodape"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="@dimen/espacamento_md" />
-
-    <TextView
-        android:id="@+id/txtRodape"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Powered by ONG Próxima Etapa"
-        android:textSize="@dimen/texto_rodape"
-        android:textColor="@color/texto_secundario"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="@dimen/espacamento_lg" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/loginContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="24dp"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+
+            <FrameLayout
+                android:id="@+id/headerLogo"
+                android:layout_width="0dp"
+                android:layout_height="152dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+
+                <FrameLayout
+                    android:id="@+id/frameLogo"
+                    android:layout_width="164dp"
+                    android:layout_height="85dp"
+                    android:layout_gravity="bottom|center_horizontal">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/logo_proxima_etapa"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="Logo Próxima Etapa" />
+
+                </FrameLayout>
+
+            </FrameLayout>
+
+
+            <TextView
+                android:id="@+id/txtNomeApp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="Bem-vindo(a) de volta!"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="@color/texto_primario"
+                app:layout_constraintTop_toBottomOf="@id/headerLogo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+            <TextView
+                android:id="@+id/txtSubtituloApp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Entre na sua conta e continue sua jornada."
+                android:textSize="14sp"
+                android:textColor="@color/texto_secundario"
+                app:layout_constraintTop_toBottomOf="@id/txtNomeApp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+            <TextView
+                android:id="@+id/labelEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="E-mail"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/texto_primario"
+                android:labelFor="@id/editEmail"
+                app:layout_constraintTop_toBottomOf="@id/txtSubtituloApp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerEmail"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_input_field"
+                app:layout_constraintTop_toBottomOf="@id/labelEmail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/iconeEmail"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_email"
+                    android:contentDescription="@null"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <EditText
+                    android:id="@+id/editEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center_vertical"
+                    android:padding="0dp"
+                    android:hint="seuemail@exemplo.com"
+                    android:inputType="textEmailAddress"
+                    android:autofillHints="emailAddress"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:textColor="@color/texto_primario"
+                    android:textColorHint="@color/texto_secundario"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintStart_toEndOf="@id/iconeEmail"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <TextView
+                android:id="@+id/labelSenha"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="Senha"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/texto_primario"
+                android:labelFor="@id/editSenha"
+                app:layout_constraintTop_toBottomOf="@id/containerEmail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerSenha"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_input_field"
+                app:layout_constraintTop_toBottomOf="@id/labelSenha"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/iconeSenha"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_lock"
+                    android:contentDescription="@null"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <EditText
+                    android:id="@+id/editSenha"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center_vertical"
+                    android:padding="0dp"
+                    android:hint="Digite sua senha"
+                    android:inputType="textPassword"
+                    android:autofillHints="password"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:textColor="@color/texto_primario"
+                    android:textColorHint="@color/texto_secundario"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintStart_toEndOf="@id/iconeSenha"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <TextView
+                android:id="@+id/txtEsqueceuSenha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Esqueceu a senha?"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/containerSenha"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEntrar"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="30dp"
+                android:text="Entrar"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/acao_primaria"
+                app:cornerRadius="28dp"
+                app:layout_constraintTop_toBottomOf="@id/containerSenha"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+            <TextView
+                android:id="@+id/txtErroLogin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:textColor="@color/vermelho"
+                android:textSize="14sp"
+                android:accessibilityLiveRegion="polite"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/btnEntrar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+            <TextView
+                android:id="@+id/txtCadastro"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="14dp"
+                android:gravity="center"
+                android:text="Não tem uma conta? Cadastre-se"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/acao_primaria"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintTop_toBottomOf="@id/txtErroLogin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+            <View
+                android:id="@+id/linhaRodape"
+                android:layout_width="60dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/borda_discreta"
+                app:layout_constraintTop_toBottomOf="@id/txtCadastro"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+            <TextView
+                android:id="@+id/txtRodape"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:text="Uma iniciativa da ONG Próxima Etapa"
+                android:textSize="12sp"
+                android:textColor="@color/texto_secundario"
+                app:layout_constraintTop_toBottomOf="@id/linhaRodape"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
