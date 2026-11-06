@@ -18,4 +18,4 @@ Consolidação dos resultados já registrados em 05/11/2026. A base técnica fin
 
 A tentativa de comunicados durante a estabilização foi interrompida por indisponibilidade do emulador. Certificados, comunicados, notificações e cadastro não foram repetidos no APK final. Um verificador PowerShell reportou erro após a inicialização a frio por comparar as linhas do ADB como array. O retorno do ADB registrou `Status: ok`. A validação de rede do release foi local. Release assinado, HTTPS ponta a ponta público e submissão seguem pendentes.
 
-Para repetir futuramente, use os comandos e o isolamento descritos no [guia técnico](ENTREGA2_GUIA_TECNICO.md). A [matriz acadêmica](MATRIZ_CONFORMIDADE_ACADEMICA.md) separa os resultados técnicos da submissão.
+Para repetir futuramente, use os comandos e o isolamento descritos no [guia técnico](ENTREGA2_GUIA_TECNICO.md). A [matriz acadêmica](apoio/MATRIZ_CONFORMIDADE_ACADEMICA.md) separa os resultados técnicos da submissão.

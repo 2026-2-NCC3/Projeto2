@@ -2,7 +2,7 @@
 
 Este guia descreve o ambiente verificável do Próxima Etapa e complementa a documentação histórica. A demonstração local usa Android Java/XML, Express com SQLite e painel React/Vite.
 
-O inventário de artefatos e o roteiro curto estão no [checklist de submissão](CHECKLIST_SUBMISSAO_ENTREGA2.md).
+O inventário de artefatos e o roteiro curto estão no [checklist de submissão](apoio/CHECKLIST_SUBMISSAO_ENTREGA2.md).
 
 ## Execução local
 

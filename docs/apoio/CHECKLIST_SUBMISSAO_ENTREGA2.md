@@ -8,24 +8,24 @@ Fechamento controlado em 06/11/2026, sobre `816dd7ff2e3132e5249940100e925f852818
 
 | ID | Entregável e caminho real | Situação e evidência | Bloqueio de entrega |
 | --- | --- | --- | --- |
-| E2-01 | [Código Android](../src/Entrega%202/Frontend2.0/) | Parcial. Presença, sincronização, certificados, mensagens e alertas internos têm evidências | Integrações complementares da matriz |
-| E2-02 | [Backend Express](../src/Entrega%202/Backend2.0/server.js) | Parcial. 47 testes e oito sondagens já registrados | Funções sem rota e ambiente de avaliação |
-| E2-03 | [Esquema, migrações e backup](../src/Entrega%202/Backend2.0/database/) | Atendido. Integridade e chaves estrangeiras conferidas na Fase 1 | Preparar base autorizada se houver ambiente de avaliação |
-| E2-04 | [Painel administrativo](../src/Entrega%202/Painel%20Administrativo2.0/) | Parcial. Build, 21 testes e fluxos integrados registrados | Integração de perfil e chat |
-| E2-05 | [APK debug](../src/Entrega%202/Frontend2.0/app/build/outputs/apk/debug/app-debug.apk), [APK release](../src/Entrega%202/Frontend2.0/app/build/outputs/apk/release/app-release-unsigned.apk) e [AAB release](../src/Entrega%202/Frontend2.0/app/build/outputs/bundle/release/app-release.aab) | Atendido para execução local em debug. Hash idêntico ao artefato já inspecionado e chave legada classificada | Release requer URL autorizada e assinatura de distribuição. Execução em celular físico ainda não comprovada |
+| E2-01 | [Código Android](../../src/Entrega%202/Frontend2.0/) | Parcial. Presença, sincronização, certificados, mensagens e alertas internos têm evidências | Integrações complementares da matriz |
+| E2-02 | [Backend Express](../../src/Entrega%202/Backend2.0/server.js) | Parcial. 47 testes e oito sondagens já registrados | Funções sem rota e ambiente de avaliação |
+| E2-03 | [Esquema, migrações e backup](../../src/Entrega%202/Backend2.0/database/) | Atendido. Integridade e chaves estrangeiras conferidas na Fase 1 | Preparar base autorizada se houver ambiente de avaliação |
+| E2-04 | [Painel administrativo](../../src/Entrega%202/Painel%20Administrativo2.0/) | Parcial. Build, 21 testes e fluxos integrados registrados | Integração de perfil e chat |
+| E2-05 | [APK debug](../../src/Entrega%202/Frontend2.0/app/build/outputs/apk/debug/app-debug.apk), [APK release](../../src/Entrega%202/Frontend2.0/app/build/outputs/apk/release/app-release-unsigned.apk) e [AAB release](../../src/Entrega%202/Frontend2.0/app/build/outputs/bundle/release/app-release.aab) | Atendido para execução local em debug. Hash idêntico ao artefato já inspecionado e chave legada classificada | Release requer URL autorizada e assinatura de distribuição. Execução em celular físico ainda não comprovada |
 | E2-06 | Código e histórico em `fix/p0-seguranca-entrega2` | Atendido. Commits locais e bundle privado verificado na Fase 1 | Submissão registrada em E2-19 |
-| E2-07 | [README principal](../README.md) | Atendido. Configuração debug/release e referência à UC | — |
-| E2-08 | [README de POO](../documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos%20e%20Estrutura%20de%20Dados/README.md) | Atendido. Classes e estruturas presentes no código | — |
-| E2-09 | [Diagrama de classes](DIAGRAMA_CLASSES_ENTREGA2.md) | Atendido para a implementação atual | Atualizar após novas integrações |
-| E2-10 | [Evidências consolidadas](EVIDENCIAS_TESTES_ENTREGA2.md) | Atendido. Resultados e bases identificados, com scripts de reprodução | A demonstração para avaliação permanece separada |
-| E2-11 | [Contratos REST](API_REST_ENTREGA2.md) | Atendido. 52 operações registradas | — |
+| E2-07 | [README principal](../../README.md) | Atendido. Configuração debug/release e referência à UC | — |
+| E2-08 | [README de POO](../../documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos%20e%20Estrutura%20de%20Dados/README.md) | Atendido. Classes e estruturas presentes no código | — |
+| E2-09 | [Diagrama de classes](../DIAGRAMA_CLASSES_ENTREGA2.md) | Atendido para a implementação atual | Atualizar após novas integrações |
+| E2-10 | [Evidências consolidadas](../EVIDENCIAS_TESTES_ENTREGA2.md) | Atendido. Resultados e bases identificados, com scripts de reprodução | A demonstração para avaliação permanece separada |
+| E2-11 | [Contratos REST](../API_REST_ENTREGA2.md) | Atendido. 52 operações registradas | — |
 | E2-12 | Estatística da E2, caminho final não localizado | Não atendido. Evidência existente da E1 | Missão acadêmica separada |
 | E2-13 | Pitch e apresentação, caminho final não localizado | Não atendido | Missão acadêmica separada |
 | E2-14 | Ambiente acessível, URL não confirmada | Parcial. Demonstração local documentada | URL HTTPS, ambiente e acesso de avaliação autorizados |
 | E2-15 | Relatório final, caminho final não localizado | Não atendido | Missão acadêmica separada |
-| E2-16 | [Modelo de banner](../documentos/MODELO_BANNER_FECAP_2026_1.pptx) | Não atendido. Modelo institucional | Material final e aprovação na missão separada |
-| E2-17 | [Modelo de extensão COM EMPRESA](../documentos/Documento%20-%20Projeto%20de%20Extens%C3%A3o%20-%20COM%20Empresa%20-%202026_1.docx) | Não atendido. Modelo sem preenchimento final | Material final validado na missão separada |
-| E2-18 | [Visão técnica em inglês](ENTREGA2_GUIA_TECNICO.md#technical-overview) | Parcial. Visão técnica escrita | Relatório e apresentação em inglês na etapa acadêmica |
+| E2-16 | [Modelo de banner](../../documentos/MODELO_BANNER_FECAP_2026_1.pptx) | Não atendido. Modelo institucional | Material final e aprovação na missão separada |
+| E2-17 | [Modelo de extensão COM EMPRESA](../../documentos/Documento%20-%20Projeto%20de%20Extens%C3%A3o%20-%20COM%20Empresa%20-%202026_1.docx) | Não atendido. Modelo sem preenchimento final | Material final validado na missão separada |
+| E2-18 | [Visão técnica em inglês](../ENTREGA2_GUIA_TECNICO.md#technical-overview) | Parcial. Visão técnica escrita | Relatório e apresentação em inglês na etapa acadêmica |
 | E2-19 | [Checklist local](CHECKLIST_SUBMISSAO_ENTREGA2.md) | Não atendido. Pacote técnico local preparado | Autorização, canal institucional, materiais completos e recebimento comprovado |
 
 ## Classificação das 11 pendências da matriz
@@ -55,11 +55,11 @@ Os três SHA-256 foram reconferidos em 06/11 e coincidem com a inspeção anteri
 
 ## Roteiro de instalação e demonstração local
 
-1. Na pasta [Backend2.0](../src/Entrega%202/Backend2.0/), use Node.js 24 e execute `npm ci` com o lockfile. O backend usa Express, SQLite via `better-sqlite3`, dotenv, JWT e bcrypt. Configure `JWT_SECRET` em `.env` privado e aponte `DB_PATH` para a base isolada de demonstração. Use `npm run db:init` somente para banco vazio. Para base existente, consulte [migrações e backup](../src/Entrega%202/Backend2.0/database/MIGRATIONS.md).
+1. Na pasta [Backend2.0](../../src/Entrega%202/Backend2.0/), use Node.js 24 e execute `npm ci` com o lockfile. O backend usa Express, SQLite via `better-sqlite3`, dotenv, JWT e bcrypt. Configure `JWT_SECRET` em `.env` privado e aponte `DB_PATH` para a base isolada de demonstração. Use `npm run db:init` somente para banco vazio. Para base existente, consulte [migrações e backup](../../src/Entrega%202/Backend2.0/database/MIGRATIONS.md).
 2. Execute `npm start` e confira `http://127.0.0.1:3000/api/health` no host. O servidor escuta em `0.0.0.0` por padrão. Mantenha a execução em ambiente local controlado, sem abrir portas externas. Use contas de demonstração já autorizadas, com um aluno inscrito em atividade e um administrador para emitir o QR.
-3. Na pasta [Painel Administrativo2.0](../src/Entrega%202/Painel%20Administrativo2.0/), execute `npm ci` e `npm run dev -- --host 127.0.0.1`. Abra o endereço informado pelo Vite. A API padrão do painel é `http://localhost:3000`. Se mudar a base local, use `VITE_API_URL`.
+3. Na pasta [Painel Administrativo2.0](../../src/Entrega%202/Painel%20Administrativo2.0/), execute `npm ci` e `npm run dev -- --host 127.0.0.1`. Abra o endereço informado pelo Vite. A API padrão do painel é `http://localhost:3000`. Se mudar a base local, use `VITE_API_URL`.
 4. Com o emulador em execução, use `adb devices`, `adb -s emulator-5554 reverse tcp:3000 tcp:3000` e `adb -s emulator-5554 install -r "CAMINHO_DO_APK_DEBUG"`. Substitua serial e caminho pelos valores locais. Se a assinatura impedir a atualização, use um emulador de teste compatível.
-5. No app, faça login, abra Cursos e Agenda, leia um QR emitido pelo painel para a atividade e confira a presença no histórico. Mostre a consulta local e a atualização após reconexão. Com registros existentes, demonstre comunicados e alertas internos e consulte metadados de certificados. Os [resultados anteriores](EVIDENCIAS_TESTES_ENTREGA2.md) delimitam os cenários validados.
+5. No app, faça login, abra Cursos e Agenda, leia um QR emitido pelo painel para a atividade e confira a presença no histórico. Mostre a consulta local e a atualização após reconexão. Com registros existentes, demonstre comunicados e alertas internos e consulte metadados de certificados. Os [resultados anteriores](../EVIDENCIAS_TESTES_ENTREGA2.md) delimitam os cenários validados.
 
 O fluxo obrigatório já tem evidência de autenticação, permissões de aluno e administrador, check-in, persistência e reconciliação em ambiente isolado. As evidências do backend e do SQLite registram 47 testes, oito sondagens e integridade verificada. O build release aceita URL HTTPS, mas o servidor Node atual abre HTTP. Uma avaliação externa requer um host HTTPS autorizado, certificado confiável pelo Android e encaminhamento à API, com base e contas autorizadas. O emulador com ADB permanece como alternativa local.
 

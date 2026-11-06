@@ -114,12 +114,13 @@ A implementacao atual usa Node.js/Express, SQLite/better-sqlite3, Android Java
 com Volley e painel React/Vite. As referencias anteriores a PostgreSQL/Supabase
 sao historicas; nao configuram o backend ativo da Entrega 2.
 
-- [Matriz de conformidade acadêmica](docs/MATRIZ_CONFORMIDADE_ACADEMICA.md).
+- [Materiais da Entrega 2 por disciplina](documentos/README.md#materiais-da-entrega-2).
 - [README de POO e Estruturas de Dados](documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos%20e%20Estrutura%20de%20Dados/README.md).
 - [Diagrama de classes](docs/DIAGRAMA_CLASSES_ENTREGA2.md), [contratos REST](docs/API_REST_ENTREGA2.md) e [evidências de testes](docs/EVIDENCIAS_TESTES_ENTREGA2.md).
 - [Banco novo, banco existente, transacoes e WAL](src/Entrega%202/Backend2.0/database/MIGRATIONS.md).
 - [Provisionamento manual e rotacao pendente](src/Entrega%202/Backend2.0/database/ADMINISTRATORS.md).
 - [Cache por usuario e limites de consulta offline](src/Entrega%202/Frontend2.0/OFFLINE.md).
+- [Apoio técnico da Entrega 2](docs/apoio/).
 
 Pre-requisitos: Node.js 24 (validado), npm, Android Studio/JDK compativel com AGP
 9.0.1 e SDK da plataforma 37.0. Use os wrappers e lockfiles versionados. O Gradle
