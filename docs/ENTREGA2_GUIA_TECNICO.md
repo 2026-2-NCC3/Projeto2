@@ -2,6 +2,8 @@
 
 Este guia descreve o ambiente verificável do Próxima Etapa e complementa a documentação histórica. A demonstração local usa Android Java/XML, Express com SQLite e painel React/Vite.
 
+O inventário de artefatos e o roteiro curto estão no [checklist de submissão](CHECKLIST_SUBMISSAO_ENTREGA2.md).
+
 ## Execução local
 
 Use Node.js 24, o lockfile de cada módulo, o Gradle Wrapper e o SDK Android configurado no projeto. No backend, defina `JWT_SECRET` em `.env` privado e `DB_PATH` apontando para um banco de demonstração separado. Gere uma chave própria. Execute `npm ci`, `npm run db:init` somente em banco vazio e `npm start`. Para bases existentes, siga o procedimento de backup e migração explícita. O comando `npm run seed:admin` requer as variáveis locais `ADMIN_EMAIL` e `ADMIN_PASSWORD`. [Procedimento do banco](../src/Entrega%202/Backend2.0/database/MIGRATIONS.md)

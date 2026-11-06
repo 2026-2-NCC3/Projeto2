@@ -24,7 +24,7 @@ Revisão de 05/11/2026. Fonte de critérios: **PI_3CCOMP_202602_Proxima_Etapa_FI
 | E2-18 | Business English | Documentação e parte da comunicação técnica em inglês | PARCIALMENTE ATENDIDO | Visão técnica em inglês no guia da E2 | Conferir a parte em inglês do relatório e da apresentação com os critérios da UC | Média | Entrega final e apresentação |
 | E2-19 | Submissão institucional | E2 e extensão via GitHub/GitHub Project | NÃO ATENDIDO | Histórico local e branch remota consultada em leitura. O remoto ainda aponta para o estado anterior aos incrementos locais | A publicação depende de autorização expressa. Confirmar canal, arquivos e recebimento antes de marcar como entregue | Alta | 06/11 às 23:59:56 |
 
-**Totais após o fechamento documental:** 8 ATENDIDOS, 5 PARCIALMENTE ATENDIDOS e 6 NÃO ATENDIDOS.
+**Totais após a preparação local:** 8 ATENDIDOS, 5 PARCIALMENTE ATENDIDOS e 6 NÃO ATENDIDOS. O checklist registra a inspeção do APK e o pacote documental. A distribuição exige revisão do valor legado incorporado, além da URL e da assinatura quando aplicáveis. [Checklist de submissão](CHECKLIST_SUBMISSAO_ENTREGA2.md)
 
 O cronograma indica 06/11 às 23:59:56 para E2 e extensão e perda de 25% da nota total por dia de atraso. Para banner, consta risco de redução de até 25% da nota da apresentação se não aprovado ou ausente, conforme o caso. A avaliação entre pares está prevista para 07–08/11. As datas e o formato final devem ser confirmados no cronograma oficial dos professores.
 

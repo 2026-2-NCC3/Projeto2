@@ -41,3 +41,9 @@ URL HTTPS autorizada, assinatura de distribuição, materiais acadêmicos finais
 - Criados README da UC, diagrama, evidências e contratos REST. Atualizados README principal, matriz, guia técnico e changelog. Código, configuração de execução e dependências permaneceram como na base técnica.
 - A verificação documental cobre links relativos, correspondência de rotas com o servidor, contagem da matriz e `git diff --check`. Os resultados das suítes foram reaproveitados das bases identificadas no documento de evidências.
 - A URL autorizada, a assinatura de distribuição, os materiais acadêmicos tratados separadamente e a submissão institucional seguem pendentes. O commit deste registro é identificável por `git log -1 --format=%H -- docs/EVIDENCIAS_TESTES_ENTREGA2.md`.
+
+## Preparação local da submissão — 05/11/2026
+
+- A inspeção do APK confirmou o ID, a versão 1.1.0, o SDK mínimo 24 e a assinatura v2. Os três binários passaram na verificação ZIP e tiveram SHA-256 registrado. A presença de um valor legado no APK debug impede incluí-lo no pacote sem revisão de distribuição.
+- O checklist reúne inventário, classificação das pendências, instalação local e roteiro de demonstração. O pacote privado contém somente documentação técnica, com manifesto SHA-256.
+- A matriz permanece em 8 atendidos, 5 parciais e 6 não atendidos. Foram aproveitados os resultados anteriores. A validação desta preparação é documental e de integridade, sem nova execução de suítes ou builds. [Checklist](CHECKLIST_SUBMISSAO_ENTREGA2.md)
