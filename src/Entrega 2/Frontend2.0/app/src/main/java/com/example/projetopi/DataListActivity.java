@@ -1,9 +1,13 @@
 package com.example.projetopi;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -331,9 +335,19 @@ public abstract class DataListActivity extends AppCompatActivity {
 
     private TextView createRecordCard(JSONObject record) throws Exception {
         TextView card = new TextView(this);
-        card.setText(record.getString("titulo") + "\n" + details(record));
-        card.setTextSize(CARD_TEXT_SIZE_SP);
-        card.setPadding(CARD_PADDING_PX, CARD_PADDING_PX, CARD_PADDING_PX, CARD_PADDING_PX);
+        String title = record.getString("titulo");
+        SpannableString cardText = new SpannableString(title + "\n" + details(record));
+        if (!title.isEmpty()) {
+            cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, title.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        card.setText(cardText);
+        card.setTextSize(16);
+        card.setTextColor(getColor(R.color.texto_primario));
+        card.setLineSpacing(getResources().getDimension(R.dimen.espacamento_entre_cards), 1f);
+
+        int padding = Math.round(20f * getResources().getDisplayMetrics().density);
+        card.setPadding(padding, padding, padding, padding);
         card.setBackgroundResource(R.drawable.bg_card_branco);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(

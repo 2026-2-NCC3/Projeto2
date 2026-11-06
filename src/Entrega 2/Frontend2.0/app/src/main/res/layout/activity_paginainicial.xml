@@ -99,111 +99,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/espacamento_lg"
-                android:background="@drawable/bg_card_branco"
+                android:background="@drawable/bg_hero_roxo"
                 android:orientation="vertical"
-                android:padding="@dimen/padding_card">
+                android:padding="20dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sua Jornada"
-                    android:textColor="@color/texto_primario"
-                    android:textSize="@dimen/texto_titulo_secao"
+                    android:text="@string/dashboard_hero_label"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacamento_sm"
+                    android:text="@string/dashboard_hero_title"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/espacamento_md"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/tamanho_icone_jornada"
-                        android:layout_height="@dimen/tamanho_icone_jornada"
-                        android:contentDescription="Etapa concluída"
-                        android:src="@drawable/ic_step_done" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/altura_linha_jornada"
-                        android:layout_weight="1"
-                        android:background="@color/acao_primaria" />
-
-                    <ImageView
-                        android:layout_width="@dimen/tamanho_icone_jornada"
-                        android:layout_height="@dimen/tamanho_icone_jornada"
-                        android:contentDescription="Etapa concluída"
-                        android:src="@drawable/ic_step_done" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/altura_linha_jornada"
-                        android:layout_weight="1"
-                        android:background="@color/acao_primaria" />
-
-                    <ImageView
-                        android:layout_width="@dimen/tamanho_icone_jornada"
-                        android:layout_height="@dimen/tamanho_icone_jornada"
-                        android:contentDescription="Etapa atual"
-                        android:src="@drawable/ic_step_atual" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/altura_linha_jornada"
-                        android:layout_weight="1"
-                        android:background="@color/borda_discreta" />
-
-                    <ImageView
-                        android:layout_width="@dimen/tamanho_icone_jornada"
-                        android:layout_height="@dimen/tamanho_icone_jornada"
-                        android:contentDescription="Próxima etapa"
-                        android:src="@drawable/ic_step_pendente" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/espacamento_entre_cards"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Inscrição"
-                        android:textColor="@color/texto_secundario"
-                        android:textSize="@dimen/texto_rotulo" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Nivelamento"
-                        android:textColor="@color/texto_secundario"
-                        android:textSize="@dimen/texto_rotulo" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Módulo 1"
-                        android:textColor="@color/texto_primario"
-                        android:textSize="@dimen/texto_rotulo"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Módulo 2"
-                        android:textColor="@color/texto_secundario"
-                        android:textSize="@dimen/texto_rotulo" />
-                </LinearLayout>
+                    android:layout_marginTop="@dimen/espacamento_sm"
+                    android:text="@string/dashboard_hero_description"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout

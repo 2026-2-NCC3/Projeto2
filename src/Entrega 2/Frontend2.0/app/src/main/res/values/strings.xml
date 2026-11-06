@@ -1,4 +1,12 @@
 <resources>
+    <string name="login_welcome_title">Bem-vindo(a) de volta!</string>
+    <string name="login_welcome_subtitle">Acesse sua conta e continue sua jornada.</string>
+    <string name="login_sign_in">Entrar</string>
+    <string name="login_create_account">Ainda não tem conta? Criar minha conta</string>
+    <string name="registration_welcome_title">Crie sua conta</string>
+    <string name="dashboard_hero_label">Sua jornada continua</string>
+    <string name="dashboard_hero_title">O próximo passo é seu!</string>
+    <string name="dashboard_hero_description">Aprenda, evolua e descubra novas oportunidades.</string>
     <string name="app_name">ProjetoPI</string>
     <string name="api_not_configured">O endereço do servidor ainda não foi configurado nesta versão. Procure a organização.</string>
     <string name="checkin_title">Registrar presença</string>

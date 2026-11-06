@@ -3,7 +3,13 @@
     <TextView android:id="@+id/dataTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/texto_primario"/>
     <TextView android:id="@+id/dataStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingVertical="12dp" android:accessibilityLiveRegion="polite"/>
     <ProgressBar android:id="@+id/dataProgress" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:visibility="gone"/>
-    <Button android:id="@+id/dataRetry" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Atualizar / tentar novamente"/>
+    <Button
+        android:id="@+id/dataRetry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/acao_primaria"
+        android:textColor="@color/white"
+        android:text="Atualizar / tentar novamente" />
     <LinearLayout android:id="@+id/dataActions" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"/>
     <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true">
         <LinearLayout android:id="@+id/dataItems" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"/>
