@@ -40,6 +40,29 @@ public class RegistrationOfflineInstrumentedTest {
         }
     }
 
+    @Test public void rejectsDifferentPasswordsAndRequiresConsent() {
+        try (ActivityScenario<CadastroActivity> screen = ActivityScenario.launch(CadastroActivity.class)) {
+            screen.onActivity(activity -> {
+                ((EditText) activity.findViewById(R.id.EditarNome)).setText("Aluno fictício");
+                ((EditText) activity.findViewById(R.id.EditarEmail)).setText("teste@example.invalid");
+                ((EditText) activity.findViewById(R.id.EditSenha)).setText("Ficticio-2026!");
+                EditText confirmation = activity.findViewById(R.id.EditarConfirmarSenha);
+                confirmation.setText("Outra-senha!");
+                Button submit = activity.findViewById(R.id.btnCadastrar);
+                TextView error = activity.findViewById(R.id.txtErroCadastro);
+
+                submit.performClick();
+                assertEquals("As senhas não coincidem.", error.getText().toString());
+                assertTrue(submit.isEnabled());
+
+                confirmation.setText("Ficticio-2026!");
+                submit.performClick();
+                assertEquals(activity.getString(R.string.signup_consent), error.getText().toString());
+                assertTrue(submit.isEnabled());
+            });
+        }
+    }
+
     @Test public void failedConnectionRestoresButtonAndDisplaysReadableError() throws Exception {
         Assume.assumeTrue("Executar apenas com encaminhamento de teste para porta sem servidor",
                 "true".equals(InstrumentationRegistry.getArguments().getString("offline_test")));
@@ -48,6 +71,7 @@ public class RegistrationOfflineInstrumentedTest {
                 ((EditText) activity.findViewById(R.id.EditarNome)).setText("Teste ficticio sem conexao");
                 ((EditText) activity.findViewById(R.id.EditarEmail)).setText("offline@example.invalid");
                 ((EditText) activity.findViewById(R.id.EditSenha)).setText("Ficticio-offline-2026!");
+                ((EditText) activity.findViewById(R.id.EditarConfirmarSenha)).setText("Ficticio-offline-2026!");
                 ((CheckBox) activity.findViewById(R.id.checkConsentimento)).setChecked(true);
                 ((Button) activity.findViewById(R.id.btnCadastrar)).performClick();
             });

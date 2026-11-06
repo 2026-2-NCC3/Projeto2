@@ -25,11 +25,13 @@ import java.util.Set;
 public class AgendaActivity extends DataListActivity {
     private static final String KEY_MONTH = "agenda_month";
     private static final String KEY_DAY = "agenda_day";
+    private static final String KEY_INITIAL_RECORD_HANDLED = "agenda_initial_record_handled";
     private static final Locale PT_BR = new Locale("pt", "BR");
 
     private final Calendar visibleMonth = Calendar.getInstance();
     private JSONArray activities = new JSONArray();
     private int selectedDay;
+    private boolean initialRecordHandled;
     private boolean loaded;
     private boolean accessDenied;
     private AgendaCalendarGrid calendarGrid;
@@ -52,6 +54,9 @@ public class AgendaActivity extends DataListActivity {
                     KEY_MONTH, visibleMonth.getTimeInMillis()));
             visibleMonth.set(Calendar.DAY_OF_MONTH, 1);
             selectedDay = savedInstanceState.getInt(KEY_DAY, selectedDay);
+            if (savedInstanceState.getBoolean(KEY_INITIAL_RECORD_HANDLED)) {
+                ignorarSelecaoInicial();
+            }
         }
         calendarGrid = findViewById(R.id.gradeCalendario);
         monthText = findViewById(R.id.txtMesAno);
@@ -68,6 +73,7 @@ public class AgendaActivity extends DataListActivity {
     protected void onSaveInstanceState(Bundle outState) {
         outState.putLong(KEY_MONTH, visibleMonth.getTimeInMillis());
         outState.putInt(KEY_DAY, selectedDay);
+        outState.putBoolean(KEY_INITIAL_RECORD_HANDLED, initialRecordHandled);
         super.onSaveInstanceState(outState);
     }
 
@@ -86,10 +92,7 @@ public class AgendaActivity extends DataListActivity {
             accessDenied = true;
             // Nunca mantém marcadores derivados de registros que deixaram de ser autorizados.
             activities = new JSONArray();
-            calendarGrid.render(visibleMonth, selectedDay, eventDays(), day -> {
-                selectedDay = day;
-                updateCalendar();
-            });
+            populateGrid();
             items.removeAllViews();
             addEmpty("Acesso não autorizado", "Não foi possível consultar esta agenda.");
         } else if (httpStatus != 401 && session.active() && items.getChildCount() == 0) {
@@ -116,10 +119,11 @@ public class AgendaActivity extends DataListActivity {
         accessDenied = false;
 
         String requestedId = getIntent().getStringExtra("registro_id");
-        if (requestedId != null) {
+        if (!initialRecordHandled && requestedId != null) {
             for (int index = 0; index < records.length(); index++) {
                 JSONObject record = records.getJSONObject(index);
                 if (!requestedId.equals(record.optString("id"))) continue;
+                initialRecordHandled = true;
                 Calendar date = parseDate(record.optString("data"));
                 if (date != null) {
                     visibleMonth.setTimeInMillis(date.getTimeInMillis());
@@ -172,7 +176,13 @@ public class AgendaActivity extends DataListActivity {
         container.addView(action, lp);
     }
 
+    private void ignorarSelecaoInicial() {
+        initialRecordHandled = true;
+        getIntent().removeExtra("registro_id");
+    }
+
     private void changeMonth(int offset) {
+        ignorarSelecaoInicial();
         visibleMonth.add(Calendar.MONTH, offset);
         visibleMonth.set(Calendar.DAY_OF_MONTH, 1);
         Calendar now = Calendar.getInstance();
@@ -201,6 +211,7 @@ public class AgendaActivity extends DataListActivity {
 
     private void populateGrid() {
         calendarGrid.render(visibleMonth, selectedDay, eventDays(), day -> {
+            ignorarSelecaoInicial();
             selectedDay = day;
             updateCalendar();
         });

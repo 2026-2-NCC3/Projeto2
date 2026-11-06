@@ -1,6 +1,13 @@
 package com.example.projetopi;
 
+import android.app.Instrumentation;
 import android.content.Context;
+import android.content.Intent;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import com.android.volley.Request;
@@ -19,6 +26,7 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.UUID;
@@ -154,5 +162,158 @@ public class LocalPresenceApiInstrumentedTest {
             store.close();
             context.deleteSharedPreferences(prefix + "sessao_usuario");
         }
+    }
+
+    @Test public void dashboardSessionAndAgendaSelectionSurviveRealNavigation() throws Exception {
+        Assume.assumeTrue("Requer fixture temporaria explicitamente autorizada",
+                "true".equals(InstrumentationRegistry.getArguments().getString("fixture_api")));
+        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
+        Context context = instrumentation.getTargetContext();
+        LocalStudentStore store = LocalStudentStore.get(context);
+        SessionManager session = new SessionManager(context, store);
+        assertTrue("Use um emulador sem uma conta conectada", session.userId().isEmpty());
+
+        try {
+            Instrumentation.ActivityMonitor homeMonitor =
+                    instrumentation.addMonitor(TelaInicial.class.getName(), null, false);
+            try (ActivityScenario<MainActivity> login = ActivityScenario.launch(MainActivity.class)) {
+                login.onActivity(activity -> {
+                    ((EditText) activity.findViewById(R.id.editEmail)).setText("a1@example.invalid");
+                    ((EditText) activity.findViewById(R.id.editSenha)).setText("Ficticio-teste-123!");
+                    activity.findViewById(R.id.btnEntrar).performClick();
+                });
+                assertNotNull("Login deve abrir o Dashboard",
+                        instrumentation.waitForMonitorWithTimeout(homeMonitor, 15000));
+            }
+            assertTrue(session.active());
+            assertEquals("a1", session.userId());
+
+            TelaInicial resumed = (TelaInicial) openAndAwait(instrumentation, context,
+                    MainActivity.class, TelaInicial.class);
+            AtomicReference<String> nextTitle = new AtomicReference<>("");
+            long dashboardDeadline = System.currentTimeMillis() + 15000;
+            do {
+                instrumentation.runOnMainSync(() -> nextTitle.set(((TextView) resumed
+                        .findViewById(R.id.dashboardActivityTitle)).getText().toString()));
+                if ("Encontro ficticio de integracao".equals(nextTitle.get())) break;
+                Thread.sleep(100);
+            } while (System.currentTimeMillis() < dashboardDeadline);
+            assertEquals("Encontro ficticio de integracao", nextTitle.get());
+            instrumentation.runOnMainSync(() -> {
+                assertTrue(((TextView) resumed.findViewById(R.id.txtSaudacao))
+                        .getText().toString().contains(session.fullName()));
+            });
+
+            Reply onlineAgenda = request(new ApiClient(context), "/api/agenda",
+                    Request.Method.GET, null, session.token());
+            assertEquals(200, onlineAgenda.status);
+            String dateValue = new JSONArray(onlineAgenda.body).getJSONObject(0).getString("data");
+            Calendar eventDay = Calendar.getInstance();
+            eventDay.setTime(new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT).parse(dateValue));
+            SimpleDateFormat dayLabel = new SimpleDateFormat("d 'de' MMMM", new Locale("pt", "BR"));
+            String initialDay = dayLabel.format(eventDay.getTime());
+            int dayToSelect = eventDay.get(Calendar.DAY_OF_MONTH) == 1 ? 2 : 1;
+            eventDay.set(Calendar.DAY_OF_MONTH, dayToSelect);
+            String selectedDay = dayLabel.format(eventDay.getTime());
+
+            Intent agendaIntent = new Intent(context, AgendaActivity.class)
+                    .putExtra("registro_id", "at1");
+            try (ActivityScenario<AgendaActivity> agenda = ActivityScenario.launch(agendaIntent)) {
+                awaitAgendaStatus(agenda, "Dados atualizados.");
+                agenda.onActivity(activity -> {
+                    TextView date = activity.findViewById(R.id.txtDataSelecionada);
+                    assertEquals(initialDay, date.getText().toString());
+                    AgendaCalendarGrid calendar = activity.findViewById(R.id.gradeCalendario);
+                    boolean selected = false;
+                    for (int index = 0; index < calendar.getChildCount(); index++) {
+                        View day = calendar.getChildAt(index);
+                        CharSequence description = day.getContentDescription();
+                        if (description != null && description.toString().startsWith("Dia " + dayToSelect + " de ")) {
+                            selected = day.performClick();
+                            break;
+                        }
+                    }
+                    assertTrue(selected);
+                    activity.findViewById(R.id.dataRetry).performClick();
+                });
+                awaitAgendaStatus(agenda, "Dados atualizados.");
+                assertSelectedDay(agenda, selectedDay);
+                agenda.recreate();
+                awaitAgendaStatus(agenda, "Dados atualizados.");
+                assertSelectedDay(agenda, selectedDay);
+                agenda.onActivity(activity -> activity.findViewById(R.id.btnProximoMes).performClick());
+                eventDay.add(Calendar.MONTH, 1);
+                eventDay.set(Calendar.DAY_OF_MONTH, 1);
+                assertSelectedDay(agenda, dayLabel.format(eventDay.getTime()));
+            }
+            assertNotNull(store.read("a1", ApiConfig.BASE_URL + "/api/agenda", "agenda"));
+
+            Instrumentation.ActivityMonitor loginMonitor =
+                    instrumentation.addMonitor(MainActivity.class.getName(), null, false);
+            instrumentation.runOnMainSync(() -> resumed.findViewById(R.id.btnSair).performClick());
+            assertNotNull("Sair deve retornar ao Login",
+                    instrumentation.waitForMonitorWithTimeout(loginMonitor, 10000));
+            assertTrue(session.userId().isEmpty());
+            assertNull(store.read("a1", ApiConfig.BASE_URL + "/api/agenda", "agenda"));
+            openAndAwait(instrumentation, context, TelaInicial.class, MainActivity.class);
+            assertFalse(session.active());
+        } finally {
+            if ("a1".equals(session.userId())) session.clear();
+        }
+    }
+
+    @Test public void agendaDisplaysSavedRecordsWhenConnectionFails() throws Exception {
+        Assume.assumeTrue("Requer encaminhamento para uma conexao de teste indisponivel",
+                "true".equals(InstrumentationRegistry.getArguments().getString("offline_test")));
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        LocalStudentStore store = LocalStudentStore.get(context);
+        SessionManager session = new SessionManager(context, store);
+        assertTrue("Use um emulador sem uma conta conectada", session.userId().isEmpty());
+        String owner = "agenda-offline-fixture";
+        try {
+            session.save(PresenceSynchronizerInstrumentedTest.login(owner));
+            String today = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT).format(new Date());
+            JSONObject record = new JSONObject().put("id", "fixture")
+                    .put("titulo", "Atividade fictícia salva").put("curso_id", "fixture-course")
+                    .put("data", today).put("hora_inicio", "10:00").put("hora_fim", "11:00");
+            store.save(owner, ApiConfig.BASE_URL + "/api/agenda", "agenda",
+                    new JSONArray().put(record).toString(), System.currentTimeMillis(), -1);
+
+            try (ActivityScenario<AgendaActivity> agenda = ActivityScenario.launch(AgendaActivity.class)) {
+                awaitAgendaStatus(agenda, "Sem atualizacao online.");
+                agenda.onActivity(activity -> assertEquals("Atividade fictícia salva",
+                        ((TextView) activity.findViewById(R.id.agendaItemTitulo)).getText().toString()));
+            }
+        } finally {
+            if (owner.equals(session.userId())) session.clear();
+        }
+    }
+
+    private static android.app.Activity openAndAwait(Instrumentation instrumentation, Context context,
+                                                     Class<?> start, Class<?> expected) {
+        Instrumentation.ActivityMonitor monitor = instrumentation.addMonitor(expected.getName(), null, false);
+        instrumentation.runOnMainSync(() -> context.startActivity(new Intent(context, start)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)));
+        android.app.Activity activity = instrumentation.waitForMonitorWithTimeout(monitor, 15000);
+        assertNotNull("Tela esperada: " + expected.getSimpleName(), activity);
+        return activity;
+    }
+
+    private static void awaitAgendaStatus(ActivityScenario<AgendaActivity> agenda, String expected)
+            throws InterruptedException {
+        AtomicReference<String> status = new AtomicReference<>("");
+        long deadline = System.currentTimeMillis() + 15000;
+        do {
+            agenda.onActivity(activity -> status.set(((TextView) activity.findViewById(R.id.dataStatus))
+                    .getText().toString()));
+            if (status.get().startsWith(expected)) return;
+            Thread.sleep(100);
+        } while (System.currentTimeMillis() < deadline);
+        fail("Agenda não atingiu o estado esperado: " + status.get());
+    }
+
+    private static void assertSelectedDay(ActivityScenario<AgendaActivity> agenda, String expected) {
+        agenda.onActivity(activity -> assertEquals(expected,
+                ((TextView) activity.findViewById(R.id.txtDataSelecionada)).getText().toString()));
     }
 }

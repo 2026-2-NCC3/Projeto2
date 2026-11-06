@@ -70,7 +70,12 @@ public class RegistrationApiInstrumentedTest {
         JSONObject invalid = new JSONObject(credentials.toString()).put("senha", new JSONObject());
         assertEquals(400, request("/api/profiles", Request.Method.POST, invalid, "").status);
     }
-    @Test public void registrationScreenStopsLoadingAfterConfirmedCreation() throws Exception {
+    @Test public void registrationScreenAcceptsOptionalWhatsappAndStopsLoading() throws Exception {
+        assertRegistrationScreenCreatesAccount("", null);
+        assertRegistrationScreenCreatesAccount("+55 (11) 90000-0000", "11900000000");
+    }
+
+    private void assertRegistrationScreenCreatesAccount(String whatsapp, String expectedPhone) throws Exception {
         String email = "android-tela-" + UUID.randomUUID() + "@example.invalid";
         AtomicReference<CadastroActivity> screen = new AtomicReference<>();
         try (ActivityScenario<CadastroActivity> scenario = ActivityScenario.launch(CadastroActivity.class)) {
@@ -79,6 +84,8 @@ public class RegistrationApiInstrumentedTest {
                 ((EditText) activity.findViewById(R.id.EditarNome)).setText("Teste ficticio tela Android");
                 ((EditText) activity.findViewById(R.id.EditarEmail)).setText(email);
                 ((EditText) activity.findViewById(R.id.EditSenha)).setText("Ficticio-tela-2026!");
+                ((EditText) activity.findViewById(R.id.EditarConfirmarSenha)).setText("Ficticio-tela-2026!");
+                ((EditText) activity.findViewById(R.id.EditarWhatsapp)).setText(whatsapp);
                 ((CheckBox) activity.findViewById(R.id.checkConsentimento)).setChecked(true);
                 Button button = activity.findViewById(R.id.btnCadastrar);
                 button.performClick();
@@ -93,7 +100,17 @@ public class RegistrationApiInstrumentedTest {
             }
             assertTrue("A tela deve encerrar o carregamento apos HTTP 201", finished.get());
             JSONObject credentials = new JSONObject().put("email", email).put("senha", "Ficticio-tela-2026!");
-            assertEquals(200, request("/auth/login", Request.Method.POST, credentials, "").status);
+            Reply login = request("/auth/login", Request.Method.POST, credentials, "");
+            assertEquals(200, login.status);
+            String token = new JSONObject(login.body).getString("token");
+            Reply profile = request("/api/profiles/me", Request.Method.GET, null, token);
+            assertEquals(200, profile.status);
+            JSONObject student = new JSONObject(profile.body);
+            if (expectedPhone == null) {
+                assertTrue(student.isNull("telefone"));
+            } else {
+                assertEquals(expectedPhone, student.getString("telefone"));
+            }
         }
     }
 }
