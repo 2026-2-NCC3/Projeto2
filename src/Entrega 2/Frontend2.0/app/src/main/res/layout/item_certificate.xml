@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_marginTop="16dp" app:cardCornerRadius="16dp" app:cardElevation="0dp"
+    app:strokeColor="@color/certificate_border" app:strokeWidth="1dp" app:cardBackgroundColor="@color/white">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:padding="16dp" android:orientation="vertical">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical">
+            <ImageView android:layout_width="40dp" android:layout_height="40dp"
+                android:src="@drawable/ic_badge" app:tint="@color/certificate_purple"
+                android:importantForAccessibility="no" android:layout_marginEnd="12dp" />
+            <TextView android:id="@+id/certificateName" android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_weight="1"
+                android:textSize="18sp" android:textStyle="bold" android:textColor="@color/certificate_ink" />
+        </LinearLayout>
+        <TextView android:id="@+id/certificateState" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="12dp"
+            android:textSize="16sp" android:textStyle="bold" android:textColor="@color/certificate_purple" />
+        <View android:layout_width="32dp" android:layout_height="3dp"
+            android:background="@color/certificate_green" android:layout_marginTop="8dp" />
+        <TextView android:id="@+id/certificateMetadata" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="8dp"
+            android:textSize="14sp" android:textColor="@color/certificate_muted" />
+        <TextView android:id="@+id/certificateCriteria" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="8dp"
+            android:textSize="14sp" android:textColor="@color/certificate_muted" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/certificateFile"
+            android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp"
+            android:minHeight="48dp" android:text="@string/certificate_file_unavailable"
+            android:textAllCaps="false" android:enabled="false" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

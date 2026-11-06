@@ -53,7 +53,13 @@ function criar(req, res, next) {
     }
 
     const criada = atividadesModel.criar({ ...atividade, id: crypto.randomUUID() });
-    registrarAuditoria({ usuarioId: req.usuario.id, acao: "criar", entidade: "atividades", entidadeId: criada.id, valoresDepois: criada });
+    registrarAuditoria({
+      usuarioId: req.usuario.id,
+      acao: "criar",
+      entidade: "atividades",
+      entidadeId: criada.id,
+      valoresDepois: criada
+    });
     return res.status(201).json(criada);
   });
 }
@@ -73,7 +79,14 @@ function atualizar(req, res, next) {
     }
 
     const atualizada = atividadesModel.atualizar(atual.id, atividade);
-    registrarAuditoria({ usuarioId: req.usuario.id, acao: "editar", entidade: "atividades", entidadeId: atual.id, valoresAntes: atual, valoresDepois: atualizada });
+    registrarAuditoria({
+      usuarioId: req.usuario.id,
+      acao: "editar",
+      entidade: "atividades",
+      entidadeId: atual.id,
+      valoresAntes: atual,
+      valoresDepois: atualizada
+    });
     return res.json(atualizada);
   });
 }
@@ -87,7 +100,13 @@ function excluir(req, res, next) {
     }
 
     atividadesModel.excluir(atual.id);
-    registrarAuditoria({ usuarioId: req.usuario.id, acao: "excluir", entidade: "atividades", entidadeId: atual.id, valoresAntes: atual });
+    registrarAuditoria({
+      usuarioId: req.usuario.id,
+      acao: "excluir",
+      entidade: "atividades",
+      entidadeId: atual.id,
+      valoresAntes: atual
+    });
     return res.status(204).end();
   });
 }

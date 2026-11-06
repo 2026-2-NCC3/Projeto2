@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
+const { validEmail, validPassword } = require("../utils/credentials");
 const adminModel = require("../models/adminModel");
 const {
   executarEscrita,
@@ -38,12 +39,21 @@ function criar(req, res, next) {
       });
     }
 
+    if (!validEmail(admin.email)) {
+      return res.status(400).json({ erro: "Informe um email valido" });
+    }
+    admin.email = admin.email.trim();
     if (!papelAdministrativoValido(admin.papel)) {
       return res.status(400).json({
         erro: "papel deve ser admin_operador ou admin_super"
       });
     }
 
+    if (!validPassword(req.body.senha)) {
+      return res.status(400).json({
+        erro: "Senha deve ter ao menos 12 caracteres e no maximo 72 bytes"
+      });
+    }
     if (adminModel.buscarPorEmail(admin.email)) {
       return res.status(400).json({
         erro: "Este e-mail já está cadastrado"
@@ -123,8 +133,8 @@ function redefinirSenha(req, res, next) {
       return res.status(404).json({ erro: "Administrador não encontrado" });
     }
 
-    if (!req.body.senha) {
-      return res.status(400).json({ erro: "senha é obrigatória" });
+    if (!validPassword(req.body.senha)) {
+      return res.status(400).json({ erro: "Senha deve ter ao menos 12 caracteres e no maximo 72 bytes" });
     }
 
     adminModel.redefinirSenha(

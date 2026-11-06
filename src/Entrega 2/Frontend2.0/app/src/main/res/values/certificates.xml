@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="certificate_purple">#7214FA</color>
+    <color name="certificate_green">#51C403</color>
+    <color name="certificate_yellow">#EEC545</color>
+    <color name="certificate_ink">#24123E</color>
+    <color name="certificate_muted">#666078</color>
+    <color name="certificate_border">#EAE5F2</color>
+    <color name="certificate_soft">#F4EDFF</color>
+    <string name="certificates_title">Meus certificados</string>
+    <string name="certificates_intro">Celebre suas conquistas e acompanhe seu desenvolvimento.</string>
+    <string name="certificates_dedication">Sua dedicação vale muito</string>
+    <plurals name="certificates_emitted">
+        <item quantity="one">%d certificado emitido</item>
+        <item quantity="other">%d certificados emitidos</item>
+    </plurals>
+    <string name="certificates_empty">Nenhum certificado registrado para sua conta.</string>
+    <string name="certificates_refresh">Atualizar certificados</string>
+    <string name="certificate_back">Voltar</string>
+    <string name="certificate_issued">Emitido</string>
+    <string name="certificate_ready">Pronto para emissão</string>
+    <string name="certificate_revoked">Revogado</string>
+    <string name="certificate_pending">Pendente</string>
+    <string name="certificate_hours">%d horas</string>
+    <string name="certificate_emission">Emissão: %s</string>
+    <string name="certificate_date_missing">Sem data de emissão</string>
+    <string name="certificate_frequency">Frequência</string>
+    <string name="certificate_assessment">Avaliação</string>
+    <string name="certificate_workload">Carga horária</string>
+    <string name="certificate_met">Atendido</string>
+    <string name="certificate_not_met">Pendente</string>
+    <string name="certificate_no_criteria">Critérios ainda não registrados.</string>
+    <string name="certificate_file_unavailable">Arquivo indisponível</string>
+    <string name="certificate_storage_notice">Consulta de metadados. A origem dos PDFs ainda não foi validada; visualização e download estão indisponíveis.</string>
+    <string name="certificate_offline_notice">Dados salvos podem estar desatualizados. Conecte-se e atualize para consultar a situação atual.</string>
+</resources>

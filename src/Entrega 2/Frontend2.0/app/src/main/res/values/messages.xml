@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="message_purple">@color/certificate_purple</color>
+    <color name="message_green">@color/certificate_green</color>
+    <color name="message_yellow">@color/certificate_yellow</color>
+    <string name="messages_title">Comunicados</string>
+    <string name="messages_intro">Avisos da Próxima Etapa destinados a você.</string>
+    <string name="messages_refresh">Atualizar comunicados</string>
+    <string name="messages_empty">Nenhum comunicado disponível para sua conta.</string>
+    <string name="messages_offline">Mensagens salvas podem estar desatualizadas. Atualize com conexão para consultar a situação atual.</string>
+    <string name="message_unread">Não lida</string>
+    <string name="message_read">Lida</string>
+    <string name="message_read_unconfirmed">Não foi possível confirmar a leitura. A situação será atualizada na próxima consulta online.</string>
+    <string name="message_origin_date">%1$s · %2$s</string>
+    <string name="message_detail">%1$s\n%2$s\n\n%3$s</string>
+    <plurals name="messages_unread_count">
+        <item quantity="one">%d mensagem não lida</item>
+        <item quantity="other">%d mensagens não lidas</item>
+    </plurals>
+    <item name="messageFullBody" type="id" />
+</resources>

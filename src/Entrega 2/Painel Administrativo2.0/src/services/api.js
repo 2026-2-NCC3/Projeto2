@@ -11,7 +11,7 @@ class ApiError extends Error {
         this.status = status;
     }
 }
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+const API_URL = import.meta.env?.VITE_API_URL ?? 'http://localhost:3000';
 const TOKEN_KEY = 'proxima-etapa.admin.token';
 const USER_KEY = 'proxima-etapa.admin.usuario';
 function storageParaLeitura() {
@@ -86,8 +86,8 @@ export async function fazerLogin(email, senha) {
         body: JSON.stringify({ email, senha }),
     });
 }
-export function listarCursos() {
-    return requisicao('/api/cursos');
+export function listarCursos(opcoes) {
+    return requisicao('/api/cursos', opcoes ? opcoesDeConsulta(opcoes) : {});
 }
 export function criarCurso(dados) {
     return requisicao('/api/cursos', {
@@ -122,8 +122,8 @@ export function atualizarUniversidade(id, dados) {
 export function excluirUniversidade(id) {
     return requisicao(`/api/universidades/${id}`, { method: 'DELETE' }, true);
 }
-export function listarPerfis() {
-    return requisicao('/api/profiles');
+export function listarPerfis(opcoes = {}) {
+    return requisicao('/api/profiles', opcoesDeConsulta(opcoes), true);
 }
 export function criarPerfil(dados) {
     return requisicao('/api/profiles', {
@@ -145,4 +145,70 @@ export function bloquearPerfil(id, bloqueado, motivo_bloqueio = null) {
 }
 export function excluirPerfil(id) {
     return requisicao(`/api/profiles/${id}`, { method: 'DELETE' }, true);
+}
+
+function opcoesDeConsulta(opcoes) {
+    const sinais = [AbortSignal.timeout(15000)];
+    if (opcoes.signal) sinais.push(opcoes.signal);
+    return {
+        ...opcoes,
+        cache: 'no-store',
+        referrerPolicy: 'no-referrer',
+        signal: AbortSignal.any(sinais),
+    };
+}
+
+export function listarAtividades(opcoes = {}) {
+    return requisicao('/api/atividades', opcoesDeConsulta(opcoes), true);
+}
+
+export function emitirQrPresenca(janela, opcoes = {}) {
+    return requisicao('/api/presencas/qr-token', {
+        ...opcoesDeConsulta(opcoes),
+        method: 'POST',
+        body: JSON.stringify(janela),
+    }, true);
+}
+
+export function listarPresencasDoAluno(alunoId, opcoes = {}) {
+    return requisicao(`/api/presencas/alunos/${encodeURIComponent(alunoId)}`, opcoesDeConsulta(opcoes), true);
+}
+
+export function listarCertificados(opcoes = {}) {
+    return requisicao('/api/certificados', opcoesDeConsulta(opcoes), true);
+}
+
+export function listarMensagens(opcoes = {}) {
+    return requisicao('/api/mensagens', opcoesDeConsulta(opcoes), true);
+}
+
+export function criarMensagem(body, opcoes = {}) {
+    return requisicao('/api/mensagens', {
+        ...opcoesDeConsulta(opcoes),
+        method: 'POST',
+        body: JSON.stringify(body),
+    }, true);
+}
+
+export function editarMensagem(id, body, opcoes = {}) {
+    return requisicao('/api/mensagens/' + encodeURIComponent(id), {
+        ...opcoesDeConsulta(opcoes),
+        method: 'PUT',
+        body: JSON.stringify(body),
+    }, true);
+}
+
+export function excluirMensagem(id, opcoes = {}) {
+    return requisicao('/api/mensagens/' + encodeURIComponent(id), {
+        ...opcoesDeConsulta(opcoes),
+        method: 'DELETE',
+    }, true);
+}
+
+export function publicarMensagem(id, opcoes = {}) {
+    return requisicao('/api/mensagens/' + encodeURIComponent(id) + '/publicar', {
+        ...opcoesDeConsulta(opcoes),
+        method: 'POST',
+        body: '{}',
+    }, true);
 }

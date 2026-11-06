@@ -2,90 +2,104 @@ package com.example.projetopi;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Base64;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SessionManager {
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
-    private static final String PREFERENCIAS = "sessao_usuario";
-
-    private static final String CHAVE_TOKEN = "token";
-    private static final String CHAVE_USUARIO_ID = "usuario_id";
-    private static final String CHAVE_NOME = "nome_completo";
-    private static final String CHAVE_EMAIL = "email";
-    private static final String CHAVE_PAPEL = "papel";
-    private static final String CHAVE_LOGADO = "usuario_logado";
-
+public final class SessionManager {
     private final SharedPreferences preferences;
+    private final File snapshotDirectory;
+    private final LocalStudentStore localStore;
 
     public SessionManager(Context context) {
-        preferences = context.getSharedPreferences(
-                PREFERENCIAS,
-                Context.MODE_PRIVATE
-        );
+        this(context, LocalStudentStore.get(context));
     }
 
-    public void salvarSessao(JSONObject resposta) throws JSONException {
-        String token = resposta.getString("token");
-        JSONObject usuario = resposta.getJSONObject("usuario");
+    SessionManager(Context context, LocalStudentStore localStore) {
+        this.localStore = localStore;
+        preferences = context.getSharedPreferences("sessao_usuario", Context.MODE_PRIVATE);
+        snapshotDirectory = new File(context.getNoBackupFilesDir(), "snapshots");
+    }
 
+    public String userId() {
+        return preferences.getString("usuario_id", "");
+    }
+
+    public String token() {
+        return preferences.getString("token", "");
+    }
+
+    public String fullName() {
+        return preferences.getString("nome_completo", "");
+    }
+
+    public String version() {
+        return preferences.getString("session_version", "") + ":" + userId() + ":" + token();
+    }
+
+    public boolean active() {
+        if (userId().isEmpty() || token().isEmpty()) {
+            return false;
+        }
+        try {
+            String[] tokenParts = token().split("\\.");
+            if (tokenParts.length != 3) {
+                clear();
+                return false;
+            }
+
+            byte[] decodedPayload = Base64.decode(tokenParts[1], Base64.URL_SAFE | Base64.NO_WRAP);
+            String payload = new String(decodedPayload, StandardCharsets.UTF_8);
+            long expiresAtSeconds = new JSONObject(payload).getLong("exp");
+            if (expiresAtSeconds <= System.currentTimeMillis() / 1000L) {
+                clear();
+                return false;
+            }
+            return true;
+        } catch (Exception error) {
+            clear();
+            return false;
+        }
+    }
+
+    public void clear() {
+        try {
+            localStore.clear(userId());
+        } catch (RuntimeException error) {
+            // Uma falha no cache nao pode manter credenciais ativas apos logout.
+            new SnapshotStore(snapshotDirectory).clear(userId());
+        } finally {
+            preferences.edit().clear().commit();
+        }
+    }
+
+    public void save(JSONObject response) throws JSONException {
+        JSONObject user = response.getJSONObject("usuario");
+        String userId = user.getString("id");
+        String accessToken = response.getString("token");
+        if (userId.isEmpty() || accessToken.isEmpty()) {
+            throw new JSONException("Sessao invalida");
+        }
+
+        try {
+            localStore.clear(userId());
+        } catch (RuntimeException error) {
+            throw new JSONException("Nao foi possivel limpar os dados da sessao anterior");
+        }
         preferences.edit()
-                .putString(CHAVE_TOKEN, token)
-                .putString(
-                        CHAVE_USUARIO_ID,
-                        usuario.getString("id")
-                )
-                .putString(
-                        CHAVE_NOME,
-                        usuario.optString("nome_completo", "")
-                )
-                .putString(
-                        CHAVE_EMAIL,
-                        usuario.optString("email", "")
-                )
-                .putString(
-                        CHAVE_PAPEL,
-                        usuario.optString("papel", "")
-                )
-                .putBoolean(CHAVE_LOGADO, true)
-                .apply();
-    }
-
-    public boolean usuarioEstaLogado() {
-        boolean usuarioLogado = preferences.getBoolean(
-                CHAVE_LOGADO,
-                false
-        );
-
-        String token = getToken();
-
-        return usuarioLogado
-                && token != null
-                && !token.trim().isEmpty();
-    }
-
-    public String getToken() {
-        return preferences.getString(CHAVE_TOKEN, null);
-    }
-
-    public String getUsuarioId() {
-        return preferences.getString(CHAVE_USUARIO_ID, "");
-    }
-
-    public String getNomeCompleto() {
-        return preferences.getString(CHAVE_NOME, "");
-    }
-
-    public String getEmail() {
-        return preferences.getString(CHAVE_EMAIL, "");
-    }
-
-    public String getPapel() {
-        return preferences.getString(CHAVE_PAPEL, "");
-    }
-
-    public void encerrarSessao() {
-        preferences.edit().clear().apply();
+                .clear()
+                .putString("usuario_id", userId)
+                .putString("token", accessToken)
+                .putString("nome_completo", user.optString("nome_completo", ""))
+                .putString("email", user.optString("email", ""))
+                .putString("papel", user.optString("papel", ""))
+                .putString("session_version", UUID.randomUUID().toString())
+                .putBoolean("usuario_logado", true)
+                .commit();
     }
 }

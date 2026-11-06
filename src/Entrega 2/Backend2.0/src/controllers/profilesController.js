@@ -19,8 +19,23 @@ function dadosDoPerfil(body, atual = {}) {
   };
 }
 
+function perfilPublico(perfil, administrativo) {
+  if (administrativo) {
+    return perfil;
+  }
+  const {
+    ativo,
+    bloqueado,
+    motivo_bloqueio,
+    criado_em,
+    atualizado_em,
+    ...pessoal
+  } = perfil;
+  return pessoal;
+}
+
 function ehAdmin(req) {
-  return req.usuario.papel !== "aluno";
+  return ["admin_operador", "admin_super"].includes(req.usuario.papel);
 }
 
 function listar(req, res, next) {
@@ -33,6 +48,9 @@ function listar(req, res, next) {
 
 function buscarPorId(req, res, next) {
   try {
+    if (!ehAdmin(req) && req.usuario.id !== req.params.id) {
+      return res.status(403).json({ erro: "Acesso negado" });
+    }
     const perfil = model.buscarPorId(req.params.id);
 
     if (!perfil) {
@@ -45,7 +63,7 @@ function buscarPorId(req, res, next) {
       });
     }
 
-    return res.json(perfil);
+    return res.json(perfilPublico(perfil, ehAdmin(req)));
   } catch (erro) {
     return next(erro);
   }
@@ -53,7 +71,16 @@ function buscarPorId(req, res, next) {
 
 function criar(req, res, next) {
   return executarEscrita(res, next, () => {
-    const perfil = dadosDoPerfil(req.body);
+    const body = req.body;
+    if (!body || Array.isArray(body) || typeof body !== "object"
+        || typeof body.nome_completo !== "string" || !body.nome_completo.trim()
+        || typeof body.email !== "string" || !body.email.trim()
+        || typeof body.senha !== "string" || !body.senha
+        || Buffer.byteLength(body.senha, "utf8") > 72) {
+      return res.status(400).json({ erro: "Informe nome, e-mail e senha validos (senha de ate 72 bytes)." });
+    }
+    const perfil = dadosDoPerfil(body);
+    perfil.nome_completo = perfil.nome_completo.trim();
     const consentimentoLgp = req.body.consentimento_lgpd ?? 0;
 
     if (!perfil.nome_completo || !perfil.email || !req.body.senha) {
@@ -89,12 +116,15 @@ function criar(req, res, next) {
       valoresDepois: criado
     });
 
-    return res.status(201).json(criado);
+    return res.status(201).json(perfilPublico(criado, false));
   });
 }
 
 function atualizar(req, res, next) {
   return executarEscrita(res, next, () => {
+    if (!ehAdmin(req) && req.usuario.id !== req.params.id) {
+      return res.status(403).json({ erro: "Acesso negado" });
+    }
     const atual = model.buscarPorId(req.params.id);
 
     if (!atual) {
@@ -126,7 +156,7 @@ function atualizar(req, res, next) {
       valoresDepois: atualizado
     });
 
-    return res.json(atualizado);
+    return res.json(perfilPublico(atualizado, ehAdmin(req)));
   });
 }
 

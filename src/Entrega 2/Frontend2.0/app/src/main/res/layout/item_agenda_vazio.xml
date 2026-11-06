@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="250dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
+    android:background="@drawable/agenda_calendario_card">
+    <ImageView
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:padding="18dp"
+        android:background="@drawable/agenda_empty_icon_bg"
+        android:src="@drawable/ic_calendar"
+        app:tint="@color/acao_primaria"
+        android:contentDescription="@null" />
+    <TextView
+        android:id="@+id/agendaEmptyTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:gravity="center"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:textColor="@color/texto_primario" />
+    <TextView
+        android:id="@+id/agendaEmptyDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:lineSpacingExtra="3dp"
+        android:textSize="14sp"
+        android:textColor="@color/texto_secundario" />
+</LinearLayout>

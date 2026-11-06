@@ -20,6 +20,16 @@ const impactData = [
     { label: 'Horas de capacitação', value: 8420, icon: '⏱️' },
     { label: 'Taxa média de conclusão', value: '74%', icon: '✅' },
 ];
+function completionRateClass(completionRate) {
+    if (completionRate >= 85) {
+        return 'text-green-700';
+    }
+    if (completionRate >= 75) {
+        return 'text-amber-700';
+    }
+    return 'text-red-600';
+}
+
 export default function Reports() {
     return (<div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -143,7 +153,7 @@ export default function Reports() {
                 </td>
                 <td className="px-3 py-2.5 text-gray-600">{row.finished}</td>
                 <td className="px-3 py-2.5">
-                  <span className={`text-xs font-medium ${row.rate >= 85 ? 'text-green-700' : row.rate >= 75 ? 'text-amber-700' : 'text-red-600'}`}>
+                  <span className={`text-xs font-medium ${completionRateClass(row.rate)}`}>
                     {row.rate}%
                   </span>
                 </td>

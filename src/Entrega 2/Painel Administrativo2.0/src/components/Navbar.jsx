@@ -28,8 +28,11 @@ export default function Navbar({ activeItem, darkMode, onToggleDark, onLogout, u
     const [notifOpen, setNotifOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
     const crumbs = BREADCRUMBS[activeItem] || ['Início'];
-    const unreadCount = NOTIFICATIONS.filter(n => n.unread).length;
-    const closeAll = () => { setNotifOpen(false); setProfileOpen(false); };
+    const unreadCount = NOTIFICATIONS.filter(notification => notification.unread).length;
+    const closeAll = () => {
+        setNotifOpen(false);
+        setProfileOpen(false);
+    };
     return (<header className="h-16 bg-white border-b border-gray-200 flex items-center px-6 gap-4 flex-shrink-0 relative z-20">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1.5 text-sm flex-1 min-w-0">
@@ -68,12 +71,12 @@ export default function Navbar({ activeItem, darkMode, onToggleDark, onLogout, u
                 <span className="text-xs text-blue-600 cursor-pointer hover:underline">Marcar todas como lidas</span>
               </div>
               <div className="divide-y divide-gray-50">
-                {NOTIFICATIONS.map(n => (<div key={n.id} className={`px-4 py-3 hover:bg-gray-50 cursor-pointer ${n.unread ? 'bg-blue-50/30' : ''}`}>
+                {NOTIFICATIONS.map(notification => (<div key={notification.id} className={`px-4 py-3 hover:bg-gray-50 cursor-pointer ${notification.unread ? 'bg-blue-50/30' : ''}`}>
                     <div className="flex items-start gap-2">
-                      <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${n.unread ? 'bg-blue-500' : ''}`}/>
+                      <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${notification.unread ? 'bg-blue-500' : ''}`}/>
                       <div>
-                        <p className="text-sm text-gray-700">{n.text}</p>
-                        <p className="text-xs text-gray-400 mt-0.5">{n.time}</p>
+                        <p className="text-sm text-gray-700">{notification.text}</p>
+                        <p className="text-xs text-gray-400 mt-0.5">{notification.time}</p>
                       </div>
                     </div>
                   </div>))}
@@ -99,8 +102,8 @@ export default function Navbar({ activeItem, darkMode, onToggleDark, onLogout, u
                 <p className="text-xs text-gray-500">{usuario.email}</p>
               </div>
               <div className="p-1">
-                {['Meu perfil', 'Configurações'].map(item => (<button key={item} onClick={closeAll} className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-                    {item}
+                {['Meu perfil', 'Configurações'].map(menuOption => (<button key={menuOption} onClick={closeAll} className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                    {menuOption}
                   </button>))}
                 <button onClick={onLogout} className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-2">
                   <LogOut size={14}/>

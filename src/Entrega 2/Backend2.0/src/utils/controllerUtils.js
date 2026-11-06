@@ -6,7 +6,7 @@ function tratarErroDoBanco(res, next, erro) {
 
   if (erroDeRestricao || erroDeTrigger) {
     return res.status(400).json({
-      erro: `Dados inválidos: ${erro.message}`
+      erro: "Dados invalidos ou operacao em conflito com as regras do cadastro."
     });
   }
 

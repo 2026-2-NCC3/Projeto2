@@ -53,7 +53,13 @@ function criar(req, res, next) {
       status: "inscrito"
     });
 
-    registrarAuditoria({ usuarioId: req.usuario.id, acao: "criar", entidade: "inscricoes", entidadeId: inscricao.id, valoresDepois: inscricao });
+    registrarAuditoria({
+      usuarioId: req.usuario.id,
+      acao: "criar",
+      entidade: "inscricoes",
+      entidadeId: inscricao.id,
+      valoresDepois: inscricao
+    });
     return res.status(201).json(inscricao);
   });
 }
@@ -71,7 +77,14 @@ function cancelar(req, res, next) {
     }
 
     inscricoesModel.cancelar(req.usuario.id, req.params.cursoId);
-    registrarAuditoria({ usuarioId: req.usuario.id, acao: "editar", entidade: "inscricoes", entidadeId: atual.id, valoresAntes: atual, valoresDepois: { ...atual, status: "cancelado" } });
+    registrarAuditoria({
+      usuarioId: req.usuario.id,
+      acao: "editar",
+      entidade: "inscricoes",
+      entidadeId: atual.id,
+      valoresAntes: atual,
+      valoresDepois: { ...atual, status: "cancelado" }
+    });
     return res.status(204).end();
   });
 }
