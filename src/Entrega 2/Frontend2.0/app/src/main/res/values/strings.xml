@@ -70,4 +70,13 @@
     <string name="history_local_receipt">Presença confirmada pelo servidor\nAtividade: %1$s\nCheck-in: %2$s · %3$s\nDetalhes do encontro aguardam sincronização.</string>
     <string name="checkin_local_unavailable">Não foi possível preparar a persistência local. Tente novamente antes de ler outro QR.</string>
     <string name="checkin_confirmed_without_local">O servidor confirmou a presença, mas não foi possível salvá-la neste aparelho. Consulte o histórico online.</string>
+    <string name="agenda_title">Minha agenda</string>
+    <string name="agenda_subtitle">Acompanhe seus encontros e atividades.</string>
+    <string name="agenda_commitments">Compromissos do dia</string>
+    <string name="agenda_retry">Atualizar agenda</string>
+    <string name="agenda_nav_home">Início</string>
+    <string name="agenda_nav_courses">Cursos</string>
+    <string name="agenda_nav_agenda">Agenda</string>
+    <string name="agenda_nav_profile">Perfil</string>
+
 </resources>
