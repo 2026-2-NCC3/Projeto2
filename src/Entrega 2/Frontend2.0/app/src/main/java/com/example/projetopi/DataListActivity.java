@@ -359,10 +359,15 @@ public abstract class DataListActivity extends AppCompatActivity {
     }
 
     protected String details(JSONObject record) {
+        if (kind().equals("inscricoes")) {
+            return record.optInt("carga_horaria_horas") + "h • " + record.optString("status", "");
+        }
         if (kind().equals("cursos")) {
             return record.optInt("carga_horaria_horas") + "h • "
                     + record.optString("modalidade", "") + "\n"
-                    + record.optString("data_inicio", "");
+                    + record.optString("data_inicio", "")
+                    + (record.isNull("data_fim") ? "" : " - " + record.optString("data_fim", ""))
+                    + (record.isNull("local") ? "" : "\n" + record.optString("local", ""));
         }
         if (kind().equals("historico")) {
             return "Presenca confirmada pelo servidor • " + record.optString("metodo", "")
@@ -374,7 +379,7 @@ public abstract class DataListActivity extends AppCompatActivity {
     }
 
     protected void select(JSONObject record) {
-        if (!kind().equals("cursos")) {
+        if (!kind().equals("cursos") && !kind().equals("inscricoes")) {
             new AlertDialog.Builder(this)
                     .setTitle(record.optString("titulo"))
                     .setMessage(details(record) + "\n" + record.optString("local", ""))
@@ -387,7 +392,7 @@ public abstract class DataListActivity extends AppCompatActivity {
                 .setMessage(record.optString("descricao", "") + "\n" + details(record))
                 .setPositiveButton("Minha agenda", (dialog, selectedButton) ->
                         startActivity(new Intent(this, AgendaActivity.class)
-                                .putExtra("curso_id", record.optString("id"))))
+                                .putExtra("curso_id", record.optString("curso_id", record.optString("id")))))
                 .setNegativeButton("Fechar", null)
                 .show();
     }

@@ -78,6 +78,47 @@ public class LocalPresenceApiInstrumentedTest {
         return format.format(new Date(time));
     }
 
+    @Test public void enrolledCourseKeepsCourseIdentityThroughCacheAndAgendaNavigation() throws Exception {
+        Assume.assumeTrue("Requer API ficticia", "true".equals(InstrumentationRegistry.getArguments().getString("fixture_api")));
+        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
+        Context context = instrumentation.getTargetContext();
+        SessionManager session = new SessionManager(context);
+        assertTrue("Emulador de testes sem conta conectada", session.userId().isEmpty());
+        session.save(login(new ApiClient(context), "a1@example.invalid"));
+        Instrumentation.ActivityMonitor monitor = instrumentation.addMonitor(AgendaActivity.class.getName(), null, false);
+        try (ActivityScenario<CursosActivity> courses = ActivityScenario.launch(new Intent(context, CursosActivity.class)
+                .putExtra("somente_inscritos", true))) {
+            AtomicReference<String> status = new AtomicReference<>("");
+            long deadline = System.currentTimeMillis() + 15000;
+            do {
+                courses.onActivity(activity -> status.set(((TextView) activity.findViewById(R.id.dataStatus)).getText().toString()));
+                if (status.get().startsWith("Dados atualizados.")) break;
+                Thread.sleep(100);
+            } while (System.currentTimeMillis() < deadline);
+            assertTrue(status.get(), status.get().startsWith("Dados atualizados."));
+            courses.onActivity(activity -> {
+                assertEquals("/api/inscricoes/minhas", activity.route());
+                assertEquals("Meus cursos", ((TextView) activity.findViewById(R.id.dataTitle)).getText().toString());
+                assertEquals(1, activity.items.getChildCount());
+                assertTrue(((TextView) activity.items.getChildAt(0)).getText().toString().contains("12h"));
+                activity.items.getChildAt(0).performClick();
+            });
+            SnapshotStore.Snapshot saved = LocalStudentStore.get(context).read("a1",
+                    ApiConfig.BASE_URL + "/api/inscricoes/minhas", "inscricoes");
+            assertEquals("i1", saved.data.getJSONObject(0).getString("id"));
+            assertEquals("c1", saved.data.getJSONObject(0).getString("curso_id"));
+            assertFalse(saved.data.getJSONObject(0).has("aluno_id"));
+            androidx.test.espresso.Espresso.onView(androidx.test.espresso.matcher.ViewMatchers.withText("Minha agenda"))
+                    .perform(androidx.test.espresso.action.ViewActions.click());
+            AgendaActivity opened = (AgendaActivity) instrumentation.waitForMonitorWithTimeout(monitor, 15000);
+            assertNotNull(opened);
+            instrumentation.runOnMainSync(() -> assertEquals("c1", opened.getIntent().getStringExtra("curso_id")));
+        } finally {
+            instrumentation.removeMonitor(monitor);
+            session.clear();
+        }
+    }
+
     @Test public void loginCoursesAgendaQrSqliteRecoveryAndHistoryUseRealApi() throws Exception {
         Assume.assumeTrue("Requer fixture temporaria explicitamente autorizada",
                 "true".equals(InstrumentationRegistry.getArguments().getString("fixture_api")));
@@ -283,6 +324,14 @@ public class LocalPresenceApiInstrumentedTest {
                 awaitAgendaStatus(agenda, "Sem atualizacao online.");
                 agenda.onActivity(activity -> assertEquals("Atividade fictícia salva",
                         ((TextView) activity.findViewById(R.id.agendaItemTitulo)).getText().toString()));
+                if ("true".equals(InstrumentationRegistry.getArguments().getString("capture_agenda"))) {
+                    android.graphics.Bitmap bitmap = InstrumentationRegistry.getInstrumentation().getUiAutomation().takeScreenshot();
+                    try (java.io.FileOutputStream output = new java.io.FileOutputStream(new File(context.getCacheDir(), "agenda-verificacao.png"))) {
+                        assertNotNull(bitmap);
+                        bitmap.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, output);
+                    } finally { if (bitmap != null) bitmap.recycle(); }
+                }
+
             }
         } finally {
             if (owner.equals(session.userId())) session.clear();

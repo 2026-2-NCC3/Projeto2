@@ -95,8 +95,8 @@
                         android:id="@+id/imgFotoAluno"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:contentDescription="Foto do aluno"
-                        android:src="@drawable/foto_perfil" />
+                        android:contentDescription="@string/student_card_avatar"
+                        android:src="@drawable/ic_person" />
 
                 </FrameLayout>
 
@@ -107,7 +107,7 @@
                     android:text="Nome"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
+                    android:textColor="@color/texto_primario"
                     android:layout_marginTop="10dp" />
 
                 <TextView
@@ -116,14 +116,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="ID do aluno: --"
-                    android:textColor="@color/cinza"
+                    android:textColor="@color/texto_secundario"
                     android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/imgQrCode"
                     android:layout_width="140dp"
                     android:layout_height="140dp"
-                    android:contentDescription="QR Code"
+                    android:contentDescription="@string/student_card_qr_unavailable"
+                    android:visibility="gone"
                     android:layout_marginTop="18dp"
                     android:padding="@dimen/espacamento_sm"
                     android:src="@drawable/ic_qr_placeholder" />
@@ -131,16 +132,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Escaneie para registrar presença"
+                    android:text="@string/student_card_qr_unavailable"
                     android:textSize="11sp"
-                    android:textColor="@color/cinza"
+                    android:textColor="@color/texto_secundario"
                     android:layout_marginTop="8dp" />
 
                 <TextView
                     android:id="@+id/txtNomeCurso"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Preparatório ENEM 2026"
+                    android:text="@string/student_card_account"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     android:layout_marginTop="16dp" />
@@ -149,9 +150,9 @@
                     android:id="@+id/txtValidade"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Válido até: Dez/2026"
+                    android:text="@string/student_card_validity_unavailable"
                     android:textSize="11sp"
-                    android:textColor="@color/cinza"
+                    android:textColor="@color/texto_secundario"
                     android:layout_marginTop="2dp" />
 
             </LinearLayout>
@@ -175,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:text="Próxima Etapa · Educação para Todos"
                     android:textSize="10sp"
-                    android:textColor="@color/cinza"
+                    android:textColor="@color/texto_secundario"
                     android:layout_marginStart="6dp" />
 
             </LinearLayout>
@@ -216,7 +217,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="15dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Compartilhar"
                 android:textColor="@color/verde_azulado_escuro"

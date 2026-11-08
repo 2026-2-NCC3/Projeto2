@@ -18,7 +18,11 @@ public final class ApiRecords {
         "data_fim",
         "vagas_disponiveis",
         "status",
-        "universidade_id"
+        "universidade_id",
+        "local"
+    };
+    private static final String[] ENROLLMENT_FIELDS = {
+        "id", "curso_id", "titulo", "descricao", "carga_horaria_horas", "status"
     };
     private static final String[] ACTIVITY_FIELDS = {
         "id",
@@ -81,7 +85,8 @@ public final class ApiRecords {
             MessageContract.validate(record);
         } else if (recordType.equals("certificados")) {
             CertificateContract.validate(record);
-        } else if (recordType.equals("cursos")) {
+        } else if (recordType.equals("cursos") || recordType.equals("inscricoes")) {
+            if (recordType.equals("inscricoes")) text(record, "curso_id");
             Object courseHours = record.get("carga_horaria_horas");
             if (!(courseHours instanceof Number) || ((Number) courseHours).intValue() < 0) {
                 throw new JSONException("Carga horaria invalida");
@@ -109,6 +114,8 @@ public final class ApiRecords {
             allowedFields = CERTIFICATE_FIELDS;
         } else if (recordType.equals("cursos")) {
             allowedFields = COURSE_FIELDS;
+        } else if (recordType.equals("inscricoes")) {
+            allowedFields = ENROLLMENT_FIELDS;
         } else {
             allowedFields = ACTIVITY_FIELDS;
         }

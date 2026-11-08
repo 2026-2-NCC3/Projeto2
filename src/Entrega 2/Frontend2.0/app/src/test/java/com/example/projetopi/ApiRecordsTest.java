@@ -14,6 +14,19 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 public class ApiRecordsTest {
+    @Test public void enrolledCoursesKeepCourseIdentityAndDiscardPrivateFields() throws Exception {
+        JSONObject record = new JSONObject().put("id", "i1").put("curso_id", "c1")
+                .put("titulo", "Curso ficticio").put("carga_horaria_horas", 12)
+                .put("status", "inscrito").put("aluno_id", "a1").put("token", "NAO-SALVAR");
+        JSONObject saved = ApiRecords.parse(new JSONArray().put(record).toString(), "inscricoes").getJSONObject(0);
+        assertEquals("i1", saved.getString("id"));
+        assertEquals("c1", saved.getString("curso_id"));
+        assertFalse(saved.has("aluno_id"));
+        assertFalse(saved.has("token"));
+        record.remove("curso_id");
+        assertThrows(JSONException.class, () -> ApiRecords.parse(new JSONArray().put(record).toString(), "inscricoes"));
+    }
+
     @Test
     public void coursesAllowNullableDescriptionAndZeroHours() throws Exception {
         String response = "[{\"id\":\"c1\",\"titulo\":\"Curso real\","
@@ -52,7 +65,7 @@ public class ApiRecordsTest {
     public void courseProjectionPreservesAllowedNullFieldsAndOmitsOtherFields() throws Exception {
         String[] allowedFields = {
             "id", "titulo", "descricao", "carga_horaria_horas", "modalidade",
-            "data_inicio", "data_fim", "vagas_disponiveis", "status", "universidade_id"
+            "data_inicio", "data_fim", "vagas_disponiveis", "status", "universidade_id", "local"
         };
         JSONObject responseRecord = new JSONObject();
         for (String field : allowedFields) {

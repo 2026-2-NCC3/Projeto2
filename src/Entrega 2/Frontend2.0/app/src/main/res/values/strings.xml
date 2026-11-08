@@ -80,4 +80,12 @@
     <string name="agenda_nav_agenda">Agenda</string>
     <string name="agenda_nav_profile">Perfil</string>
 
+    <string name="student_card_id">ID do aluno: %1$s</string>
+    <string name="student_card_avatar">Identificação do aluno</string>
+    <string name="student_card_qr_unavailable">QR de identificação ainda indisponível. Para presença, use o check-in na Agenda.</string>
+    <string name="student_card_account">Identificação da conta conectada</string>
+    <string name="student_card_validity_unavailable">Validade institucional não informada.</string>
+    <string name="student_card_export_unavailable">Exportação do card ainda indisponível.</string>
+    <string name="courses_catalog">Catálogo de cursos</string>
+    <string name="courses_enrolled">Meus cursos</string>
 </resources>
