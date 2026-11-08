@@ -164,7 +164,9 @@ public class AgendaActivity extends DataListActivity {
         action.setGravity(Gravity.CENTER);
         action.setBackgroundResource(R.drawable.agenda_botao_mes);
         action.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.acao_primaria)));
-        action.setCompoundDrawablesWithIntrinsicBounds(icon, 0, 0, 0);
+        android.graphics.drawable.Drawable actionIcon = getDrawable(icon);
+        if (actionIcon != null) actionIcon.setBounds(0, 0, dp(20), dp(20));
+        action.setCompoundDrawables(actionIcon, null, null, null);
         action.setCompoundDrawablePadding(dp(7));
         action.setPadding(dp(8), 0, dp(8), 0);
         action.setClickable(true);

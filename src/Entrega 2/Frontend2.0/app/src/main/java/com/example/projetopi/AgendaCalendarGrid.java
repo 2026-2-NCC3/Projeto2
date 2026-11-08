@@ -98,7 +98,10 @@ public class AgendaCalendarGrid extends GridLayout {
         } else if (marked) {
             number.setBackgroundResource(R.drawable.agenda_dia_evento);
         }
-        cell.addView(number, new LinearLayout.LayoutParams(dp(39), dp(39)));
+        LinearLayout.LayoutParams numberSize = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, dp(39));
+        numberSize.setMargins(dp(2), 0, dp(2), 0);
+        cell.addView(number, numberSize);
 
         View marker = new View(getContext());
         if (marked) {
