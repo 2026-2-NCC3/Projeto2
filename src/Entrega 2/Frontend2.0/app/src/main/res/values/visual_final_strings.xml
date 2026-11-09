@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="checkin_visual_instructions_title">Sua presença no encontro</string>
+    <string name="checkin_visual_info">O servidor valida cada leitura. Se a conexão falhar, consulte o histórico antes de tentar novamente.</string>
+    <string name="certificates_visual_motivation">Continue aprendendo. Cada etapa conta!</string>
+    <string name="certificates_visual_section">Seus certificados</string>
+    <string name="certificates_visual_keepgoing">Continue sua jornada</string>
+</resources>
