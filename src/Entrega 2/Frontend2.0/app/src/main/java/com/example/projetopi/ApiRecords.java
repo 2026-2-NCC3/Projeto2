@@ -12,6 +12,7 @@ public final class ApiRecords {
         "id",
         "titulo",
         "descricao",
+        "categoria", // campo já fornecido pelo backend; necessário ao filtro da tela Cursos
         "carga_horaria_horas",
         "modalidade",
         "data_inicio",
