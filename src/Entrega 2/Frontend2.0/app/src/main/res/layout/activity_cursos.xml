@@ -80,7 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/padding_tela_interna">
+            android:padding="@dimen/padding_tela_interna"
+            android:background="@drawable/fundo">
 
             <LinearLayout
                 android:layout_width="match_parent"
