@@ -85,7 +85,10 @@
     <string name="student_card_qr_unavailable">QR de identificação ainda indisponível. Para presença, use o check-in na Agenda.</string>
     <string name="student_card_account">Identificação da conta conectada</string>
     <string name="student_card_validity_unavailable">Validade institucional não informada.</string>
-    <string name="student_card_export_unavailable">Exportação do card ainda indisponível.</string>
+    <string name="student_card_export_error">Não foi possível exportar a carteirinha.</string>
+    <string name="student_card_share_pdf">Compartilhar carteirinha em PDF</string>
+    <string name="student_card_pdf_title">Próxima Etapa · Carteirinha do aluno</string>
+    <string name="student_card_pdf_notice">Cópia informativa da conta conectada. Sem validação institucional ou função de check-in.</string>
     <string name="courses_catalog">Catálogo de cursos</string>
     <string name="courses_enrolled">Meus cursos</string>
 </resources>
