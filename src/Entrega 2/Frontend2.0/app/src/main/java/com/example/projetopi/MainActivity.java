@@ -1,7 +1,6 @@
 package com.example.projetopi;
 
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -33,24 +32,22 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText editEmail;
     private EditText editSenha;
+    private SessionManager session;
     private Button btnEntrar;
     private TextView txtErroLogin;
     private TextView txtCadastro;
-    private SessionManager sessionManager;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-
-        sessionManager = new SessionManager(this);
-
-        if (sessionManager.usuarioEstaLogado()) {
-            abrirTelaInicial(sessionManager.getNomeCompleto());
+        session = new SessionManager(this);
+        if (!ApiConfig.BASE_URL.isEmpty() && session.active()) {
+            abrirTelaInicial();
             return;
         }
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
 
         ViewCompat.setOnApplyWindowInsetsListener(
                 findViewById(R.id.main),
@@ -75,6 +72,13 @@ public class MainActivity extends AppCompatActivity {
         btnEntrar = findViewById(R.id.btnEntrar);
         txtErroLogin = findViewById(R.id.txtErroLogin);
         txtCadastro = findViewById(R.id.txtCadastro);
+
+        if (ApiConfig.BASE_URL.isEmpty()) {
+            btnEntrar.setEnabled(false);
+            txtCadastro.setEnabled(false);
+            mostrarErro(getString(R.string.api_not_configured));
+            return;
+        }
 
         txtCadastro.setOnClickListener(view -> {
             Intent intent = new Intent(
@@ -190,32 +194,17 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            sessionManager.salvarSessao(json);
-
-            JSONObject usuario = json.getJSONObject("usuario");
-
-            abrirTelaInicial(
-                    usuario.optString("nome_completo", "")
-            );
+            session.save(json);
+            abrirTelaInicial();
         } catch (JSONException erro) {
             mostrarErro("Resposta inválida recebida do servidor.");
         }
     }
 
-    private void abrirTelaInicial(String nomeUsuario) {
-        Intent intent = new Intent(
-                MainActivity.this,
-                TelaInicial.class
-        );
-
-        intent.putExtra("nomeUsuario", nomeUsuario);
-
-        intent.addFlags(
-                Intent.FLAG_ACTIVITY_NEW_TASK
-                        | Intent.FLAG_ACTIVITY_CLEAR_TASK
-        );
-
-        startActivity(intent);
+    private void abrirTelaInicial() {
+        Intent dashboard = new Intent(this, TelaInicial.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(dashboard);
         finish();
     }
 

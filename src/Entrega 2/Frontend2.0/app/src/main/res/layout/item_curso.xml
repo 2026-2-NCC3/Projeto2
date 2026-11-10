@@ -1,45 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_marginBottom="14dp">
-
     <View
         android:id="@+id/barraTopo"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="4dp"
-        android:background="@color/verde" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
+        android:background="@color/verde"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@color/white"
-        android:padding="16dp">
-
+        android:padding="16dp"
+        android:id="@+id/cl_item_curso_6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barraTopo"
+        app:layout_constraintBottom_toBottomOf="parent">
         <TextView
             android:id="@+id/txtNomeCurso"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Preparatório ENEM - Redação"
             android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="6dp">
-
+            android:layout_marginTop="6dp"
+            android:id="@+id/cl_item_curso_3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtNomeCurso">
             <ImageView
                 android:layout_width="13dp"
                 android:layout_height="13dp"
                 android:src="@drawable/ic_clock"
-                app:tint="@color/cinza" />
-
+                app:tint="@color/cinza"
+                android:id="@+id/cl_item_curso_1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
             <TextView
                 android:id="@+id/txtCargaHoraria"
                 android:layout_width="wrap_content"
@@ -48,14 +56,19 @@
                 android:textSize="12sp"
                 android:textColor="@color/cinza"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="12dp" />
-
+                android:layout_marginEnd="12dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cl_item_curso_1"/>
             <ImageView
                 android:layout_width="13dp"
                 android:layout_height="13dp"
                 android:src="@drawable/ic_location"
-                app:tint="@color/cinza" />
-
+                app:tint="@color/cinza"
+                android:id="@+id/cl_item_curso_2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txtCargaHoraria"/>
             <TextView
                 android:id="@+id/txtLocal"
                 android:layout_width="wrap_content"
@@ -63,23 +76,29 @@
                 android:text="FECAP Liberdade"
                 android:textSize="12sp"
                 android:textColor="@color/cinza"
-                android:layout_marginStart="4dp" />
-
-        </LinearLayout>
-
+                android:layout_marginStart="4dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cl_item_curso_2"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Progresso do curso"
             android:textSize="12sp"
             android:textColor="@color/cinza"
-            android:layout_marginTop="14dp" />
-
+            android:layout_marginTop="14dp"
+            android:id="@+id/cl_item_curso_4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_item_curso_3"/>
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp">
-
+            android:layout_marginTop="6dp"
+            android:id="@+id/cl_item_curso_5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_item_curso_4">
             <ProgressBar
                 android:id="@+id/progressCurso"
                 style="?android:attr/progressBarStyleHorizontal"
@@ -87,8 +106,7 @@
                 android:layout_height="8dp"
                 android:max="100"
                 android:progress="65"
-                android:progressDrawable="@drawable/bg_progress_bar" />
-
+                android:progressDrawable="@drawable/bg_progress_bar"/>
             <TextView
                 android:id="@+id/txtPorcentagem"
                 android:layout_width="wrap_content"
@@ -97,10 +115,8 @@
                 android:layout_marginTop="-20dp"
                 android:text="65%"
                 android:textSize="12sp"
-                android:textStyle="bold" />
-
+                android:textStyle="bold"/>
         </RelativeLayout>
-
         <TextView
             android:id="@+id/badgeStatus"
             android:layout_width="wrap_content"
@@ -113,8 +129,9 @@
             android:paddingEnd="10dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
-            android:layout_marginTop="12dp" />
-
-    </LinearLayout>
-
-</LinearLayout>
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_item_curso_5"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

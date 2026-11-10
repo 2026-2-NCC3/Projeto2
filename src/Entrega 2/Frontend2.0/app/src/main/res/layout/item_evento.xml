@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@drawable/bg_card_branco"
     android:padding="16dp"
     android:layout_marginBottom="12dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        android:id="@+id/cl_item_evento_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
         <TextView
             android:id="@+id/txtNomeEvento"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="Aula de Redação"
             android:textSize="15sp"
-            android:textStyle="bold" />
-
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/badgeStatusEvento"
+            app:layout_constraintHorizontal_weight="1.0"
+            app:layout_constraintHorizontal_chainStyle="spread"/>
         <TextView
             android:id="@+id/badgeStatusEvento"
             android:layout_width="wrap_content"
@@ -33,10 +37,11 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:paddingTop="4dp"
-            android:paddingBottom="4dp" />
-
-    </LinearLayout>
-
+            android:paddingBottom="4dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/txtNomeEvento"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
         android:id="@+id/txtDataHora"
         android:layout_width="wrap_content"
@@ -44,21 +49,26 @@
         android:text="Sáb, 13 Set • 09:00 - 11:30"
         android:textSize="12sp"
         android:textColor="@color/cinza"
-        android:layout_marginTop="6dp" />
-
-    <LinearLayout
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_item_evento_2"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginTop="4dp">
-
+        android:layout_marginTop="4dp"
+        android:id="@+id/cl_item_evento_3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtDataHora"
+        app:layout_constraintBottom_toBottomOf="parent">
         <ImageView
             android:layout_width="13dp"
             android:layout_height="13dp"
             android:src="@drawable/ic_location"
-            app:tint="@color/cinza" />
-
+            app:tint="@color/cinza"
+            android:id="@+id/cl_item_evento_1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
         <TextView
             android:id="@+id/txtLocalEvento"
             android:layout_width="wrap_content"
@@ -66,8 +76,9 @@
             android:text="FECAP - Sala 302"
             android:textSize="12sp"
             android:textColor="@color/cinza"
-            android:layout_marginStart="4dp" />
-
-    </LinearLayout>
-
-</LinearLayout>
+            android:layout_marginStart="4dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cl_item_evento_1"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

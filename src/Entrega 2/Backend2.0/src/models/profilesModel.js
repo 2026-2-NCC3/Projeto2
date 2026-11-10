@@ -37,6 +37,16 @@ function buscarPorId(id) {
   `).get(id);
 }
 
+function buscarEstadoAutenticacao(id) {
+  return banco.prepare(`
+    SELECT u.id, u.ativo, p.papel, COALESCE(a.bloqueado, 0) AS bloqueado
+    FROM usuarios u
+    INNER JOIN papeis p ON p.usuario_id = u.id
+    LEFT JOIN alunos a ON a.usuario_id = u.id
+    WHERE u.id = ?
+  `).get(id);
+}
+
 function criar(perfil) {
   const inserir = banco.transaction(() => {
     banco.prepare(`
@@ -130,6 +140,7 @@ function excluir(id) {
 module.exports = {
   listar,
   buscarPorId,
+  buscarEstadoAutenticacao,
   criar,
   atualizar,
   bloquear,

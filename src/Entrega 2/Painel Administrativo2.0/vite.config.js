@@ -2,13 +2,14 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'node:path';
-import siteConfiguration from './.figma/make/site.json';
+import { loadSiteConfiguration } from './config/site-config.js';
 // Vite config — https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
     // .figma/make/deploy-preview passes `--mode development` for cached-preview builds.
     const emitSourcemaps = mode === 'development';
+    const siteConfiguration = loadSiteConfiguration(import.meta.dirname);
     return {
-        base: process.env.FIGMA_PUBLIC_URL ? `${process.env.FIGMA_PUBLIC_URL}/` : '/',
+        base: process.env.FIGMA_PUBLIC_URL ? `${process.env.FIGMA_PUBLIC_URL.replace(/\/+$/, '')}/` : '/',
         build: {
             sourcemap: emitSourcemaps ? 'inline' : false,
             minify: !emitSourcemaps,
@@ -23,7 +24,7 @@ export default defineConfig(({ mode }) => {
         ],
         resolve: {
             alias: {
-                '@': path.resolve(__dirname, './src'),
+                '@': path.resolve(import.meta.dirname, './src'),
             },
         },
         server: {
@@ -42,8 +43,8 @@ export default defineConfig(({ mode }) => {
         },
     };
 });
-/** Applies /.figma/make/site.json to the generated document shell. */
-function figmaSiteConfiguration(config) {
+/** Applies versioned product metadata and optional Figma overrides to the document shell. */
+export function figmaSiteConfiguration(config) {
     function sanitizeHtmlValue(value) {
         return value?.replace(/[^a-zA-Z0-9_-]/g, '') || '';
     }

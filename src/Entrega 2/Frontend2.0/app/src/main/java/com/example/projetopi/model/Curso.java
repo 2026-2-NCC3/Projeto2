@@ -32,10 +32,10 @@ public class Curso {
 
     public void atualizarDados(String titulo, String descricao, int cargaHoraria) {
         this.titulo = validarTexto(titulo, "O título do curso é obrigatório.");
-        this.descricao = validarTexto(descricao, "A descrição do curso é obrigatória.");
+        this.descricao = descricao == null ? "" : descricao.trim();
 
-        if (cargaHoraria <= 0) {
-            throw new IllegalArgumentException("A carga horária deve ser maior que zero.");
+        if (cargaHoraria < 0) {
+            throw new IllegalArgumentException("A carga horária nao pode ser negativa.");
         }
 
         this.cargaHoraria = cargaHoraria;

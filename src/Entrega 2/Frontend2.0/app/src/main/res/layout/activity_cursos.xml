@@ -5,313 +5,411 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fundo_principal">
-
-    <TextView
-        android:id="@+id/txtTitulo"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/fundo">
+    <!-- Cabeçalho e filtros: os dados continuam sendo carregados pela DataListActivity. -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dataHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/fundo_card"
-        android:padding="@dimen/padding_tela_interna"
-        android:text="Meus Cursos"
-        android:textColor="@color/texto_primario"
-        android:textSize="@dimen/texto_titulo_tela"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingTop="22dp"
+        android:paddingBottom="6dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/tabsContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_tela_interna"
-        android:layout_marginTop="@dimen/espacamento_card"
-        android:background="@drawable/bg_input_field"
-        android:orientation="horizontal"
-        android:padding="@dimen/espacamento_xxs"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtTitulo">
-
-        <TextView
-            android:id="@+id/tabTodos"
-            android:layout_width="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/padding_card"
-            android:paddingVertical="@dimen/espacamento_sm"
-            android:text="Todos"
+            android:layout_marginHorizontal="20dp"
+            android:id="@+id/cl_activity_cursos_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:id="@+id/dataTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Cursos"
+                android:textColor="@color/texto_primario"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/courseFilterButton"
+                app:layout_constraintHorizontal_weight="1.0"
+                app:layout_constraintHorizontal_chainStyle="spread" />
+            <ImageButton
+                android:id="@+id/courseFilterButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:background="@drawable/bg_nav_item_ativo"
+                android:src="@drawable/course_ic_filter"
+                android:contentDescription="Abrir filtros, atualizar e sair"
+                app:tint="@color/acao_primaria"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dataTitle"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginHorizontal="20dp"
+            android:text="Descubra oportunidades para aprender e crescer."
             android:textColor="@color/texto_secundario"
-            android:textSize="@dimen/texto_rotulo" />
-
-        <TextView
-            android:id="@+id/tabEmAndamento"
-            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:lineSpacingExtra="2dp"
+            android:id="@+id/cl_activity_cursos_3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_activity_cursos_2" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/course_search_background"
+            android:paddingHorizontal="16dp"
+            android:id="@+id/cl_activity_cursos_4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_activity_cursos_3">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/course_ic_search"
+                android:importantForAccessibility="no"
+                app:tint="#A69AB5"
+                android:id="@+id/cl_activity_cursos_1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/courseSearch"
+                app:layout_constraintHorizontal_chainStyle="spread" />
+            <EditText
+                android:id="@+id/courseSearch"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="12dp"
+                android:background="@android:color/transparent"
+                android:hint="Buscar cursos..."
+                android:inputType="text"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:textColor="@color/texto_primario"
+                android:textColorHint="#A69AB5"
+                android:textSize="14sp"
+                android:padding="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cl_activity_cursos_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1.0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <HorizontalScrollView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_tab_selecionada"
-            android:paddingHorizontal="@dimen/padding_card"
-            android:paddingVertical="@dimen/espacamento_sm"
-            android:text="Em Andamento"
-            android:textColor="@color/fundo_card"
-            android:textSize="@dimen/texto_rotulo"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tabConcluidos"
-            android:layout_width="wrap_content"
+            android:layout_marginTop="16dp"
+            android:scrollbars="none"
+            android:fillViewport="false"
+            android:clipToPadding="false"
+            android:id="@+id/cl_activity_cursos_5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_activity_cursos_4">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+                <TextView
+                    android:id="@+id/courseTabTodos"
+                    style="@style/CourseFilterChip"
+                    android:background="@drawable/bg_tab_selecionada"
+                    android:textColor="@color/fundo_card"
+                    android:text="Todos"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+                <TextView
+                    android:id="@+id/courseTabInscritos"
+                    style="@style/CourseFilterChip"
+                    android:text="Inscritos"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/courseTabTodos" />
+                <TextView
+                    android:id="@+id/courseTabTecnologia"
+                    style="@style/CourseFilterChip"
+                    android:text="Tecnologia"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/courseTabInscritos" />
+                <TextView
+                    android:id="@+id/courseTabCarreira"
+                    style="@style/CourseFilterChip"
+                    android:text="Carreira"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/courseTabTecnologia" />
+                <TextView
+                    android:id="@+id/courseTabConcluidos"
+                    style="@style/CourseFilterChip"
+                    android:text="Concluídos"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/courseTabCarreira" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </HorizontalScrollView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/padding_card"
-            android:paddingVertical="@dimen/espacamento_sm"
-            android:text="Concluídos"
-            android:textColor="@color/texto_secundario"
-            android:textSize="@dimen/texto_rotulo" />
-    </LinearLayout>
-
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="25dp"
+            android:id="@+id/cl_activity_cursos_6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_activity_cursos_5">
+            <TextView
+                android:id="@+id/coursesSectionTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Cursos disponíveis"
+                android:textColor="@color/texto_primario"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/coursesCount"
+                app:layout_constraintHorizontal_weight="1.0"
+                app:layout_constraintHorizontal_chainStyle="spread" />
+            <TextView
+                android:id="@+id/coursesCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 cursos"
+                android:textColor="@color/texto_secundario"
+                android:textSize="12sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/coursesSectionTitle"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/cl_activity_cursos_7"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_activity_cursos_6">
+            <TextView
+                android:id="@+id/dataStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="20dp"
+                android:textColor="@color/texto_secundario"
+                android:textSize="11sp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:accessibilityLiveRegion="polite"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/dataProgress"
+                app:layout_constraintHorizontal_weight="1.0"
+                app:layout_constraintHorizontal_chainStyle="spread" />
+            <ProgressBar
+                android:id="@+id/dataProgress"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dataStatus"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- A DataListActivity exige essas Views. O menu superior mantém as ações acessíveis. -->
+        <View
+            android:id="@+id/dataRetry"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_activity_cursos_7" />
+        <View
+            android:id="@+id/dataLogout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dataRetry"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/espacamento_sm"
         android:fillViewport="true"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/dataHeader"
         app:layout_constraintBottom_toTopOf="@id/bottomNav"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabsContainer">
-
-        <LinearLayout
+        app:layout_constraintEnd_toEndOf="parent">
+        <com.example.projetopi.ConstraintStackLayout
+            android:id="@+id/dataItems"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/padding_tela_interna">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_card_branco"
-                android:orientation="vertical"
-                android:padding="@dimen/padding_card">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Preparatório ENEM - Redação"
-                    android:textColor="@color/texto_primario"
-                    android:textSize="@dimen/texto_titulo_card"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/espacamento_sm"
-                    android:text="40h • FECAP Liberdade"
-                    android:textColor="@color/texto_secundario"
-                    android:textSize="@dimen/texto_rotulo" />
-
-                <ProgressBar
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/espacamento_xxs"
-                    android:layout_marginTop="@dimen/espacamento_card"
-                    android:progress="65"
-                    android:progressDrawable="@drawable/bg_progress_bar" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/espacamento_sm"
-                    android:background="@drawable/bg_badge_verde"
-                    android:paddingHorizontal="@dimen/espacamento_sm"
-                    android:paddingVertical="@dimen/espacamento_xxs"
-                    android:text="Em andamento"
-                    android:textColor="@color/acao_primaria"
-                    android:textSize="@dimen/texto_rotulo" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/espacamento_card"
-                android:background="@drawable/bg_card_branco"
-                android:orientation="vertical"
-                android:padding="@dimen/padding_card">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Inglês Instrumental"
-                    android:textColor="@color/texto_primario"
-                    android:textSize="@dimen/texto_titulo_card"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/espacamento_sm"
-                    android:text="40h • FECAP Liberdade"
-                    android:textColor="@color/texto_secundario"
-                    android:textSize="@dimen/texto_rotulo" />
-
-                <ProgressBar
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/espacamento_xxs"
-                    android:layout_marginTop="@dimen/espacamento_card"
-                    android:progress="30"
-                    android:progressDrawable="@drawable/bg_progress_bar" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/espacamento_sm"
-                    android:background="@drawable/bg_badge_verde"
-                    android:paddingHorizontal="@dimen/espacamento_sm"
-                    android:paddingVertical="@dimen/espacamento_xxs"
-                    android:text="Em andamento"
-                    android:textColor="@color/acao_primaria"
-                    android:textSize="@dimen/texto_rotulo" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/espacamento_card"
-                android:background="@drawable/bg_card_branco"
-                android:orientation="vertical"
-                android:padding="@dimen/padding_card">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Matemática Básica"
-                    android:textColor="@color/texto_primario"
-                    android:textSize="@dimen/texto_titulo_card"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/espacamento_sm"
-                    android:text="40h • FECAP Liberdade"
-                    android:textColor="@color/texto_secundario"
-                    android:textSize="@dimen/texto_rotulo" />
-
-                <ProgressBar
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/espacamento_xxs"
-                    android:layout_marginTop="@dimen/espacamento_card"
-                    android:progress="100"
-                    android:progressDrawable="@drawable/bg_progress_bar" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/espacamento_sm"
-                    android:background="@drawable/bg_badge_verde"
-                    android:paddingHorizontal="@dimen/espacamento_sm"
-                    android:paddingVertical="@dimen/espacamento_xxs"
-                    android:text="Concluído"
-                    android:textColor="@color/acao_primaria"
-                    android:textSize="@dimen/texto_rotulo" />
-            </LinearLayout>
-        </LinearLayout>
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="26dp" />
     </ScrollView>
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomNav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:minHeight="76dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="10dp"
+        android:paddingHorizontal="6dp"
         android:background="@drawable/bg_bottom_nav"
-        android:orientation="horizontal"
-        android:paddingVertical="@dimen/padding_navegacao"
+        android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <LinearLayout
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/navInicio"
+            android:contentDescription="Ir para Início"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="@dimen/tamanho_icone_nav"
-                android:layout_height="@dimen/tamanho_icone_nav"
-                android:contentDescription="Início"
-                android:padding="@dimen/espacamento_xxs"
+            android:minHeight="56dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/navCursos"
+            app:layout_constraintHorizontal_weight="1.0"
+            app:layout_constraintHorizontal_chainStyle="spread">
+            <androidx.appcompat.widget.AppCompatImageView
+                style="@style/CourseBottomIcon"
                 android:src="@drawable/ic_home"
-                app:tint="@color/texto_secundario" />
+                app:tint="@color/texto_secundario"
+                android:id="@+id/cl_activity_cursos_8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/cl_activity_cursos_9"
+                app:layout_constraintVertical_chainStyle="packed" />
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CourseBottomLabel"
                 android:text="Início"
-                android:textColor="@color/texto_secundario"
-                android:textSize="@dimen/texto_rodape" />
-        </LinearLayout>
-
-        <LinearLayout
+                android:id="@+id/cl_activity_cursos_9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_activity_cursos_8"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/navCursos"
+            android:contentDescription="Cursos, tela atual"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="@dimen/tamanho_icone_nav"
-                android:layout_height="@dimen/tamanho_icone_nav"
-                android:background="@drawable/bg_nav_item_ativo"
-                android:contentDescription="Cursos"
-                android:padding="@dimen/espacamento_xxs"
+            android:minHeight="56dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/navInicio"
+            app:layout_constraintEnd_toStartOf="@id/navAgenda"
+            app:layout_constraintHorizontal_weight="1.0">
+            <androidx.appcompat.widget.AppCompatImageView
+                style="@style/CourseBottomIcon"
                 android:src="@drawable/ic_menu_book"
-                app:tint="@color/acao_primaria" />
+                app:tint="@color/acao_primaria"
+                android:id="@+id/cl_activity_cursos_10"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/cl_activity_cursos_11"
+                app:layout_constraintVertical_chainStyle="packed" />
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CourseBottomLabel"
                 android:text="Cursos"
+                android:textStyle="bold"
                 android:textColor="@color/acao_primaria"
-                android:textSize="@dimen/texto_rodape" />
-        </LinearLayout>
-
-        <LinearLayout
+                android:id="@+id/cl_activity_cursos_11"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_activity_cursos_10"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/navAgenda"
+            android:contentDescription="Ir para Agenda"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="@dimen/tamanho_icone_nav"
-                android:layout_height="@dimen/tamanho_icone_nav"
-                android:contentDescription="Agenda"
-                android:padding="@dimen/espacamento_xxs"
+            android:minHeight="56dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/navCursos"
+            app:layout_constraintEnd_toStartOf="@id/navPerfil"
+            app:layout_constraintHorizontal_weight="1.0">
+            <androidx.appcompat.widget.AppCompatImageView
+                style="@style/CourseBottomIcon"
                 android:src="@drawable/ic_calendar"
-                app:tint="@color/texto_secundario" />
+                app:tint="@color/texto_secundario"
+                android:id="@+id/cl_activity_cursos_12"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/cl_activity_cursos_13"
+                app:layout_constraintVertical_chainStyle="packed" />
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CourseBottomLabel"
                 android:text="Agenda"
-                android:textColor="@color/texto_secundario"
-                android:textSize="@dimen/texto_rodape" />
-        </LinearLayout>
-
-        <LinearLayout
+                android:id="@+id/cl_activity_cursos_13"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_activity_cursos_12"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/navPerfil"
+            android:contentDescription="Ir para Perfil"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="@dimen/tamanho_icone_nav"
-                android:layout_height="@dimen/tamanho_icone_nav"
-                android:contentDescription="Perfil"
-                android:padding="@dimen/espacamento_xxs"
+            android:minHeight="56dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/navAgenda"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1.0">
+            <androidx.appcompat.widget.AppCompatImageView
+                style="@style/CourseBottomIcon"
                 android:src="@drawable/ic_person"
-                app:tint="@color/texto_secundario" />
+                app:tint="@color/texto_secundario"
+                android:id="@+id/cl_activity_cursos_14"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/cl_activity_cursos_15"
+                app:layout_constraintVertical_chainStyle="packed" />
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CourseBottomLabel"
                 android:text="Perfil"
-                android:textColor="@color/texto_secundario"
-                android:textSize="@dimen/texto_rodape" />
-        </LinearLayout>
-    </LinearLayout>
+                android:id="@+id/cl_activity_cursos_15"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_activity_cursos_14"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

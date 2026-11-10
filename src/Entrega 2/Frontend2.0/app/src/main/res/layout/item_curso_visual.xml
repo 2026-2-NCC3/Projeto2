@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/courseItemCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="14dp"
+    android:minHeight="126dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="22dp"
+    app:cardElevation="1dp"
+    app:cardBackgroundColor="@color/fundo_card"
+    app:strokeColor="@color/borda_discreta"
+    app:strokeWidth="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="17dp">
+
+        <FrameLayout
+            android:id="@+id/courseItemTile"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/bg_nav_item_ativo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/courseItemIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_menu_book"
+                android:importantForAccessibility="no" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/courseItemTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="7dp"
+            android:text="Nome do curso"
+            android:textColor="@color/texto_primario"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end"
+            app:layout_constraintTop_toTopOf="@id/courseItemTile"
+            app:layout_constraintStart_toEndOf="@id/courseItemTile"
+            app:layout_constraintEnd_toStartOf="@id/courseItemArrow" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/courseItemArrow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_chevron_right"
+            android:importantForAccessibility="no"
+            app:tint="@color/texto_secundario"
+            app:layout_constraintTop_toTopOf="@id/courseItemTitle"
+            app:layout_constraintBottom_toBottomOf="@id/courseItemTitle"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/courseItemMeta"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="40 horas · Presencial"
+            android:textColor="@color/texto_secundario"
+            android:textSize="12sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            app:layout_constraintTop_toBottomOf="@id/courseItemTitle"
+            app:layout_constraintStart_toStartOf="@id/courseItemTitle"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/courseItemBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="5dp"
+            android:background="@drawable/bg_badge_verde"
+            android:text="Disponível"
+            android:textColor="@color/acao_primaria"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/courseItemMeta"
+            app:layout_constraintStart_toStartOf="@id/courseItemTitle" />
+
+        <ProgressBar
+            android:id="@+id/courseItemProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="6dp"
+            android:layout_marginStart="12dp"
+            android:progress="100"
+            android:progressTint="#51C403"
+            android:progressBackgroundTint="#EAE5F2"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="@id/courseItemBadge"
+            app:layout_constraintBottom_toBottomOf="@id/courseItemBadge"
+            app:layout_constraintStart_toEndOf="@id/courseItemBadge"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

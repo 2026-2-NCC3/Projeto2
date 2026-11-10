@@ -12,7 +12,7 @@
     <dimen name="padding_tela_interna">16dp</dimen>
     <dimen name="padding_card">16dp</dimen>
     <dimen name="padding_navegacao">10dp</dimen>
-    <dimen name="margem_logo_superior">200dp</dimen>
+    <dimen name="margem_logo_superior">48dp</dimen>
     <dimen name="tamanho_logo_container">72dp</dimen>
     <dimen name="tamanho_logo_icone">64dp</dimen>
     <dimen name="altura_campo_login">52dp</dimen>
@@ -20,7 +20,7 @@
     <dimen name="tamanho_icone_campo">18dp</dimen>
     <dimen name="tamanho_icone_olho">20dp</dimen>
     <dimen name="raio_campo">12dp</dimen>
-    <dimen name="raio_card">14dp</dimen>
+    <dimen name="raio_card">16dp</dimen>
     <dimen name="raio_navegacao">18dp</dimen>
     <dimen name="raio_item_ativo">14dp</dimen>
     <dimen name="raio_botao_pill">28dp</dimen>
@@ -41,6 +41,6 @@
     <dimen name="texto_titulo_secao">15sp</dimen>
     <dimen name="texto_subtitulo_app">13sp</dimen>
     <dimen name="texto_botao">15sp</dimen>
-    <dimen name="texto_rodape">11sp</dimen>
-    <dimen name="texto_rotulo">10sp</dimen>
+    <dimen name="texto_rodape">12sp</dimen>
+    <dimen name="texto_rotulo">12sp</dimen>
 </resources>

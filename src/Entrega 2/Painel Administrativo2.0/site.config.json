@@ -1,0 +1,11 @@
+{
+  "title": "Próxima Etapa | Painel Administrativo",
+  "description": "Painel de gestão de alunos, cursos e atividades da ONG Próxima Etapa.",
+  "language": "pt-BR",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": true
+  }
+}
