@@ -1,12 +1,9 @@
-
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Comunicação HTTPS com a API Próxima Etapa hospedada no Render. -->
+<!-- Próxima Etapa - API HTTPS no Render -->
 <network-security-config>
-
     <base-config cleartextTrafficPermitted="false" />
 
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="false">projeto2-krn7.onrender.com</domain>
     </domain-config>
-
 </network-security-config>
