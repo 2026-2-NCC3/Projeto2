@@ -65,8 +65,8 @@ test("db:init cria banco vazio, versoes e esquema original; migrate e idempotent
   const result = cli(filename, ["src/config/migrate.js", "--init"]);
   assert.equal(result.status, 0, result.stderr);
   assertCurrent(db);
-  assert.equal(db.pragma("user_version", { simple: true }), 6);
-  assert.equal(db.prepare("SELECT count(*) AS n FROM schema_migrations").get().n, 2);
+  assert.equal(db.pragma("user_version", { simple: true }), 7);
+  assert.equal(db.prepare("SELECT count(*) AS n FROM schema_migrations").get().n, 3);
   const before = db.prepare("SELECT * FROM schema_migrations").all();
   assert.deepEqual(runMigrations(db), []);
   assert.deepEqual(db.prepare("SELECT * FROM schema_migrations").all(), before);
@@ -79,13 +79,13 @@ test("migra v5 populado com WAL ativo preservando todas as linhas, extras e rela
   const before = snapshot(db);
   const result = cli(filename, ["src/config/migrate.js"], { CONFIRMAR_DROP: "sim" });
   assert.equal(result.status, 0, result.stderr);
-  assert.deepEqual(snapshot(db), before);
+  assert.deepEqual(snapshot(db), { ...before, acessos: [] });
   assert.deepEqual(db.pragma("foreign_key_check"), []);
   assert.equal(db.prepare("SELECT vagas_disponiveis FROM cursos").get().vagas_disponiveis, 9);
   assert.throws(() => db.prepare("INSERT INTO alunos (usuario_id) VALUES ('ausente')").run(), /FOREIGN KEY/);
   assertCurrent(db);
   assert.equal(cli(filename, ["src/config/migrate.js", "--init"]).status, 1);
-  assert.deepEqual(snapshot(db), before);
+  assert.deepEqual(snapshot(db), { ...before, acessos: [] });
 });
 
 test("adota v5 sem user_version e sem substituir registros", (t) => {
@@ -93,8 +93,8 @@ test("adota v5 sem user_version e sem substituir registros", (t) => {
   populate(db);
   db.pragma("user_version = 0");
   const before = snapshot(db);
-  assert.deepEqual(runMigrations(db), [5, 6]);
-  assert.deepEqual(snapshot(db), before);
+  assert.deepEqual(runMigrations(db), [5, 6, 7]);
+  assert.deepEqual(snapshot(db), { ...before, acessos: [] });
 });
 
 test("falha no segundo indice reverte DDL anterior, historico e versao", (t) => {

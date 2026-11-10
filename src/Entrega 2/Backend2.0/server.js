@@ -39,6 +39,7 @@ app.use("/api/profiles", profilesRoutes);
 app.use("/api/cursos", cursosRoutes);
 app.use("/api/universidades", universidadesRoutes);
 app.use("/api/admins", adminRoutes);
+app.use("/api/gestao", require("./src/routes/gestaoRoutes"));
 app.use("/api/atividades", atividadesRoutes);
 app.use("/api/inscricoes", inscricoesRoutes);
 app.use("/api/agenda", require("./src/routes/agendaRoutes"));

@@ -24,11 +24,9 @@ const NAV_ITEMS = [
         id: 'comms-group', label: 'Comunicação', icon: MessageSquare,
         children: [
             { id: 'messages', label: 'Mensagens', icon: Bell },
-            { id: 'chat', label: 'Chat', icon: MessageSquare },
         ]
     },
     { id: 'reports', label: 'Relatórios', icon: FileText },
-    { id: 'settings', label: 'Configurações', icon: Settings },
     { id: 'admins', label: 'Administradores', icon: Shield, adminOnly: true },
     { id: 'audit', label: 'Auditoria / Logs', icon: FileText, adminOnly: true },
 ];

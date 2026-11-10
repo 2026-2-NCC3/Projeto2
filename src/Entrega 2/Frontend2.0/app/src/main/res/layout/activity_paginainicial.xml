@@ -6,32 +6,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fundo_principal">
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/fundo_card"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:padding="@dimen/padding_tela_interna"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
+            android:id="@+id/cl_activity_paginainicial_2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cl_activity_paginainicial_3"
+            app:layout_constraintHorizontal_weight="1.0"
+            app:layout_constraintHorizontal_chainStyle="spread">
             <TextView
                 android:id="@+id/dashboardDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/texto_secundario"
-                android:textSize="@dimen/texto_rodape" />
-
+                android:textSize="@dimen/texto_rodape"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
             <TextView
                 android:id="@+id/txtSaudacao"
                 android:layout_width="wrap_content"
@@ -40,22 +41,31 @@
                 android:text="@string/dashboard_greeting"
                 android:textColor="@color/texto_primario"
                 android:textSize="@dimen/texto_saudacao"
-                android:textStyle="bold" />
-
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dashboardDate" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/espacamento_xxs"
                 android:text="@string/dashboard_welcome"
                 android:textColor="@color/texto_secundario"
-                android:textSize="@dimen/texto_subtitulo_app" />
-        </LinearLayout>
-
+                android:textSize="@dimen/texto_subtitulo_app"
+                android:id="@+id/cl_activity_paginainicial_1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtSaudacao"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/espacamento_xs"
-            android:layout_marginEnd="@dimen/espacamento_xxs">
+            android:layout_marginEnd="@dimen/espacamento_xxs"
+            android:id="@+id/cl_activity_paginainicial_3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cl_activity_paginainicial_2"
+            app:layout_constraintEnd_toStartOf="@id/cl_activity_paginainicial_4">
             <ImageButton
                 android:id="@+id/notificationButton"
                 android:layout_width="48dp"
@@ -77,20 +87,23 @@
                 android:importantForAccessibility="no"
                 android:visibility="gone" />
         </FrameLayout>
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
+            android:id="@+id/cl_activity_paginainicial_4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cl_activity_paginainicial_3"
+            app:layout_constraintEnd_toEndOf="parent">
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgAvatar"
                 android:layout_width="@dimen/tamanho_avatar"
                 android:layout_height="@dimen/tamanho_avatar"
                 android:contentDescription="@string/dashboard_profile"
-                android:src="@drawable/foto_perfil" />
-
+                android:src="@drawable/foto_perfil"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
             <TextView
                 android:id="@+id/btnSair"
                 android:layout_width="wrap_content"
@@ -102,10 +115,13 @@
                 android:text="@string/dashboard_sign_out"
                 android:textColor="@color/acao_primaria"
                 android:textSize="@dimen/texto_subtitulo_app"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </LinearLayout>
-
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imgAvatar"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -114,44 +130,53 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topBar">
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/fundo_principal"
-            android:orientation="vertical"
             android:padding="@dimen/padding_tela_interna">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_hero_roxo"
-                android:orientation="vertical"
-                android:padding="20dp">
-
+                android:padding="20dp"
+                android:id="@+id/cl_activity_paginainicial_22"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/dashboard_hero_label"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
-
+                    android:textSize="14sp"
+                    android:id="@+id/cl_activity_paginainicial_5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/espacamento_sm"
                     android:text="@string/dashboard_hero_title"
                     android:textColor="@color/white"
                     android:textSize="22sp"
-                    android:textStyle="bold" />
-
+                    android:textStyle="bold"
+                    android:id="@+id/cl_activity_paginainicial_6"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_5" />
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/espacamento_sm"
                     android:text="@string/dashboard_hero_description"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:id="@+id/cl_activity_paginainicial_7"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_6" />
                 <TextView
                     android:id="@+id/dashboardExplore"
                     android:layout_width="wrap_content"
@@ -163,9 +188,11 @@
                     android:paddingHorizontal="@dimen/padding_tela_interna"
                     android:text="@string/dashboard_explore"
                     android:textColor="@color/acao_primaria"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_7"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -173,177 +200,221 @@
                 android:text="@string/dashboard_shortcuts"
                 android:textColor="@color/texto_primario"
                 android:textSize="@dimen/texto_titulo_secao"
-                android:textStyle="bold" />
-
+                android:textStyle="bold"
+                android:id="@+id/cl_activity_paginainicial_23"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_22" />
             <GridLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/espacamento_sm"
                 android:columnCount="2"
-                android:rowCount="3">
-
-                <LinearLayout
+                android:rowCount="3"
+                android:id="@+id/cl_activity_paginainicial_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_23">
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/atalhoCursos"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="@dimen/espacamento_entre_cards"
                     android:background="@drawable/bg_card_branco"
-                    android:gravity="center"
-                    android:orientation="vertical"
                     android:padding="@dimen/padding_card">
-
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/tamanho_icone_atalho"
                         android:layout_height="@dimen/tamanho_icone_atalho"
                         android:contentDescription="Meus cursos"
                         android:src="@drawable/ic_menu_book"
-                        app:tint="@color/acao_primaria" />
-
+                        app:tint="@color/acao_primaria"
+                        android:id="@+id/cl_activity_paginainicial_8"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/cl_activity_paginainicial_9"
+                        app:layout_constraintVertical_chainStyle="packed" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/espacamento_sm"
                         android:text="@string/dashboard_courses"
                         android:textColor="@color/texto_primario"
-                        android:textSize="@dimen/texto_subtitulo_app" />
-                </LinearLayout>
-
-                <LinearLayout
+                        android:textSize="@dimen/texto_subtitulo_app"
+                        android:id="@+id/cl_activity_paginainicial_9"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_8"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/atalhoAgenda"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="@dimen/espacamento_entre_cards"
                     android:background="@drawable/bg_card_branco"
-                    android:gravity="center"
-                    android:orientation="vertical"
                     android:padding="@dimen/padding_card">
-
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/tamanho_icone_atalho"
                         android:layout_height="@dimen/tamanho_icone_atalho"
                         android:contentDescription="Agenda"
                         android:src="@drawable/ic_calendar"
-                        app:tint="@color/acao_primaria" />
-
+                        app:tint="@color/acao_primaria"
+                        android:id="@+id/cl_activity_paginainicial_10"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/cl_activity_paginainicial_11"
+                        app:layout_constraintVertical_chainStyle="packed" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/espacamento_sm"
                         android:text="@string/dashboard_agenda"
                         android:textColor="@color/texto_primario"
-                        android:textSize="@dimen/texto_subtitulo_app" />
-                </LinearLayout>
-
-                <LinearLayout
+                        android:textSize="@dimen/texto_subtitulo_app"
+                        android:id="@+id/cl_activity_paginainicial_11"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_10"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/atalhoCarteirinha"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="@dimen/espacamento_entre_cards"
                     android:background="@drawable/bg_card_branco"
-                    android:gravity="center"
-                    android:orientation="vertical"
                     android:padding="@dimen/padding_card">
-
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/tamanho_icone_atalho"
                         android:layout_height="@dimen/tamanho_icone_atalho"
                         android:contentDescription="Carteirinha"
                         android:src="@drawable/ic_badge"
-                        app:tint="@color/acao_primaria" />
-
+                        app:tint="@color/acao_primaria"
+                        android:id="@+id/cl_activity_paginainicial_12"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/cl_activity_paginainicial_13"
+                        app:layout_constraintVertical_chainStyle="packed" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/espacamento_sm"
                         android:text="Carteirinha"
                         android:textColor="@color/texto_primario"
-                        android:textSize="@dimen/texto_subtitulo_app" />
-                </LinearLayout>
-
-                <LinearLayout android:id="@+id/atalhoMensagens" android:clickable="true" android:focusable="true"
+                        android:textSize="@dimen/texto_subtitulo_app"
+                        android:id="@+id/cl_activity_paginainicial_13"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_12"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/atalhoMensagens"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="@dimen/espacamento_entre_cards"
                     android:background="@drawable/bg_card_branco"
-                    android:gravity="center"
-                    android:orientation="vertical"
                     android:padding="@dimen/padding_card">
-
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/tamanho_icone_atalho"
                         android:layout_height="@dimen/tamanho_icone_atalho"
                         android:contentDescription="@string/messages_title"
                         android:src="@drawable/ic_email"
-                        app:tint="@color/acao_primaria" />
-
+                        app:tint="@color/acao_primaria"
+                        android:id="@+id/cl_activity_paginainicial_14"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/cl_activity_paginainicial_15"
+                        app:layout_constraintVertical_chainStyle="packed" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/espacamento_sm"
                         android:text="@string/messages_title"
                         android:textColor="@color/texto_primario"
-                        android:textSize="@dimen/texto_subtitulo_app" />
-                </LinearLayout>
-
-                <LinearLayout
+                        android:textSize="@dimen/texto_subtitulo_app"
+                        android:id="@+id/cl_activity_paginainicial_15"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_14"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/dashboardCheckin"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="@dimen/espacamento_entre_cards"
                     android:background="@drawable/bg_card_branco"
-                    android:gravity="center"
-                    android:orientation="vertical"
                     android:padding="@dimen/padding_card">
-
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/tamanho_icone_atalho"
                         android:layout_height="@dimen/tamanho_icone_atalho"
                         android:importantForAccessibility="no"
                         android:src="@drawable/ic_qr_placeholder"
-                        app:tint="@color/acao_primaria" />
-
+                        app:tint="@color/acao_primaria"
+                        android:id="@+id/cl_activity_paginainicial_16"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/cl_activity_paginainicial_17"
+                        app:layout_constraintVertical_chainStyle="packed" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/espacamento_sm"
                         android:text="@string/dashboard_checkin"
                         android:textColor="@color/texto_primario"
-                        android:textSize="@dimen/texto_subtitulo_app" />
-                </LinearLayout>
-
-                <LinearLayout
+                        android:textSize="@dimen/texto_subtitulo_app"
+                        android:id="@+id/cl_activity_paginainicial_17"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_16"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/dashboardCertificates"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="@dimen/espacamento_entre_cards"
                     android:background="@drawable/bg_card_branco"
-                    android:gravity="center"
-                    android:orientation="vertical"
                     android:padding="@dimen/padding_card">
-
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/tamanho_icone_atalho"
                         android:layout_height="@dimen/tamanho_icone_atalho"
                         android:importantForAccessibility="no"
                         android:src="@drawable/ic_badge"
-                        app:tint="@color/acao_primaria" />
-
+                        app:tint="@color/acao_primaria"
+                        android:id="@+id/cl_activity_paginainicial_18"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/cl_activity_paginainicial_19"
+                        app:layout_constraintVertical_chainStyle="packed" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/espacamento_sm"
                         android:text="@string/dashboard_certificates"
                         android:textColor="@color/texto_primario"
-                        android:textSize="@dimen/texto_subtitulo_app" />
-                </LinearLayout>
+                        android:textSize="@dimen/texto_subtitulo_app"
+                        android:id="@+id/cl_activity_paginainicial_19"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_18"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </GridLayout>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -351,17 +422,21 @@
                 android:text="@string/dashboard_next_activity"
                 android:textColor="@color/texto_primario"
                 android:textSize="@dimen/texto_titulo_secao"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
+                android:textStyle="bold"
+                android:id="@+id/cl_activity_paginainicial_25"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_24" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/espacamento_sm"
                 android:background="@drawable/bg_card_branco"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="@dimen/padding_card">
-
+                android:padding="@dimen/padding_card"
+                android:id="@+id/cl_activity_paginainicial_26"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_25"
+                app:layout_constraintBottom_toBottomOf="parent">
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
@@ -369,35 +444,48 @@
                     android:importantForAccessibility="no"
                     android:padding="12dp"
                     android:src="@drawable/ic_calendar"
-                    app:tint="@color/acao_primaria" />
-
-                <LinearLayout
+                    app:tint="@color/acao_primaria"
+                    android:id="@+id/cl_activity_paginainicial_20"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/cl_activity_paginainicial_21"
+                    app:layout_constraintHorizontal_chainStyle="spread" />
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/espacamento_card"
-                    android:layout_weight="1"
                     android:accessibilityLiveRegion="polite"
-                    android:orientation="vertical">
-
+                    android:id="@+id/cl_activity_paginainicial_21"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/cl_activity_paginainicial_20"
+                    app:layout_constraintEnd_toStartOf="@id/txtVerDetalhes"
+                    app:layout_constraintHorizontal_weight="1.0">
                     <TextView
                         android:id="@+id/dashboardActivityTitle"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/dashboard_activity_loading"
                         android:textColor="@color/texto_primario"
                         android:textSize="@dimen/texto_titulo_card"
-                        android:textStyle="bold" />
-
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
                     <TextView
                         android:id="@+id/dashboardActivityDetails"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/espacamento_xxs"
                         android:textColor="@color/texto_secundario"
                         android:textSize="@dimen/texto_subtitulo_app"
-                        android:visibility="gone" />
-                </LinearLayout>
-
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/dashboardActivityTitle"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/txtVerDetalhes"
                     android:layout_width="48dp"
@@ -405,31 +493,33 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/dashboard_open_agenda"
                     android:src="@drawable/ic_chevron_right"
-                    app:tint="@color/acao_primaria" />
-            </LinearLayout>
-        </LinearLayout>
+                    app:tint="@color/acao_primaria"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/cl_activity_paginainicial_21"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomNav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_bottom_nav"
-        android:orientation="horizontal"
         android:paddingBottom="@dimen/padding_navegacao"
         android:paddingTop="@dimen/padding_navegacao"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/navInicio"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/navCursos"
+            app:layout_constraintHorizontal_weight="1.0"
+            app:layout_constraintHorizontal_chainStyle="spread">
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/tamanho_icone_nav"
                 android:layout_height="@dimen/tamanho_icone_nav"
@@ -437,86 +527,123 @@
                 android:contentDescription="Início"
                 android:padding="@dimen/espacamento_xxs"
                 android:src="@drawable/ic_home"
-                app:tint="@color/acao_primaria" />
-
+                app:tint="@color/acao_primaria"
+                android:id="@+id/cl_activity_paginainicial_27"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/cl_activity_paginainicial_28"
+                app:layout_constraintVertical_chainStyle="packed" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Início"
                 android:textColor="@color/acao_primaria"
-                android:textSize="@dimen/texto_rodape" />
-        </LinearLayout>
-
-        <LinearLayout
+                android:textSize="@dimen/texto_rodape"
+                android:id="@+id/cl_activity_paginainicial_28"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_27"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/navCursos"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/navInicio"
+            app:layout_constraintEnd_toStartOf="@id/navAgenda"
+            app:layout_constraintHorizontal_weight="1.0">
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/tamanho_icone_nav"
                 android:layout_height="@dimen/tamanho_icone_nav"
                 android:contentDescription="Cursos"
                 android:padding="@dimen/espacamento_xxs"
                 android:src="@drawable/ic_menu_book"
-                app:tint="@color/texto_secundario" />
-
+                app:tint="@color/texto_secundario"
+                android:id="@+id/cl_activity_paginainicial_29"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/cl_activity_paginainicial_30"
+                app:layout_constraintVertical_chainStyle="packed" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cursos"
                 android:textColor="@color/texto_secundario"
-                android:textSize="@dimen/texto_rodape" />
-        </LinearLayout>
-
-        <LinearLayout
+                android:textSize="@dimen/texto_rodape"
+                android:id="@+id/cl_activity_paginainicial_30"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_29"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/navAgenda"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/navCursos"
+            app:layout_constraintEnd_toStartOf="@id/navPerfil"
+            app:layout_constraintHorizontal_weight="1.0">
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/tamanho_icone_nav"
                 android:layout_height="@dimen/tamanho_icone_nav"
                 android:contentDescription="Agenda"
                 android:padding="@dimen/espacamento_xxs"
                 android:src="@drawable/ic_calendar"
-                app:tint="@color/texto_secundario" />
-
+                app:tint="@color/texto_secundario"
+                android:id="@+id/cl_activity_paginainicial_31"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/cl_activity_paginainicial_32"
+                app:layout_constraintVertical_chainStyle="packed" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Agenda"
                 android:textColor="@color/texto_secundario"
-                android:textSize="@dimen/texto_rodape" />
-        </LinearLayout>
-
-        <LinearLayout
+                android:textSize="@dimen/texto_rodape"
+                android:id="@+id/cl_activity_paginainicial_32"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_31"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/navPerfil"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/navAgenda"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1.0">
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/tamanho_icone_nav"
                 android:layout_height="@dimen/tamanho_icone_nav"
                 android:contentDescription="Perfil"
                 android:padding="@dimen/espacamento_xxs"
                 android:src="@drawable/ic_person"
-                app:tint="@color/texto_secundario" />
-
+                app:tint="@color/texto_secundario"
+                android:id="@+id/cl_activity_paginainicial_33"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/cl_activity_paginainicial_34"
+                app:layout_constraintVertical_chainStyle="packed" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Perfil"
                 android:textColor="@color/texto_secundario"
-                android:textSize="@dimen/texto_rodape" />
-        </LinearLayout>
-    </LinearLayout>
+                android:textSize="@dimen/texto_rodape"
+                android:id="@+id/cl_activity_paginainicial_34"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_activity_paginainicial_33"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

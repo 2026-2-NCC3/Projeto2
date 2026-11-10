@@ -33,12 +33,21 @@ O sistema será composto por um aplicativo mobile, uma API REST e um banco de da
 
 [Entrega 2 por disciplina e situação dos entregáveis](documentos/README.md#materiais-da-entrega-2).
 
+
+## Revisão de ConstraintLayout e APK da Entrega 2
+
+A versão atual do Android da Entrega 2 usa `ConstraintLayout` nos layouts XML e nas células criadas dinamicamente na Agenda. A pasta histórica da Entrega 1 permanece inalterada.
+
+- [Guia de execução Android/API](docs/ENTREGA2_GUIA_TECNICO.md).
+- [Relatório de evidências e testes pendentes](docs/EVIDENCIAS_TESTES_ENTREGA2.md).
+- [Pasta correta do APK de Dispositivos Móveis](documentos/Entrega%202/Programa%C3%A7%C3%A3o%20para%20Dispositivos%20M%C3%B3veis/README.md).
+- Execute **`GERAR_E_ORGANIZAR_APK_ENTREGA2.ps1` na raiz, após configurar o SDK**, para gerar e colocar um novo APK na pasta da disciplina. Nenhum APK pós-migração foi gerado fora do Android Studio.
+
 ## 🛠 Estrutura de pastas
 ```
 📂 Projeto2/
 │
 ├── 📄 README.md
-├── 📄 LICENSE
 ├── 📄 .gitignore
 │
 ├── 📂 src/
@@ -118,7 +127,7 @@ sao historicas; nao configuram o backend ativo da Entrega 2.
 
 - [Materiais da Entrega 2 por disciplina e situação de cada item](documentos/README.md#materiais-da-entrega-2).
 - [Guia de execução local](docs/ENTREGA2_GUIA_TECNICO.md#execução-local) e [evidências da Entrega 2](docs/EVIDENCIAS_TESTES_ENTREGA2.md).
-- [README de POO e Estruturas de Dados](documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos%20e%20Estrutura%20de%20Dados/README.md) e [diagrama de classes](docs/DIAGRAMA_CLASSES_ENTREGA2.md).
+- [README de POO e Estruturas de Dados](documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos/README.md) e [diagrama de classes](docs/DIAGRAMA_CLASSES_ENTREGA2.md).
 
 Pre-requisitos: Node.js 24 (validado), npm, Android Studio/JDK compativel com AGP
 9.0.1 e SDK da plataforma 37.0. Use os wrappers e lockfiles versionados. O Gradle
@@ -269,7 +278,7 @@ O debug usa o mesmo encaminhamento ADB em um aparelho conectado por USB. Use o s
 
 ## 📋 Licença/License
 Este projeto está licenciado sob a licença MIT — veja o arquivo 
-[LICENSE](./LICENSE) para o texto completo.
+O arquivo de licença não constava do ZIP recebido; confirme os termos de licença com a equipe antes de publicar.
 
 O nome, o logotipo e a identidade visual da ONG Próxima Etapa são de 
 propriedade da organização e não estão cobertos por esta licença, 

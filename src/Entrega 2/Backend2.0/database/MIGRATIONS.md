@@ -34,6 +34,9 @@ negócio nas migrações adicionadas.
 
 A v6 adiciona três índices em chaves estrangeiras já existentes: `cursos.criado_por`,
 `resultado_respostas.pergunta_id` e `resultado_respostas.alternativa_id`.
+
+A v7 adiciona a tabela `acessos` e dois índices para registrar **apenas logins bem-sucedidos após a migração**, com identificador de usuário e data. Não guarda senha, token ou IP e não fabrica eventos históricos. O login grava um registro apenas após validação de credenciais. A migração é aditiva e precisa ser executada explicitamente antes de subir o backend atualizado. Eventos anteriores à v7 permanecem desconhecidos.
+
 `schema_migrations` registra versão, nome, SHA-256 e data; `user_version` acompanha
 a última versão. Os hashes normalizam CRLF para LF para funcionar entre sistemas.
 

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -148,14 +147,14 @@ public class AgendaActivity extends DataListActivity {
     }
 
     private void addActions() {
-        LinearLayout container = findViewById(R.id.dataActions);
+        ConstraintStackLayout container = findViewById(R.id.dataActions);
         addAction(container, "QR check-in", R.drawable.ic_qr_placeholder,
                 QrCheckinActivity.class, false);
         addAction(container, "Histórico", R.drawable.ic_calendar,
                 HistoricoActivity.class, true);
     }
 
-    private void addAction(LinearLayout container, String label, int icon, Class<?> target,
+    private void addAction(ConstraintStackLayout container, String label, int icon, Class<?> target,
                            boolean second) {
         TextView action = new TextView(this);
         action.setText(label);
@@ -173,7 +172,7 @@ public class AgendaActivity extends DataListActivity {
         action.setFocusable(true);
         action.setOnClickListener(v -> startActivity(new Intent(this, target)));
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, dp(48), 1);
+        androidx.constraintlayout.widget.ConstraintLayout.LayoutParams lp = new androidx.constraintlayout.widget.ConstraintLayout.LayoutParams(0, dp(48));
         if (second) lp.leftMargin = dp(10);
         container.addView(action, lp);
     }
@@ -277,7 +276,7 @@ public class AgendaActivity extends DataListActivity {
         bindOptional(card, R.id.agendaItemLocal, activity.optString("local", ""));
         card.setContentDescription("Detalhes: " + activity.optString("titulo", "atividade"));
         card.setOnClickListener(view -> select(activity));
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
+        androidx.constraintlayout.widget.ConstraintLayout.LayoutParams params = new androidx.constraintlayout.widget.ConstraintLayout.LayoutParams(-1, -2);
         params.bottomMargin = dp(12);
         card.setLayoutParams(params);
         return card;

@@ -212,3 +212,33 @@ export function publicarMensagem(id, opcoes = {}) {
         body: '{}',
     }, true);
 }
+
+// Somente rotas administrativas autenticadas; nunca há fallback com dados fictícios.
+export function obterDashboardGestao(opcoes = {}) {
+    return requisicao('/api/gestao/dashboard', opcoesDeConsulta(opcoes), true);
+}
+export function obterRelatorioGestao({ periodo = '6m', cursoId = '', signal } = {}) {
+    const params = new URLSearchParams({ periodo });
+    if (cursoId) params.set('curso_id', cursoId);
+    return requisicao(`/api/gestao/relatorios?${params}`, opcoesDeConsulta({ signal }), true);
+}
+export function listarEventosGestao(opcoes = {}) {
+    return requisicao('/api/gestao/eventos', opcoesDeConsulta(opcoes), true);
+}
+export function listarTestesGestao(opcoes = {}) {
+    return requisicao('/api/gestao/testes', opcoesDeConsulta(opcoes), true);
+}
+export function listarResultadosTestes(opcoes = {}) {
+    return requisicao('/api/gestao/testes/resultados', opcoesDeConsulta(opcoes), true);
+}
+export function criarTesteGestao(dados, opcoes = {}) {
+    return requisicao('/api/gestao/testes', {
+        ...opcoesDeConsulta(opcoes), method: 'POST', body: JSON.stringify(dados),
+    }, true);
+}
+export function listarAdmins(opcoes = {}) {
+    return requisicao('/api/admins', opcoesDeConsulta(opcoes), true);
+}
+export function listarAuditoria(opcoes = {}) {
+    return requisicao('/api/gestao/auditoria', opcoesDeConsulta(opcoes), true);
+}

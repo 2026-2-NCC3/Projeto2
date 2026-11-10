@@ -1,191 +1,116 @@
+import { useEffect, useState } from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
-import { TrendingUp, TrendingDown, Users, BookOpen, CheckSquare, Award } from 'lucide-react';
-const enrollmentTrend = [
-    { week: 'Sem 1', value: 12 }, { week: 'Sem 2', value: 19 }, { week: 'Sem 3', value: 15 },
-    { week: 'Sem 4', value: 28 }, { week: 'Sem 5', value: 22 }, { week: 'Sem 6', value: 35 },
-    { week: 'Sem 7', value: 31 }, { week: 'Sem 8', value: 42 }, { week: 'Sem 9', value: 38 },
-    { week: 'Sem 10', value: 47 }, { week: 'Sem 11', value: 53 }, { week: 'Sem 12', value: 61 },
-];
-const courseDistribution = [
-    { curso: 'Python Básico', alunos: 87 },
-    { curso: 'Excel Avançado', alunos: 74 },
-    { curso: 'Design Gráfico', alunos: 68 },
-    { curso: 'Marketing Digital', alunos: 61 },
-    { curso: 'Inglês A1', alunos: 55 },
-    { curso: 'Lógica de Prog.', alunos: 49 },
-    { curso: 'Empreendedorismo', alunos: 43 },
-    { curso: 'Outros', alunos: 38 },
-];
-const profileResults = [
-    { name: 'Analítico', value: 32, color: '#2563EB' },
-    { name: 'Criativo', value: 25, color: '#7C3AED' },
-    { name: 'Comunicador', value: 22, color: '#059669' },
-    { name: 'Executor', value: 21, color: '#D97706' },
-];
-const attendanceData = [
-    { curso: 'Python', min: 52, q1: 70, median: 82, q3: 91, max: 100 },
-    { curso: 'Excel', min: 45, q1: 65, median: 78, q3: 88, max: 98 },
-    { curso: 'Design', min: 60, q1: 74, median: 85, q3: 93, max: 100 },
-    { curso: 'Marketing', min: 30, q1: 55, median: 70, q3: 85, max: 97 },
-    { curso: 'Inglês', min: 55, q1: 72, median: 83, q3: 92, max: 100 },
-];
-const recentEnrollments = [
-    { name: 'Maria Souza', course: 'Python Básico', date: '22/09/2026' },
-    { name: 'Carlos Lima', course: 'Design Gráfico', date: '22/09/2026' },
-    { name: 'Ana Ferreira', course: 'Excel Avançado', date: '21/09/2026' },
-    { name: 'Pedro Santos', course: 'Marketing Digital', date: '21/09/2026' },
-    { name: 'Julia Costa', course: 'Inglês A1', date: '20/09/2026' },
-];
-function KPICard({ label, value, change, changePositive, icon: Icon, subtitle }) {
-    return (<div className="bg-white rounded-xl border border-gray-200 p-5">
-      <div className="flex items-start justify-between mb-3">
-        <div className="p-2 bg-blue-50 rounded-lg">
-          <Icon size={20} className="text-blue-600"/>
-        </div>
-        <span className={`flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${changePositive ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>
-          {changePositive ? <TrendingUp size={11}/> : <TrendingDown size={11}/>}
-          {change}
-        </span>
-      </div>
-      <p className="text-3xl font-semibold text-gray-900 leading-none mb-1">{value}</p>
-      <p className="text-xs text-gray-500 mb-0.5">{label}</p>
-      <p className="text-xs text-gray-400">{subtitle}</p>
-    </div>);
+import { Users, BookOpen, CheckSquare, Award, RefreshCw, ClipboardList, GraduationCap } from 'lucide-react';
+import { obterDashboardGestao } from '../services/api';
+
+const fmt = new Intl.NumberFormat('pt-BR');
+const moneyless = n => n == null ? '—' : fmt.format(n);
+const dataPt = data => data ? new Date(data).toLocaleDateString('pt-BR') : '—';
+const palette = ['#7214FA','#51C403','#EEC545','#A56BF7','#1C7F9B','#DE7B90','#5D7193','#9D9D9D'];
+const chartStyle = {fontSize:11,fill:'#8D87A0'};
+
+function Panel({title, subtitle, children}) {
+  return <section className="bg-white rounded-xl border border-gray-200 p-5 min-w-0">
+    <h2 className="text-sm font-semibold text-gray-900">{title}</h2>
+    {subtitle && <p className="text-xs text-gray-500 mt-1 mb-4">{subtitle}</p>}
+    {children}
+  </section>;
 }
-export default function Dashboard() {
-    return (<div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-xl font-semibold text-gray-900">Dashboard</h1>
-        <p className="text-sm text-gray-500 mt-0.5">Visão geral da plataforma — setembro 2026</p>
-      </div>
+function Empty({children='Nenhum dado registrado para este indicador.'}) {
+  return <p className="text-sm text-gray-500 text-center py-12" role="status">{children}</p>;
+}
+function KPI({label,value,icon:Icon,note}) {
+  return <div className="rounded-xl border border-gray-200 bg-white p-5">
+    <div className="p-2 w-fit rounded-lg bg-purple-50 text-purple-700 mb-3"><Icon size={20}/></div>
+    <p className="text-3xl font-semibold text-gray-900">{value}</p>
+    <p className="text-sm font-medium text-gray-700 mt-1">{label}</p>
+    {note && <p className="text-xs text-gray-500 mt-1">{note}</p>}
+  </div>;
+}
 
-      {/* KPIs */}
+export default function Dashboard({ onNavigate }) {
+  const [data,setData] = useState(null);
+  const [loading,setLoading] = useState(true);
+  const [error,setError] = useState('');
+  const [attempt,setAttempt] = useState(0);
+  useEffect(()=>{
+    const controller=new AbortController();
+    setLoading(true); setError('');
+    obterDashboardGestao({signal:controller.signal})
+      .then(result=>{if(!result?.indicadores || !Array.isArray(result.ultimas_inscricoes)) throw Error('Resposta incompleta'); if(!controller.signal.aborted)setData(result);})
+      .catch(()=>{if(!controller.signal.aborted){setData(null);setError('Não foi possível consultar as métricas do sistema.');}})
+      .finally(()=>{if(!controller.signal.aborted)setLoading(false);});
+    return ()=>controller.abort();
+  },[attempt]);
+
+  const stats=data?.indicadores;
+  const perfil=data?.resultados_perfil ?? [];
+  const weekly=(data?.inscricoes_semanais??[]).map(x=>({semana:dataPt(x.semana),inscricoes:x.total}));
+  const courses=data?.alunos_por_curso??[];
+  const dispersion=data?.dispersao_presenca??[];
+  return <div className="p-6 space-y-6">
+    <header className="flex flex-wrap items-center justify-between gap-3">
+      <div><h1 className="text-xl font-semibold text-gray-900">Visão geral</h1>
+      <p className="text-sm text-gray-500 mt-1">Indicadores reais do banco de dados {data?.atualizado_em && `· atualizado ${new Date(data.atualizado_em).toLocaleString('pt-BR')}`}</p></div>
+      <button className="px-3 py-2 rounded-lg bg-purple-50 text-purple-700 text-sm flex gap-2 items-center" onClick={()=>setAttempt(v=>v+1)}><RefreshCw size={15}/> Atualizar</button>
+    </header>
+    {loading && <p role="status" className="text-gray-500">Consultando indicadores...</p>}
+    {error && <div role="alert" className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl">{error} <button className="underline" onClick={()=>setAttempt(x=>x+1)}>Tentar novamente</button></div>}
+    {stats && !loading && <>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <KPICard label="Alunos ativos" value="475" change="+12% vs mês ant." changePositive={true} icon={Users} subtitle="38 novos este mês"/>
-        <KPICard label="Cursos em andamento" value="14" change="+2 vs mês ant." changePositive={true} icon={BookOpen} subtitle="3 encerram nos próx. 7 dias"/>
-        <KPICard label="Taxa de presença média" value="81%" change="-2% vs mês ant." changePositive={false} icon={CheckSquare} subtitle="Média ponderada todos os cursos"/>
-        <KPICard label="Certificados emitidos" value="63" change="+18% vs mês ant." changePositive={true} icon={Award} subtitle="No mês de setembro"/>
+        <KPI label="Alunos ativos" icon={Users} value={moneyless(stats.alunos_ativos)} note={`${moneyless(stats.usuarios_total)} usuários cadastrados no total`}/>
+        <KPI label="Cursos em andamento" icon={BookOpen} value={moneyless(stats.cursos_em_andamento)} note={`${moneyless(stats.cursos_total)} cursos cadastrados`}/>
+        <KPI label="Taxa de presença" icon={CheckSquare} value={stats.taxa_presenca == null ? 'Sem base' : `${stats.taxa_presenca}%`} note={`${moneyless(stats.presencas_registradas)} registros · ${moneyless(stats.oportunidades_presenca)} oportunidades elegíveis`}/>
+        <KPI label="Certificados emitidos" icon={Award} value={moneyless(stats.certificados_emitidos)} note={`${moneyless(stats.certificados_pendentes)} pendentes ou prontos`}/>
+        <KPI label="Inscrições concluídas" icon={GraduationCap} value={moneyless(stats.inscricoes_concluidas)} note={`${moneyless(stats.inscricoes_cursando)} em curso`}/>
+        <KPI label="Atividades cadastradas" icon={ClipboardList} value={moneyless(stats.atividades_total)} note={`${moneyless(stats.avaliacoes_agendadas)} atividades do tipo avaliação`}/>
+        <KPI label="Resultados de perfil" icon={Users} value={moneyless(stats.testes_perfil_respondidos)} note="Respostas registradas, não diagnósticos"/>
+        <KPI label="Logins nos últimos 7 dias" icon={Users} value={moneyless(stats.acessos_ultimos_7dias)} note="Somente autenticações registradas após migração 007"/>
       </div>
-
-      {/* Charts row 1 */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-        {/* Line chart */}
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 className="text-sm font-semibold text-gray-900 mb-1">Novas inscrições por semana</h2>
-          <p className="text-xs text-gray-500 mb-4">Últimas 12 semanas</p>
-          <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={enrollmentTrend} margin={{ top: 4, right: 12, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6"/>
-              <XAxis dataKey="week" tick={{ fontSize: 11, fill: '#9CA3AF' }}/>
-              <YAxis tick={{ fontSize: 11, fill: '#9CA3AF' }}/>
-              <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #E5E7EB' }}/>
-              <Line type="monotone" dataKey="value" stroke="#2563EB" strokeWidth={2} dot={{ r: 3, fill: '#2563EB' }} name="Inscrições"/>
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Bar chart */}
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 className="text-sm font-semibold text-gray-900 mb-1">Alunos por curso</h2>
-          <p className="text-xs text-gray-500 mb-4">Top 8 cursos com mais inscrições</p>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={courseDistribution} margin={{ top: 4, right: 12, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" vertical={false}/>
-              <XAxis dataKey="curso" tick={{ fontSize: 10, fill: '#9CA3AF' }} interval={0} angle={-20} textAnchor="end" height={40}/>
-              <YAxis tick={{ fontSize: 11, fill: '#9CA3AF' }}/>
-              <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #E5E7EB' }}/>
-              <Bar dataKey="alunos" fill="#2563EB" radius={[4, 4, 0, 0]} name="Alunos"/>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+        <Panel title="Novas inscrições por semana" subtitle="Semanas com inscrições nos últimos 84 dias">
+          {weekly.length ? <ResponsiveContainer width="100%" height={230}><LineChart data={weekly} margin={{top:5,right:12,left:-17,bottom:8}}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#EFEAF4"/><XAxis dataKey="semana" tick={chartStyle}/><YAxis allowDecimals={false} tick={chartStyle}/><Tooltip/><Line dataKey="inscricoes" name="Inscrições" stroke="#7214FA" strokeWidth={2}/></LineChart></ResponsiveContainer> : <Empty/>}
+        </Panel>
+        <Panel title="Alunos inscritos por curso" subtitle="Inscrições não canceladas nos oito cursos com mais alunos">
+          {courses.length ? <ResponsiveContainer width="100%" height={230}><BarChart data={courses} margin={{top:5,right:10,left:-16,bottom:42}}>
+            <CartesianGrid strokeDasharray="3 3" vertical={false}/><XAxis dataKey="curso" tick={chartStyle} angle={-18} textAnchor="end" interval={0} height={57}/><YAxis allowDecimals={false} tick={chartStyle}/><Tooltip/><Bar dataKey="alunos" name="Inscritos" fill="#7214FA" radius={[4,4,0,0]}/></BarChart></ResponsiveContainer> : <Empty/>}
+        </Panel>
+        <Panel title="Dispersão de frequência" subtitle="Quartis calculados sobre alunos com ao menos uma oportunidade de presença">
+          {dispersion.length ? <div className="space-y-4 pt-3">{dispersion.map(d=><div key={d.curso}>
+            <div className="flex justify-between text-xs text-gray-700 mb-2"><span className="truncate mr-3">{d.curso}</span><span>Mediana {d.mediana}% · {d.alunos_amostrados} alunos</span></div>
+            <div className="relative bg-gray-100 h-2 rounded-full">
+              <div className="absolute h-full rounded-full bg-purple-100" style={{left:`${d.min}%`,width:`${d.max-d.min}%`}}/>
+              <div className="absolute h-full rounded-full bg-purple-400" style={{left:`${d.q1}%`,width:`${d.q3-d.q1}%`}}/>
+              <span className="absolute top-1/2 h-3 w-3 bg-purple-700 rounded-full -translate-y-1/2 -translate-x-1/2" style={{left:`${d.mediana}%`}}/>
+            </div></div>)}</div> : <Empty>Não há dados suficientes de presença por aluno.</Empty>}
+        </Panel>
+        <Panel title="Resultados reais de perfil" subtitle="Classificações registradas pelos testes de perfil">
+          {perfil.length ? <ResponsiveContainer width="100%" height={245}><PieChart>
+            <Pie data={perfil} nameKey="nome" dataKey="total" innerRadius={50} outerRadius={85} cx="50%" cy="45%" paddingAngle={2}>
+              {perfil.map((d,i)=><Cell key={d.nome} fill={palette[i%palette.length]}/>)}</Pie><Tooltip/><Legend/></PieChart></ResponsiveContainer> : <Empty>Nenhum resultado de teste de perfil registrado.</Empty>}
+        </Panel>
       </div>
-
-      {/* Charts row 2 */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-        {/* Attendance distribution */}
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 className="text-sm font-semibold text-gray-900 mb-1">Dispersão de presença por curso</h2>
-          <p className="text-xs text-gray-500 mb-4">Intervalo mín/máx e mediana — identifica frequência irregular</p>
-          <div className="space-y-3">
-            {attendanceData.map(d => (<div key={d.curso} className="flex items-center gap-3">
-                <span className="text-xs text-gray-500 w-16 flex-shrink-0">{d.curso}</span>
-                <div className="flex-1 relative h-6">
-                  <div className="absolute inset-y-0 flex items-center w-full">
-                    <div className="w-full h-1.5 bg-gray-100 rounded-full relative">
-                      <div className="absolute h-1.5 bg-blue-100 rounded-full" style={{ left: `${d.min}%`, width: `${d.max - d.min}%` }}/>
-                      <div className="absolute h-1.5 bg-blue-400 rounded-full" style={{ left: `${d.q1}%`, width: `${d.q3 - d.q1}%` }}/>
-                      <div className="absolute w-2.5 h-2.5 bg-blue-600 rounded-full -translate-y-1/2 top-1/2 -translate-x-1/2" style={{ left: `${d.median}%` }}/>
-                    </div>
-                  </div>
-                </div>
-                <span className="text-xs font-medium text-gray-700 w-8 text-right">{d.median}%</span>
-              </div>))}
-          </div>
-          <div className="flex items-center gap-4 mt-4 pt-3 border-t border-gray-100">
-            <div className="flex items-center gap-1.5"><div className="w-3 h-1.5 bg-blue-100 rounded"/><span className="text-xs text-gray-500">Intervalo total</span></div>
-            <div className="flex items-center gap-1.5"><div className="w-3 h-1.5 bg-blue-400 rounded"/><span className="text-xs text-gray-500">IQR (Q1–Q3)</span></div>
-            <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-blue-600 rounded-full"/><span className="text-xs text-gray-500">Mediana</span></div>
-          </div>
-        </div>
-
-        {/* Pie chart */}
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 className="text-sm font-semibold text-gray-900 mb-1">Resultados de perfil</h2>
-          <p className="text-xs text-gray-500 mb-2">Distribuição dos alunos por classificação</p>
-          <ResponsiveContainer width="100%" height={220}>
-            <PieChart>
-              <Pie data={profileResults} cx="50%" cy="50%" innerRadius={55} outerRadius={85} paddingAngle={3} dataKey="value">
-                {profileResults.map((entry, i) => (<Cell key={i} fill={entry.color}/>))}
-              </Pie>
-              <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #E5E7EB' }} formatter={(v) => [`${v} alunos`, '']}/>
-              <Legend iconType="circle" iconSize={8} formatter={(v) => <span style={{ fontSize: 12, color: '#374151' }}>{v}</span>}/>
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Operational summary */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-        {/* Recent enrollments */}
-        <div className="xl:col-span-2 bg-white rounded-xl border border-gray-200 p-5">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-semibold text-gray-900">Últimas inscrições</h2>
-            <button className="text-xs text-blue-600 hover:underline">Ver todas</button>
+        <Panel title="Últimas inscrições" subtitle="Somente inscrições persistidas no sistema">
+          {data.ultimas_inscricoes.length ? <div className="overflow-x-auto xl:col-span-2"><table className="w-full text-sm"><thead><tr className="text-left border-b text-gray-500"><th className="pb-2">Aluno</th><th>Curso</th><th>Data</th></tr></thead><tbody>
+            {data.ultimas_inscricoes.map(row=><tr key={row.id} className="border-b border-gray-100"><td className="py-3 font-medium">{row.aluno}</td><td>{row.curso}</td><td className="text-xs">{dataPt(row.data)}</td></tr>)}
+          </tbody></table></div> : <Empty>Nenhuma inscrição registrada.</Empty>}
+          {onNavigate && <button onClick={()=>onNavigate('students')} className="text-sm text-purple-700 mt-4">Consultar alunos</button>}
+        </Panel>
+        <Panel title="Pendências reais" subtitle="Sem notificações ou status de sincronização fictícios">
+          <div className="space-y-3">
+            <div className="bg-purple-50 p-4 rounded-lg"><strong>{stats.certificados_pendentes}</strong> certificados pendentes/prontos</div>
+            <div className="bg-gray-50 p-4 rounded-lg"><strong>{stats.inscricoes_hoje}</strong> inscrições criadas hoje</div>
+            <p className="text-xs text-gray-500">{stats.acessos_ultimos_7dias} logins registrados nos últimos 7 dias.</p>
           </div>
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-100">
-                <th className="text-left text-xs font-medium text-gray-500 pb-2">Aluno</th>
-                <th className="text-left text-xs font-medium text-gray-500 pb-2">Curso</th>
-                <th className="text-right text-xs font-medium text-gray-500 pb-2">Data</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              {recentEnrollments.map((e, i) => (<tr key={i} className="hover:bg-gray-50 transition-colors">
-                  <td className="py-2.5 text-gray-900 font-medium">{e.name}</td>
-                  <td className="py-2.5 text-gray-600">{e.course}</td>
-                  <td className="py-2.5 text-gray-400 text-right text-xs">{e.date}</td>
-                </tr>))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Alerts */}
-        <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-3">
-          <h2 className="text-sm font-semibold text-gray-900">Pendências operacionais</h2>
-          <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
-            <p className="text-xs font-semibold text-amber-800">3 certificados aguardando aprovação</p>
-            <button className="mt-2 text-xs text-amber-700 font-medium hover:underline">Revisar agora →</button>
-          </div>
-          <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-xs font-semibold text-blue-800">7 novas inscrições hoje</p>
-            <button className="mt-2 text-xs text-blue-700 font-medium hover:underline">Ver inscrições →</button>
-          </div>
-          <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-            <p className="text-xs font-semibold text-green-800">Sincronização com app: OK</p>
-            <p className="text-xs text-green-600 mt-0.5">Última: 22/09/2026 às 14:32</p>
-          </div>
-        </div>
+        </Panel>
       </div>
-    </div>);
+      <Panel title="Últimos acessos registrados" subtitle="Logins bem-sucedidos registrados após a migração 007, sem IP ou credenciais">
+        {data.acessos_recentes?.length ? <div className="overflow-x-auto"><table className="w-full text-sm text-left"><thead><tr className="border-b text-gray-500"><th className="pb-2">Usuário</th><th className="pb-2">Data e hora</th></tr></thead><tbody>
+          {data.acessos_recentes.map(e=><tr className="border-b" key={e.id}><td className="py-2">{e.usuario}</td><td>{new Date(e.criado_em).toLocaleString('pt-BR')}</td></tr>)}
+        </tbody></table></div> : <Empty>Nenhum login registrado desde a ativação do histórico de acessos.</Empty>}
+      </Panel>
+    </>}
+  </div>;
 }

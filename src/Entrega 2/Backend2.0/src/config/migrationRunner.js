@@ -21,6 +21,7 @@ function loadMigration(version, name) {
 const migrations = [
   loadMigration(5, "005_baseline.sql"),
   loadMigration(6, "006_foreign_key_indexes.sql"),
+  loadMigration(7, "007_access_events.sql"),
 ];
 const latestVersion = migrations.at(-1).version;
 const historySql = `CREATE TABLE schema_migrations (

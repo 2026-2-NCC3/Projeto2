@@ -1,0 +1,3 @@
+O ZIP histórico Projeto2-local-limpo.zip presente no arquivo de origem foi omitido intencionalmente deste pacote revisado.
+Ele continha uma cópia duplicada do projeto com pasta .git, arquivo .env e arquivos local.properties; por segurança e organização não será redistribuído.
+O ZIP de origem fornecido pelo usuário não foi alterado. Os dois APKs históricos da Entrega 1 foram preservados.

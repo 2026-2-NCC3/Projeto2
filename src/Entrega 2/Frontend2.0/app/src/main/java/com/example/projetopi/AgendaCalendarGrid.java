@@ -8,7 +8,8 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.GridLayout;
-import android.widget.LinearLayout;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -81,9 +82,8 @@ public class AgendaCalendarGrid extends GridLayout {
 
     private View dayCell(int day, Calendar month, boolean selected, boolean marked,
                          DaySelectionListener listener) {
-        LinearLayout cell = new LinearLayout(getContext());
-        cell.setOrientation(LinearLayout.VERTICAL);
-        cell.setGravity(Gravity.CENTER);
+        // Células de calendário montadas com constraints, com ConstraintLayout.
+        ConstraintLayout cell = new ConstraintLayout(getContext());
         cell.setClickable(true);
         cell.setFocusable(true);
         cell.setContentDescription("Dia " + day + " de "
@@ -91,6 +91,7 @@ public class AgendaCalendarGrid extends GridLayout {
                 + (marked ? ", com encontros" : ""));
 
         TextView number = label(Integer.toString(day));
+        number.setId(View.generateViewId());
         if (selected) {
             number.setBackgroundResource(R.drawable.agenda_dia_selecionado);
             number.setTextColor(Color.WHITE);
@@ -98,12 +99,9 @@ public class AgendaCalendarGrid extends GridLayout {
         } else if (marked) {
             number.setBackgroundResource(R.drawable.agenda_dia_evento);
         }
-        LinearLayout.LayoutParams numberSize = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, dp(39));
-        numberSize.setMargins(dp(2), 0, dp(2), 0);
-        cell.addView(number, numberSize);
 
         View marker = new View(getContext());
+        marker.setId(View.generateViewId());
         if (marked) {
             GradientDrawable dot = new GradientDrawable();
             dot.setShape(GradientDrawable.OVAL);
@@ -113,8 +111,24 @@ public class AgendaCalendarGrid extends GridLayout {
         } else {
             marker.setVisibility(View.INVISIBLE);
         }
-        LinearLayout.LayoutParams markerSize = new LinearLayout.LayoutParams(dp(4), dp(4));
+
+        ConstraintLayout.LayoutParams numberSize = new ConstraintLayout.LayoutParams(
+                0, dp(39));
+        numberSize.setMarginStart(dp(2));
+        numberSize.setMarginEnd(dp(2));
+        numberSize.startToStart = ConstraintSet.PARENT_ID;
+        numberSize.endToEnd = ConstraintSet.PARENT_ID;
+        numberSize.topToTop = ConstraintSet.PARENT_ID;
+        numberSize.bottomToTop = marker.getId();
+        numberSize.verticalChainStyle = ConstraintSet.CHAIN_PACKED;
+        cell.addView(number, numberSize);
+
+        ConstraintLayout.LayoutParams markerSize = new ConstraintLayout.LayoutParams(dp(4), dp(4));
         markerSize.topMargin = dp(3);
+        markerSize.topToBottom = number.getId();
+        markerSize.bottomToBottom = ConstraintSet.PARENT_ID;
+        markerSize.startToStart = ConstraintSet.PARENT_ID;
+        markerSize.endToEnd = ConstraintSet.PARENT_ID;
         cell.addView(marker, markerSize);
         cell.setOnClickListener(view -> listener.onDaySelected(day));
         return cell;

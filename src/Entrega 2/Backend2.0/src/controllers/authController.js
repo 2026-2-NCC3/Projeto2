@@ -41,6 +41,10 @@ function login(req, res, next) {
       { expiresIn: "8h", algorithm: "HS256" }
     );
 
+    // Registra somente autenticações bem-sucedidas; exige migração 007.
+    // Nunca registra senha, IP, token ou tentativas malsucedidas.
+    banco.prepare('INSERT INTO acessos (usuario_id) VALUES (?)').run(usuario.id);
+
     return res.status(200).json({
       token,
       usuario: {

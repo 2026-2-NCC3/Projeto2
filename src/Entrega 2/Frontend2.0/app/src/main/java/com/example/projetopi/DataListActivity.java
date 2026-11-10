@@ -9,7 +9,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -35,7 +34,7 @@ public abstract class DataListActivity extends AppCompatActivity {
 
     protected SessionManager session;
     protected ApiClient api;
-    protected LinearLayout items;
+    protected ConstraintStackLayout items;
     protected TextView status;
 
     private boolean relatedRecordOpened;
@@ -350,8 +349,8 @@ public abstract class DataListActivity extends AppCompatActivity {
         card.setPadding(padding, padding, padding, padding);
         card.setBackgroundResource(R.drawable.bg_card_branco);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        androidx.constraintlayout.widget.ConstraintLayout.LayoutParams layoutParams = new androidx.constraintlayout.widget.ConstraintLayout.LayoutParams(
+                androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_PARENT, androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(0, 0, 0, CARD_BOTTOM_MARGIN_PX);
         card.setLayoutParams(layoutParams);
         card.setOnClickListener(view -> select(record));

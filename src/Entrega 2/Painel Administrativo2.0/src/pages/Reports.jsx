@@ -1,165 +1,102 @@
+import { useEffect, useState } from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Download, FileText } from 'lucide-react';
-const attendanceData = [
-    { month: 'Mar', taxa: 78 }, { month: 'Abr', taxa: 81 }, { month: 'Mai', taxa: 79 },
-    { month: 'Jun', taxa: 85 }, { month: 'Jul', taxa: 82 }, { month: 'Ago', taxa: 80 },
-    { month: 'Set', taxa: 81 },
-];
-const conclusionData = [
-    { curso: 'Python Básico', concluidos: 72, evasao: 15 },
-    { curso: 'Excel Avançado', concluidos: 68, evasao: 6 },
-    { curso: 'Design Gráfico', concluidos: 55, evasao: 13 },
-    { curso: 'Marketing', concluidos: 49, evasao: 12 },
-    { curso: 'Inglês A1', concluidos: 42, evasao: 13 },
-];
-const impactData = [
-    { label: 'Alunos atendidos', value: 475, icon: '👥' },
-    { label: 'Certificados emitidos', value: 248, icon: '🎓' },
-    { label: 'Cursos ofertados', value: 14, icon: '📚' },
-    { label: 'Universidades parceiras', value: 6, icon: '🏛️' },
-    { label: 'Horas de capacitação', value: 8420, icon: '⏱️' },
-    { label: 'Taxa média de conclusão', value: '74%', icon: '✅' },
-];
-function completionRateClass(completionRate) {
-    if (completionRate >= 85) {
-        return 'text-green-700';
-    }
-    if (completionRate >= 75) {
-        return 'text-amber-700';
-    }
-    return 'text-red-600';
-}
+import { Download, RefreshCw, FileText } from 'lucide-react';
+import { obterRelatorioGestao } from '../services/api';
+import { baixarCsv } from '../utils/exportCsv';
+
+const format = new Intl.NumberFormat('pt-BR');
+const valor = n => n == null ? '—' : format.format(n);
+const pct = n => n == null ? 'Sem base' : `${n}%`;
+function EmptyState({children}){return <p className="p-10 text-center text-sm text-gray-500" role="status">{children}</p>;}
+const titleClass='text-sm font-semibold text-gray-900';
 
 export default function Reports() {
-    return (<div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold text-gray-900">Relatórios</h1>
-          <p className="text-sm text-gray-500 mt-0.5">Análise e exportação de dados da plataforma</p>
-        </div>
-        <div className="flex gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 text-gray-600 text-sm rounded-lg hover:bg-gray-50 transition-colors">
-            <Download size={15}/>
-            Exportar PDF
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 text-gray-600 text-sm rounded-lg hover:bg-gray-50 transition-colors">
-            <Download size={15}/>
-            Exportar Excel
-          </button>
-        </div>
-      </div>
+  const [periodo, setPeriodo] = useState('6m');
+  const [cursoId, setCursoId] = useState('');
+  const [data,setData] = useState(null);
+  const [error,setError] = useState('');
+  const [loading,setLoading] = useState(true);
+  const [attempt,setAttempt] = useState(0);
+  useEffect(()=>{
+    const controller=new AbortController();setLoading(true);setError('');
+    obterRelatorioGestao({periodo,cursoId,signal:controller.signal})
+      .then(json=>{if(!Array.isArray(json?.frequencia_por_curso))throw Error('Resposta inválida');if(!controller.signal.aborted)setData(json);})
+      .catch(()=>{if(!controller.signal.aborted){setData(null);setError('Não foi possível consultar os relatórios.');}})
+      .finally(()=>{if(!controller.signal.aborted)setLoading(false);});
+    return ()=>controller.abort();
+  },[periodo,cursoId,attempt]);
 
-      {/* Filters */}
-      <div className="bg-white rounded-xl border border-gray-200 p-4 flex flex-wrap gap-3 items-center">
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500">Período:</span>
-          <select className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option>Últimos 6 meses</option>
-            <option>Últimos 12 meses</option>
-            <option>Este ano</option>
-          </select>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500">Curso:</span>
-          <select className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option>Todos os cursos</option>
-            <option>Python Básico</option>
-            <option>Excel Avançado</option>
-          </select>
-        </div>
+  const rows=data?.frequencia_por_curso??[];
+  const stats=data?.indicadores;
+  const exportar=()=>baixarCsv('frequencia-proxima-etapa.csv',
+    ['Curso','Inscrições totais','Concluídas','Canceladas','Presenças confirmadas','Oportunidades de presença','Taxa de presença (%)','Taxa de conclusão (%)'],
+    rows.map(r=>[r.curso,r.inscritos,r.concluidos,r.cancelados,r.presencas_confirmadas,r.oportunidades_presenca,r.taxa_presenca,r.taxa_conclusao]));
+  return <div className="p-6 space-y-6">
+    <header className="flex items-center justify-between gap-4 flex-wrap">
+      <div><h1 className="text-xl font-semibold text-gray-900">Relatórios</h1>
+        <p className="text-sm text-gray-500">Dados consultados do banco {data?.atualizado_em && `· ${new Date(data.atualizado_em).toLocaleString('pt-BR')}`}</p></div>
+      <div className="flex gap-2">
+        <button onClick={()=>setAttempt(x=>x+1)} className="flex gap-2 items-center text-sm bg-gray-100 px-3 py-2 rounded-lg"><RefreshCw size={15}/> Atualizar</button>
+        <button onClick={exportar} disabled={loading || !rows.length} className="flex gap-2 items-center text-sm bg-purple-700 text-white px-3 py-2 rounded-lg disabled:opacity-50"><Download size={15}/> Exportar CSV (Excel)</button>
       </div>
-
-      {/* Impact summary */}
-      <div className="bg-white rounded-xl border border-gray-200 p-5">
-        <div className="flex items-center gap-2 mb-4">
-          <FileText size={18} className="text-blue-600"/>
-          <h2 className="font-semibold text-gray-900">Relatório de Impacto Social</h2>
-          <span className="text-xs bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full ml-2">Pitch de apresentação</span>
+    </header>
+    <form className="rounded-xl border border-gray-200 bg-white p-4 flex flex-wrap gap-4" onSubmit={event=>event.preventDefault()}>
+      <label className="text-sm text-gray-700">Período
+        <select value={periodo} onChange={e=>setPeriodo(e.target.value)} className="ml-2 border rounded-lg px-3 py-2">
+          <option value="6m">Últimos 6 meses</option><option value="12m">Últimos 12 meses</option><option value="ano">Este ano</option>
+        </select>
+      </label>
+      <label className="text-sm text-gray-700">Curso
+        <select value={cursoId} onChange={e=>setCursoId(e.target.value)} className="ml-2 border rounded-lg px-3 py-2 max-w-xs">
+          <option value="">Todos os cursos</option>
+          {(data?.cursos_opcoes??[]).map(c=><option key={c.id} value={c.id}>{c.titulo}</option>)}
+        </select>
+      </label>
+    </form>
+    {loading && <EmptyState>Consultando o banco...</EmptyState>}
+    {error && <div role="alert" className="p-4 rounded-xl bg-red-50 text-red-700">{error} <button className="underline" onClick={()=>setAttempt(x=>x+1)}>Tentar novamente</button></div>}
+    {data && !loading && <>
+      <section className="rounded-xl bg-white border border-gray-200 p-5">
+        <h2 className="flex gap-2 items-center font-semibold"><FileText size={18} className="text-purple-700"/> Indicadores de impacto registrados</h2>
+        <p className="text-xs text-gray-500 my-2">Os totais gerais são históricos; os gráficos de presença abaixo respeitam o período e o curso.</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 mt-4">
+          {[
+            ['Alunos com inscrição',stats.alunos_com_inscricao],
+            ['Certificados emitidos',stats.certificados_emitidos],
+            ['Cursos cadastrados',stats.cursos_total],
+            ['Universidades cadastradas',stats.universidades_total],
+            ['Horas ofertadas nos cursos',stats.horas_ofertadas],
+            ['Inscrições concluídas',stats.inscricoes_concluidas],
+          ].map(([label,n])=><div key={label} className="text-center"><div className="text-xl font-semibold">{valor(n)}</div><p className="text-xs text-gray-500">{label}</p></div>)}
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
-          {impactData.map(d => (<div key={d.label} className="text-center">
-              <div className="text-2xl mb-1">{d.icon}</div>
-              <div className="text-xl font-semibold text-gray-900">{d.value}</div>
-              <div className="text-xs text-gray-500 mt-0.5">{d.label}</div>
-            </div>))}
-        </div>
-      </div>
-
+      </section>
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-        {/* Attendance chart */}
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 className="text-sm font-semibold text-gray-900 mb-1">Taxa de presença mensal</h2>
-          <p className="text-xs text-gray-500 mb-4">Média ponderada de todos os cursos</p>
-          <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={attendanceData} margin={{ top: 4, right: 12, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6"/>
-              <XAxis dataKey="month" tick={{ fontSize: 11, fill: '#9CA3AF' }}/>
-              <YAxis domain={[60, 100]} tick={{ fontSize: 11, fill: '#9CA3AF' }} unit="%"/>
-              <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }} formatter={(v) => [`${v}%`, 'Taxa']}/>
-              <Line type="monotone" dataKey="taxa" stroke="#2563EB" strokeWidth={2} dot={{ r: 4, fill: '#2563EB' }}/>
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Conclusion chart */}
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 className="text-sm font-semibold text-gray-900 mb-1">Conclusão vs. evasão por curso</h2>
-          <p className="text-xs text-gray-500 mb-4">Número de alunos que concluíram ou evadiram</p>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={conclusionData} margin={{ top: 4, right: 12, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" vertical={false}/>
-              <XAxis dataKey="curso" tick={{ fontSize: 10, fill: '#9CA3AF' }} interval={0} angle={-15} textAnchor="end" height={36}/>
-              <YAxis tick={{ fontSize: 11, fill: '#9CA3AF' }}/>
-              <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }}/>
-              <Bar dataKey="concluidos" fill="#2563EB" radius={[4, 4, 0, 0]} name="Concluídos"/>
-              <Bar dataKey="evasao" fill="#FCA5A5" radius={[4, 4, 0, 0]} name="Evasão"/>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+        <section className="bg-white border rounded-xl p-5">
+          <h2 className={titleClass}>Taxa de presença mensal</h2><p className="text-xs text-gray-500 mb-4">Presenças confirmadas ÷ oportunidades elegíveis no período</p>
+          {data.presenca_mensal.length ? <ResponsiveContainer width="100%" height={220}><LineChart data={data.presenca_mensal} margin={{top:5,right:12,left:-13,bottom:8}}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#F1EEF8"/><XAxis dataKey="mes"/><YAxis domain={[0,100]} unit="%"/><Tooltip formatter={v=>[`${v}%`,'Presença']}/>
+            <Line dataKey="taxa" name="Taxa" stroke="#7214FA" strokeWidth={2}/></LineChart></ResponsiveContainer> : <EmptyState>Sem atividades com inscritos elegíveis neste período.</EmptyState>}
+        </section>
+        <section className="bg-white border rounded-xl p-5"><h2 className={titleClass}>Conclusões e cancelamentos por curso</h2>
+          <p className="text-xs text-gray-500 mb-4">Situação atual das inscrições, não evasão presumida</p>
+          {data.conclusao_por_curso.some(c=>c.concluidos || c.cancelados) ? <ResponsiveContainer width="100%" height={220}><BarChart data={data.conclusao_por_curso} margin={{top:5,right:12,left:-13,bottom:52}}>
+            <CartesianGrid strokeDasharray="3 3" vertical={false}/><XAxis dataKey="curso" angle={-18} textAnchor="end" height={60} interval={0}/><YAxis allowDecimals={false}/><Tooltip/>
+            <Bar name="Concluídas" dataKey="concluidos" fill="#7214FA"/><Bar name="Canceladas" dataKey="cancelados" fill="#F2A28C"/>
+          </BarChart></ResponsiveContainer> : <EmptyState>Nenhuma conclusão ou cancelamento registrado.</EmptyState>}
+        </section>
       </div>
-
-      {/* Frequency table */}
-      <div className="bg-white rounded-xl border border-gray-200 p-5">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-semibold text-gray-900">Relatório de frequência por curso</h2>
-          <button className="flex items-center gap-1.5 text-xs text-blue-600 hover:underline">
-            <Download size={12}/>
-            Exportar
-          </button>
-        </div>
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-gray-200">
-              {['Curso', 'Inscritos', 'Presença média', 'Concluídos', 'Taxa de conclusão'].map(h => (<th key={h} className="px-3 py-2 text-left text-xs font-medium text-gray-500">{h}</th>))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-50">
-            {[
-            { name: 'Python Básico', enrolled: 87, attendance: 83, finished: 72, rate: 83 },
-            { name: 'Excel Avançado', enrolled: 74, attendance: 87, finished: 68, rate: 92 },
-            { name: 'Design Gráfico', enrolled: 68, attendance: 79, finished: 55, rate: 81 },
-            { name: 'Marketing Digital', enrolled: 61, attendance: 76, finished: 49, rate: 80 },
-            { name: 'Inglês A1', enrolled: 55, attendance: 82, finished: 42, rate: 76 },
-        ].map(row => (<tr key={row.name} className="hover:bg-gray-50 transition-colors">
-                <td className="px-3 py-2.5 font-medium text-gray-900">{row.name}</td>
-                <td className="px-3 py-2.5 text-gray-600">{row.enrolled}</td>
-                <td className="px-3 py-2.5">
-                  <div className="flex items-center gap-2">
-                    <div className="w-16 h-1.5 bg-gray-100 rounded-full">
-                      <div className="h-1.5 bg-blue-500 rounded-full" style={{ width: `${row.attendance}%` }}/>
-                    </div>
-                    <span className="text-gray-700 text-xs">{row.attendance}%</span>
-                  </div>
-                </td>
-                <td className="px-3 py-2.5 text-gray-600">{row.finished}</td>
-                <td className="px-3 py-2.5">
-                  <span className={`text-xs font-medium ${completionRateClass(row.rate)}`}>
-                    {row.rate}%
-                  </span>
-                </td>
-              </tr>))}
-          </tbody>
-        </table>
-      </div>
-    </div>);
+      <section className="bg-white border rounded-xl p-5 overflow-x-auto">
+        <h2 className={titleClass}>Frequência por curso</h2>
+        <p className="text-xs text-gray-500 mt-1 mb-4">Apenas encontros passados e inscrições não canceladas existentes na data do encontro. Sem dados suficientes, a taxa é exibida como “Sem base”.</p>
+        <table className="w-full text-left text-sm whitespace-nowrap"><thead><tr className="bg-gray-50 text-gray-500 text-xs">
+          {['Curso','Inscrições totais','Presenças','Oportunidades','Taxa de presença','Concluídas','Taxa de conclusão'].map(h=><th key={h} className="p-3">{h}</th>)}
+        </tr></thead><tbody className="divide-y divide-gray-100">
+          {rows.map(r=><tr key={r.id}><td className="p-3 font-medium">{r.curso}</td><td className="p-3">{r.inscritos}</td>
+            <td className="p-3">{r.presencas_confirmadas}</td><td className="p-3">{r.oportunidades_presenca}</td>
+            <td className="p-3">{pct(r.taxa_presenca)}</td><td className="p-3">{r.concluidos}</td><td className="p-3">{pct(r.taxa_conclusao)}</td></tr>)}
+        </tbody></table>
+        {!rows.length && <EmptyState>Nenhum curso encontrado para o filtro.</EmptyState>}
+      </section>
+    </>}
+  </div>;
 }

@@ -12,7 +12,8 @@ import Activities from './pages/Activities';
 import Tests from './pages/Tests';
 import Messages from './pages/Messages';
 import Reports from './pages/Reports';
-import Placeholder from './pages/Placeholder';
+import Admins from './pages/Admins';
+import Audit from './pages/Audit';
 import Universities from './pages/Universities';
 import { limparSessao, obterToken, obterUsuario } from './services/api';
 const PAGES = {
@@ -24,13 +25,11 @@ const PAGES = {
     attendance: Attendance,
     certificates: Certificates,
     tests: Tests,
-    'test-results': Tests,
+    'test-results': (props) => <Tests {...props} activeResults />,
     messages: Messages,
-    chat: () => <Placeholder title="Chat" description="Fila de atendimento e suporte aos alunos"/>,
     reports: Reports,
-    settings: () => <Placeholder title="Configurações" description="Configurações gerais do sistema"/>,
-    admins: () => <Placeholder title="Administradores" description="Gestão de usuários administrativos"/>,
-    audit: () => <Placeholder title="Auditoria / Logs" description="Registro de ações e trilha de auditoria"/>,
+    admins: Admins,
+    audit: Audit,
 };
 function AdminShell({ usuario, onLogout, }) {
     const [collapsed, setCollapsed] = useState(() => {
@@ -54,9 +53,9 @@ function AdminShell({ usuario, onLogout, }) {
       <Sidebar activeItem={activeItem} onNavigate={setActiveItem} collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} onLogout={onLogout} usuario={usuario}/>
 
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
-        <Navbar activeItem={activeItem} darkMode={darkMode} onToggleDark={() => setDarkMode(!darkMode)} onLogout={onLogout} usuario={usuario}/>
+        <Navbar activeItem={activeItem} darkMode={darkMode} onToggleDark={() => setDarkMode(!darkMode)} onLogout={onLogout} usuario={usuario} onNavigate={setActiveItem}/>
         <main className="flex-1 overflow-y-auto bg-gray-50">
-          <PageComponent usuario={usuario} />
+          <PageComponent usuario={usuario} onNavigate={setActiveItem} key={activeItem} />
         </main>
       </div>
     </div>);

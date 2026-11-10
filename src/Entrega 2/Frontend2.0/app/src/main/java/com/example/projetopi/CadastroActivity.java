@@ -66,7 +66,7 @@ public class CadastroActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_cadastro);
 
-        // O ID Cadastro identifica o ScrollView da tela.
+        // O ID Cadastro identifica o ConstraintLayout raiz; o ScrollView permanece como filho.
         View root = findViewById(R.id.Cadastro);
 
         final int left = root.getPaddingLeft();
