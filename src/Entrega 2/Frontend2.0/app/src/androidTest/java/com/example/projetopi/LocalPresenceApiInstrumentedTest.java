@@ -13,6 +13,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.android.volley.Request;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
+import com.google.zxing.DecodeHintType;
 import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
@@ -27,6 +28,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.UUID;
@@ -153,14 +155,18 @@ public class LocalPresenceApiInstrumentedTest {
             for (int y = 0; y < qr.getHeight(); y++) {
                 for (int x = 0; x < qr.getWidth(); x++) pixels[y * qr.getWidth()+x] = qr.get(x,y) ? 0xFF000000 : 0xFFFFFFFF;
             }
-            String scanned = new QRCodeReader().decode(new BinaryBitmap(new HybridBinarizer(
-                    new RGBLuminanceSource(qr.getWidth(), qr.getHeight(), pixels)))).getText();
+            BinaryBitmap qrImage = new BinaryBitmap(new HybridBinarizer(
+                    new RGBLuminanceSource(qr.getWidth(), qr.getHeight(), pixels)));
+            // A matriz de teste já está alinhada e contém apenas o QR.
+            String scanned = new QRCodeReader().decode(qrImage,
+                    Collections.singletonMap(DecodeHintType.PURE_BARCODE, true)).getText();
             assertTrue(scanned.equals(token));
             store.markHistoryPending(session.userId(), ApiConfig.BASE_URL);
             Reply created = request(api, "/api/presencas/check-in", Request.Method.POST,
                     CheckinContract.requestBody(scanned), session.token());
-            assertEquals(201, created.status);
-            // Simula a resposta do POST perdida: a API gravou, mas nao aplicamos seu corpo localmente.
+            boolean dropCheckinResponse = "true".equals(
+                    InstrumentationRegistry.getArguments().getString("drop_checkin_response"));
+            assertEquals(dropCheckinResponse ? 0 : 201, created.status);
             assertEquals(0, store.receipts(session.userId(), ApiConfig.BASE_URL).length());
 
             PresenceSynchronizerInstrumentedTest.FakeTransport unavailable =
@@ -185,10 +191,14 @@ public class LocalPresenceApiInstrumentedTest {
             JSONArray history = store.read(session.userId(),
                     ApiConfig.BASE_URL + "/api/presencas/minhas", "historico").data;
             assertEquals(1, history.length());
-            assertEquals(new JSONObject(created.body).getString("id"), history.getJSONObject(0).getString("id"));
+            assertEquals("at1", history.getJSONObject(0).getString("atividade_id"));
+            if (!dropCheckinResponse) {
+                assertEquals(new JSONObject(created.body).getString("id"), history.getJSONObject(0).getString("id"));
+            }
             Reply duplicate = request(api, "/api/presencas/check-in", Request.Method.POST,
                     CheckinContract.requestBody(scanned), session.token());
             assertEquals(200, duplicate.status);
+            assertEquals(history.getJSONObject(0).getString("id"), new JSONObject(duplicate.body).getString("id"));
             store.recordReceipt(session.userId(), ApiConfig.BASE_URL, duplicate.status, duplicate.body);
             assertEquals(1, store.receipts(session.userId(), ApiConfig.BASE_URL).length());
             String anotherToken = login(api, "a2@example.invalid").getString("token");
