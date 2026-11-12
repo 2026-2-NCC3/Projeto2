@@ -162,6 +162,15 @@ export function listarAtividades(opcoes = {}) {
     return requisicao('/api/atividades', opcoesDeConsulta(opcoes), true);
 }
 
+export function salvarAtividade(dados, id, opcoes = {}) {
+    const caminho = id ? `/api/atividades/${encodeURIComponent(id)}` : '/api/atividades';
+    return requisicao(caminho, {
+        ...opcoesDeConsulta(opcoes),
+        method: id ? 'PUT' : 'POST',
+        body: JSON.stringify(dados),
+    }, true);
+}
+
 export function emitirQrPresenca(janela, opcoes = {}) {
     return requisicao('/api/presencas/qr-token', {
         ...opcoesDeConsulta(opcoes),

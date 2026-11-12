@@ -7,6 +7,7 @@ import { listarAtividades } from "../services/api"
 import { administradorAutorizado } from "../utils/checkin"
 
 import ActivityQrDialog from "../components/ActivityQrDialog"
+import ActivityForm from "../components/ActivityForm"
 
 function ActivitiesContent() {
   const [atividades, setAtividades] = useState([])
@@ -20,6 +21,7 @@ function ActivitiesContent() {
   const [tentativa, setTentativa] = useState(0)
 
   const [selecionada, setSelecionada] = useState(null)
+  const [editando, setEditando] = useState(null)
 
   const fechar = useCallback(() => setSelecionada(null), [])
 
@@ -55,14 +57,19 @@ function ActivitiesContent() {
 
   return (
     <div className="space-y-4 p-6">
-      <div>
-        <h1 className="text-xl font-semibold text-gray-900">
-          Atividades / Encontros
-        </h1>
-        <p className="mt-0.5 text-sm text-gray-500">
-          Atividades existentes e QR Code para registro de presença.
-        </p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-xl font-semibold text-gray-900">Atividades / Encontros</h1>
+          <p className="mt-0.5 text-sm text-gray-500">Encontros e QR Code para registro de presença.</p>
+        </div>
+        {!editando && <button onClick={() => setEditando({})}
+          className="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white">Nova atividade</button>}
       </div>
+      {editando && <ActivityForm atividade={editando} aoCancelar={() => setEditando(null)}
+        aoSalvar={() => {
+          setEditando(null)
+          setTentativa((valor) => valor + 1)
+        }} />}
       <label className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white p-4">
         <Search size={16} className="text-gray-400" />
         <span className="sr-only">Buscar atividades ou cursos</span>
@@ -119,12 +126,18 @@ function ActivitiesContent() {
                     {atividade.local || "Não informado"}
                   </td>
                   <td className="p-4">
+                    <div className="flex flex-wrap gap-2">
+                    <button disabled={Boolean(editando)} onClick={() => setEditando(atividade)}
+                      className="rounded-lg border border-gray-300 px-3 py-2 disabled:opacity-50">
+                      Editar
+                    </button>
                     <button
                       onClick={() => setSelecionada(atividade)}
                       className="flex items-center gap-2 whitespace-nowrap rounded-lg bg-blue-600 px-3 py-2 font-medium text-white"
                     >
                       <QrCode size={16} /> Gerar QR Code
                     </button>
+                    </div>
                   </td>
                 </tr>
               ))}

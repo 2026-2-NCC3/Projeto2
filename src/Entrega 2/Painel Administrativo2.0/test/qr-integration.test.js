@@ -8,11 +8,12 @@ import {
   salvarSessao,
   limparSessao,
   listarAtividades,
+  salvarAtividade,
   emitirQrPresenca,
   listarPresencasDoAluno,
   listarPerfis,
 } from "../src/services/api.js"
-import { criarJanelaQr } from "../src/utils/checkin.js"
+import { criarJanelaQr, escalaQrCanvas } from "../src/utils/checkin.js"
 
 const require = createRequire(import.meta.url)
 const { withApi } = require("../../Backend2.0/test/helpers/api.js")
@@ -26,10 +27,13 @@ function storageFicticio() {
   }
 }
 
-function escanear(token) {
+function escanear(token, larguraDisponivel) {
   const matriz = QRCode.create(token, { errorCorrectionLevel: "M" }).modules
-  const escala = 5
+  const escala = escalaQrCanvas(larguraDisponivel, matriz.size, 4)
+  assert.ok(escala >= 1)
   const largura = (matriz.size + 8) * escala
+  assert.ok(largura <= Math.min(larguraDisponivel, 400))
+  assert.ok(largura + matriz.size + 8 > Math.min(larguraDisponivel, 400))
   const pixels = new Uint8ClampedArray(largura * largura * 4).fill(255)
   for (let y = 0; y < matriz.size; y++) {
     for (let x = 0; x < matriz.size; x++) {
@@ -82,6 +86,16 @@ test("painel → QR decodificado → check-in autenticado → histórico real em
   const login = await fazerLogin("op@example.invalid", "Ficticio-teste-123!")
   salvarSessao(login.token, login.usuario, false)
   assert.equal((await listarAtividades())[0].id, "at1")
+  const criada = await salvarAtividade({
+    curso_id: "c1",
+    titulo: "Encontro novo",
+    data: "2030-01-02",
+    hora_inicio: "10:00",
+    hora_fim: "11:00",
+  })
+  await salvarAtividade({ titulo: "Encontro atualizado" }, criada.id)
+  const agenda = await api.request("/api/agenda", "a1")
+  assert.ok(agenda.body.some(item => item.id === criada.id && item.titulo === "Encontro atualizado"))
   assert.ok((await listarPerfis()).some((aluno) => aluno.id === "a1"))
   const agora = new Date()
   const inicio = new Date(agora.getTime() - 60000).toISOString().slice(0, 16)
@@ -89,8 +103,10 @@ test("painel → QR decodificado → check-in autenticado → histórico real em
   const janela = criarJanelaQr("at1", inicio, fim, "UTC")
   const emissao = await emitirQrPresenca(janela)
   assert.ok(typeof emissao.qr_token === "string")
-  const tokenLido = escanear(emissao.qr_token)
+  const tokenLido = escanear(emissao.qr_token, 400)
   assert.ok(tokenLido === emissao.qr_token)
+  assert.ok(escanear(emissao.qr_token, 280) === tokenLido)
+  assert.ok(escanear(emissao.qr_token, 220) === tokenLido)
   assert.equal(localStorage.getItem("qr_token"), null)
   assert.equal(sessionStorage.getItem("qr_token"), null)
 
