@@ -8,7 +8,7 @@ const fs = require('node:fs');
 const { spawnSync } = require('node:child_process');
 const assert = require('node:assert/strict');
 const { withApi } = require('../../Backend2.0/test/helpers/api');
-const root = path.resolve(__dirname, '..');
+const { apk, testApk } = require('./debug-apks.cjs');
 const sdk = process.env.ANDROID_HOME || process.env.ANDROID_SDK_ROOT
     || (process.env.LOCALAPPDATA && path.join(process.env.LOCALAPPDATA, 'Android', 'Sdk'));
 const serial = process.argv[2];
@@ -53,8 +53,6 @@ function instrument(classes, mode) {
 
 (async () => {
     try {
-        const apk = path.join(root, 'app/build/outputs/apk/debug/app-debug.apk');
-        const testApk = path.join(root, 'app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk');
         assert.ok(fs.existsSync(apk) && fs.existsSync(testApk), 'Compile o app e os testes antes de executar.');
         previousMapping = device(['reverse', '--list']).split(/\r?\n/)
             .map(line => line.trim().split(/\s+/)).find(parts => parts[1] === 'tcp:3000')?.[2];
@@ -86,7 +84,7 @@ function instrument(classes, mode) {
     } finally {
         await cleanup();
     }
-})().catch(() => {
-    console.error('Falha na verificacao isolada de persistencia/presenca; nenhum banco real foi utilizado.');
+})().catch(error => {
+    console.error('Falha na verificacao isolada de persistencia/presenca:', error.message);
     process.exitCode = 1;
 });

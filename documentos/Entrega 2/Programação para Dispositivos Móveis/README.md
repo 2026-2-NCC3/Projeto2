@@ -16,7 +16,7 @@ O script também cria `CHECKSUM_APK.txt`. **Se esses arquivos não estiverem aqu
 
 ## Passo a passo
 
-1. Abra `src/Entrega 2/Frontend2.0` no Android Studio, configure Android SDK/JDK compatíveis e sincronize o Gradle.
+1. Abra `src/Entrega 2/Frontend2.0` no Android Studio, configure Android SDK/JDK compatíveis e sincronize o Gradle. Instale Node.js para executar o script de empacotamento.
 2. Em um PowerShell na raiz do repositório, execute `./GERAR_E_ORGANIZAR_APK_ENTREGA2.ps1`.
 3. Confirme que os comandos `assembleDebug`, `testDebugUnitTest` e `lintDebug` terminaram sem erros.
 4. Instale o APK no emulador/aparelho e teste login, cursos, agenda, QR, histórico, mensagens, notificações e certificados.
