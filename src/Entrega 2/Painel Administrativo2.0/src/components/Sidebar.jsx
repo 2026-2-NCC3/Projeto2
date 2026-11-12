@@ -30,7 +30,7 @@ const NAV_ITEMS = [
     { id: 'admins', label: 'Administradores', icon: Shield, adminOnly: true },
     { id: 'audit', label: 'Auditoria / Logs', icon: FileText, adminOnly: true },
 ];
-export default function Sidebar({ activeItem, onNavigate, collapsed, onToggle, onLogout, usuario }) {
+export default function Sidebar({ activeItem, onNavigate, collapsed, onToggle, mobileOpen, onCloseMobile, onLogout, usuario }) {
     const [expanded, setExpanded] = useState({});
     const toggleGroup = (id) => setExpanded(prev => ({ ...prev, [id]: !prev[id] }));
     const isActive = (item) => {
@@ -69,7 +69,9 @@ export default function Sidebar({ activeItem, onNavigate, collapsed, onToggle, o
     };
     const mainItems = NAV_ITEMS.filter(i => !i.adminOnly);
     const adminItems = NAV_ITEMS.filter(i => i.adminOnly && usuario.papel === 'admin_super');
-    return (<aside className={`flex flex-col h-screen bg-white border-r border-gray-200 transition-all duration-200 flex-shrink-0 ${collapsed ? 'w-[72px]' : 'w-[260px]'}`}>
+    return (<aside id="navegacao-painel" className={`fixed inset-y-0 left-0 z-40 lg:static
+        ${mobileOpen ? 'flex' : 'hidden lg:flex'} flex-col h-screen bg-white border-r border-gray-200
+        transition-all duration-200 flex-shrink-0 ${collapsed ? 'w-[72px]' : 'w-[260px]'}`}>
       {/* Header */}
       <div className={`flex items-center h-16 px-3 border-b border-gray-200 ${collapsed ? 'justify-center' : 'justify-between'}`}>
         {!collapsed && (<div className="flex items-center gap-2">
@@ -78,9 +80,12 @@ export default function Sidebar({ activeItem, onNavigate, collapsed, onToggle, o
             </div>
             <span className="font-semibold text-gray-900 text-sm">Próxima Etapa</span>
           </div>)}
-        <button onClick={onToggle} className="p-1.5 rounded-md hover:bg-gray-100 text-gray-500 hover:text-gray-900 transition-colors">
+        <button onClick={onToggle} aria-label={collapsed ? 'Expandir barra lateral' : 'Recolher barra lateral'}
+          className="hidden lg:block p-1.5 rounded-md hover:bg-gray-100 text-gray-500 hover:text-gray-900 transition-colors">
           {collapsed ? <Menu size={18}/> : <X size={18}/>}
         </button>
+        <button onClick={onCloseMobile} aria-label="Fechar navegação"
+          className="lg:hidden p-2 rounded-md hover:bg-gray-100"><X size={20}/></button>
       </div>
 
       {/* Nav */}

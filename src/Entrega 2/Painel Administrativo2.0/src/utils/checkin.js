@@ -87,3 +87,7 @@ export function filtrarPresencas(presencas, atividadeId) {
     ? presencas.filter((presenca) => presenca.atividade_id === atividadeId)
     : presencas
 }
+
+export function escalaQrCanvas(larguraDisponivel, tamanhoMatriz, margem) {
+  return Math.floor(Math.min(larguraDisponivel, 400) / (tamanhoMatriz + 2 * margem))
+}

@@ -42,20 +42,30 @@ function AdminShell({ usuario, onLogout, }) {
     });
     const [activeItem, setActiveItem] = useState('dashboard');
     const [darkMode, setDarkMode] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
     useEffect(() => {
         localStorage.setItem('sidebar-collapsed', String(collapsed));
     }, [collapsed]);
     const PageComponent = PAGES[activeItem] || Dashboard;
-    return (<div className={`flex h-screen overflow-hidden ${darkMode ? 'dark' : ''}`}>
-      {/* Mobile overlay */}
-      <div className={`fixed inset-0 z-30 bg-black/50 lg:hidden transition-opacity ${!collapsed ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={() => setCollapsed(true)}/>
+    function navigate(item) {
+        setActiveItem(item);
+        setMobileOpen(false);
+    }
+    return (<div className={`flex h-screen overflow-hidden ${darkMode ? 'dark' : ''}`}
+      onKeyDown={event => { if (event.key === 'Escape') setMobileOpen(false); }}>
+      {mobileOpen && <div className="fixed inset-0 z-30 bg-black/50 lg:hidden"
+        aria-hidden="true" onClick={() => setMobileOpen(false)}/>}
 
-      <Sidebar activeItem={activeItem} onNavigate={setActiveItem} collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} onLogout={onLogout} usuario={usuario}/>
+      <Sidebar activeItem={activeItem} onNavigate={navigate} collapsed={collapsed && !mobileOpen}
+        onToggle={() => setCollapsed(!collapsed)} mobileOpen={mobileOpen}
+        onCloseMobile={() => setMobileOpen(false)} onLogout={onLogout} usuario={usuario}/>
 
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
-        <Navbar activeItem={activeItem} darkMode={darkMode} onToggleDark={() => setDarkMode(!darkMode)} onLogout={onLogout} usuario={usuario} onNavigate={setActiveItem}/>
+        <Navbar activeItem={activeItem} darkMode={darkMode} onToggleDark={() => setDarkMode(!darkMode)}
+          onLogout={onLogout} usuario={usuario} onNavigate={navigate} mobileOpen={mobileOpen}
+          onOpenNavigation={() => setMobileOpen(true)}/>
         <main className="flex-1 overflow-y-auto bg-gray-50">
-          <PageComponent usuario={usuario} onNavigate={setActiveItem} key={activeItem} />
+          <PageComponent usuario={usuario} onNavigate={navigate} key={activeItem} />
         </main>
       </div>
     </div>);
