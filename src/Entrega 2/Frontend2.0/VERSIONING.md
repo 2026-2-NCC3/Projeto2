@@ -32,7 +32,11 @@ Nenhuma chave de release foi criada, acessada ou alterada nesta correcao.
 
 Com JAVA_HOME/ANDROID_HOME configurados, execute nesta pasta:
 
-    ./gradlew.bat :app:assembleDebug :app:testDebugUnitTest :app:bundleRelease :app:lintDebug
+    ./gradlew.bat :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
+    ./gradlew.bat :app:bundleRelease -PproximaReleaseApiUrl=https://HOST_AUTORIZADO
+
+O empacotamento release exige a URL HTTPS do backend. Use a URL do ambiente em
+que o aplicativo será instalado.
 
 O AAB local fica em app/build/outputs/bundle/release/app-release.aab e o APK debug
 em app/build/outputs/apk/debug/app-debug.apk. AAB release sem signingConfig e

@@ -1,10 +1,20 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'node:path';
 import { loadSiteConfiguration } from './config/site-config.js';
 // Vite config — https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ command, mode }) => {
+    if (command === 'build' && mode !== 'development') {
+        const apiUrl = loadEnv(mode, import.meta.dirname, 'VITE_API_URL').VITE_API_URL?.trim();
+        if (apiUrl !== '/') {
+            const parsed = URL.parse(apiUrl ?? '');
+            if (parsed?.protocol !== 'https:' || parsed.username || parsed.password ||
+                apiUrl.includes('?') || apiUrl.includes('#')) {
+                throw new Error('Configure VITE_API_URL com uma URL HTTPS sem credenciais, consulta ou fragmento, ou / para uma API na mesma origem.');
+            }
+        }
+    }
     // .figma/make/deploy-preview passes `--mode development` for cached-preview builds.
     const emitSourcemaps = mode === 'development';
     const siteConfiguration = loadSiteConfiguration(import.meta.dirname);

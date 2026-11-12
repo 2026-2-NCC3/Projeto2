@@ -11,7 +11,7 @@ class ApiError extends Error {
         this.status = status;
     }
 }
-const API_URL = import.meta.env?.VITE_API_URL ?? 'http://localhost:3000';
+const API_URL = (import.meta.env?.VITE_API_URL?.trim() || 'http://localhost:3000').replace(/\/+$/, '');
 const TOKEN_KEY = 'proxima-etapa.admin.token';
 const USER_KEY = 'proxima-etapa.admin.usuario';
 function storageParaLeitura() {
