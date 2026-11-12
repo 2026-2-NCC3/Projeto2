@@ -73,11 +73,12 @@ test("painel → QR decodificado → check-in autenticado → histórico real em
       else delete globalThis[nome]
     }
   })
-  globalThis.fetch = (url, opcoes) =>
-    fetchOriginal(
-      String(url).replace("http://localhost:3000", api.baseUrl),
-      opcoes,
-    )
+  globalThis.fetch = (url, opcoes) => {
+    const destino = new URL(url)
+    if (destino.origin === api.baseUrl) return fetchOriginal(url, opcoes)
+    assert.equal(destino.origin, "https://projeto2-krn7.onrender.com")
+    return fetchOriginal(api.baseUrl + destino.pathname + destino.search, opcoes)
+  }
 
   const login = await fazerLogin("op@example.invalid", "Ficticio-teste-123!")
   salvarSessao(login.token, login.usuario, false)

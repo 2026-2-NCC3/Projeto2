@@ -14,8 +14,9 @@ ignorado; nenhum deles foi criado nesta correcao. Plugins de preview, replay de
 erros, React Refresh e stories do Figma foram preservados e seguem apenas em serve.
 
 VITE_API_URL continua sendo lida por src/services/api.js e incorporada no bundle
-pelo Vite no momento do build. Sem valor, o padrao de desenvolvimento continua
-http://localhost:3000. Para outro ambiente, configure VITE_API_URL antes de executar
+pelo Vite no momento do build. Sem valor, desenvolvimento e producao usam
+https://projeto2-krn7.onrender.com. Para testes locais, configure explicitamente
+VITE_API_URL=http://localhost:3000. Para outro ambiente, configure VITE_API_URL antes de executar
 npm run build e gere novamente o bundle. Variaveis VITE_* sao publicas, nao segredos.
 A configuracao de metadados e FIGMA_PUBLIC_URL nao substituem a URL da API.
 
