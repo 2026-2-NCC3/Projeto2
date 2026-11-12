@@ -8,6 +8,7 @@
 *.apk
 *.ap_
 *.aab
+/documentos/Entrega 2/Programação para Dispositivos Móveis/CHECKSUM_APK.txt
 
 # Files for the ART/Dalvik VM
 *.dex

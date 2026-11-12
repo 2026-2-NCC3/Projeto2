@@ -24,7 +24,11 @@ dependencyResolutionManagement {
 rootProject.name = "ProjetoPI"
 include(":app")
 
-gradle.beforeProject {
-    val projectDirName = if (path == ":") "root" else path.replace(':', '_').trimStart('_')
-    layout.buildDirectory.set(file("${System.getProperty("user.home")}/.gradle-builds/ProjetoPI/$projectDirName"))
+val externalBuildRoot = providers.environmentVariable("PROXIMA_ANDROID_BUILD_ROOT").orNull
+if (!externalBuildRoot.isNullOrBlank()) {
+    val outputRoot = file(externalBuildRoot)
+    gradle.beforeProject {
+        val projectDirName = if (path == ":") "root" else path.replace(':', '_').trimStart('_')
+        layout.buildDirectory.set(outputRoot.resolve(projectDirName))
+    }
 }

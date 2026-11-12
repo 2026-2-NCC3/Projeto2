@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Bell, ChevronRight, Sun, Moon, ChevronDown, LogOut } from 'lucide-react';
+import { Bell, ChevronRight, Sun, Moon, ChevronDown, LogOut, Menu } from 'lucide-react';
 import { listarEventosGestao } from '../services/api';
 
 const BREADCRUMBS = {
@@ -13,7 +13,7 @@ const BREADCRUMBS = {
 const names = {criar:'Criação',editar:'Alteração',excluir:'Exclusão',bloquear:'Bloqueio',desbloquear:'Desbloqueio',inscricao:'Inscrição',emitir_certificado:'Certificado emitido',revogar_certificado:'Certificado revogado'};
 const datePt = raw => raw ? new Date(raw).toLocaleString('pt-BR') : 'Data não informada';
 
-export default function Navbar({activeItem,darkMode,onToggleDark,onLogout,usuario,onNavigate}) {
+export default function Navbar({activeItem,darkMode,onToggleDark,onLogout,usuario,onNavigate,mobileOpen,onOpenNavigation}) {
   const [open,setOpen] = useState(false);
   const [profile,setProfile] = useState(false);
   const [events,setEvents] = useState([]);
@@ -30,7 +30,10 @@ export default function Navbar({activeItem,darkMode,onToggleDark,onLogout,usuari
     return ()=>controller.abort();
   },[open]);
   const crumbs=BREADCRUMBS[activeItem]??['Início'];
-  return <header className="h-16 bg-white border-b border-gray-200 flex items-center px-6 gap-4 flex-shrink-0 relative z-20">
+  return <header className="h-16 bg-white border-b border-gray-200 flex items-center px-3 sm:px-6 gap-2 sm:gap-4 flex-shrink-0 relative z-20">
+    <button type="button" aria-label="Abrir navegação" aria-expanded={mobileOpen}
+      aria-controls="navegacao-painel" onClick={onOpenNavigation}
+      className="p-2 rounded-lg hover:bg-gray-100 lg:hidden"><Menu size={20}/></button>
     <nav aria-label="Navegação atual" className="flex items-center gap-1.5 text-sm flex-1 min-w-0">
       {crumbs.map((crumb,i)=><span key={i} className="flex items-center gap-1.5">
         {i<crumbs.length-1 ? <><span className="text-gray-500">{crumb}</span><ChevronRight size={13} className="text-gray-400"/></> : <span className="font-medium text-gray-900 truncate" aria-current="page">{crumb}</span>}

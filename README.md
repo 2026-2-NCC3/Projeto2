@@ -126,8 +126,8 @@ com Volley e painel React/Vite. As referencias anteriores a PostgreSQL/Supabase
 sao historicas; nao configuram o backend ativo da Entrega 2.
 
 - [Materiais da Entrega 2 por disciplina e situação de cada item](documentos/README.md#materiais-da-entrega-2).
-- [Guia de execução local](docs/ENTREGA2_GUIA_TECNICO.md#execução-local) e [evidências da Entrega 2](docs/EVIDENCIAS_TESTES_ENTREGA2.md).
-- [README de POO e Estruturas de Dados](documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos/README.md) e [diagrama de classes](docs/DIAGRAMA_CLASSES_ENTREGA2.md).
+- [Guia da disciplina de Dispositivos Móveis](documentos/Entrega%202/Programa%C3%A7%C3%A3o%20para%20Dispositivos%20M%C3%B3veis/README.md).
+- [POO, estruturas de dados e diagrama de classes](documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos%20e%20Estrutura%20de%20Dados/README.md).
 
 Pre-requisitos: Node.js 24 (validado), npm, Android Studio/JDK compativel com AGP
 9.0.1 e SDK da plataforma 37.0. Use os wrappers e lockfiles versionados. O Gradle
@@ -161,20 +161,20 @@ No Android, execute em src/Entrega 2/Frontend2.0:
 ./gradlew.bat :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
 ~~~
 
-**Debug.** Com o backend local na porta 3000, use `adb -s emulator-5554 reverse tcp:3000 tcp:3000` e substitua o serial quando necessário. O app acessa `http://127.0.0.1:3000`. O APK fica em `app/build/outputs/apk/debug/app-debug.apk`.
+**Debug.** Com o backend local na porta 3000, use `adb -s emulator-5554 reverse tcp:3000 tcp:3000` e substitua o serial pelo do emulador ou aparelho físico conectado por ADB. O app acessa `http://127.0.0.1:3000` e o APK fica em `app/build/outputs/apk/debug/app-debug.apk`. Para caminhos longos no Windows, defina `PROXIMA_ANDROID_BUILD_ROOT` com uma pasta absoluta curta e use o mesmo valor no Gradle e nos roteiros de testes. `10.0.2.2` é específico do emulador. Para acesso pela rede sem ADB, use o release com um endpoint HTTPS acessível e certificado confiável.
 
-**Release.** Execute `gradlew.bat :app:assembleRelease :app:bundleRelease -PproximaReleaseApiUrl=https://HOST_AUTORIZADO` com a URL HTTPS real. Sem a propriedade, o app exibe um aviso de configuração. A compilação local gera artefatos sem assinatura de distribuição. A URL pública de avaliação ainda não foi confirmada.
+**Release.** Execute `gradlew.bat :app:assembleRelease :app:bundleRelease -PproximaReleaseApiUrl=https://HOST_AUTORIZADO` com a URL HTTPS real. A propriedade é exigida para empacotar o APK e o AAB de release. A compilação local gera artefatos sem assinatura de distribuição. A URL pública de avaliação ainda não foi confirmada.
 
-Cursos, agenda e histórico consultam a API. A agenda usa as inscrições do aluno autenticado. O SQLite local mantém snapshots por conta e recibos de presença que o servidor confirmou. [Guia técnico](docs/ENTREGA2_GUIA_TECNICO.md)
+Cursos, agenda e histórico consultam a API. A agenda usa as inscrições do aluno autenticado. O SQLite local mantém snapshots por conta e recibos de presença que o servidor confirmou.
 
 No painel, execute em src/Entrega 2/Painel Administrativo2.0:
 
 ~~~sh
 npm ci
-npm run build
+npm run dev
 ~~~
 
-VITE_API_URL configura a API do painel; o padrao e http://localhost:3000.
+Em desenvolvimento, o painel usa `http://localhost:3000` no computador que executa o navegador. Configure `VITE_API_URL` antes de `npm run build` com a URL HTTPS real ou `/` se o mesmo host encaminhar `/auth` e `/api` para o backend.
 O painel agora compila com metadados reais versionados e override Figma opcional;
 veja [o guia de build](src/Entrega%202/Painel%20Administrativo2.0/BUILD.md).
 O Android tambem gera AAB release local, nao assinado, com codigo 2 / nome 1.1.0;

@@ -6,7 +6,7 @@ import { X } from "lucide-react"
 
 import { emitirQrPresenca } from "../services/api"
 
-import { criarJanelaQr } from "../utils/checkin"
+import { criarJanelaQr, escalaQrCanvas } from "../utils/checkin"
 
 import AttendanceRecords from "./AttendanceRecords"
 
@@ -87,29 +87,36 @@ export default function ActivityQrDialog({ atividade, aoFechar }) {
     if (!qr || expirado || !canvas.current) return
 
     const alvo = canvas.current
+    const recipiente = alvo.parentElement
+    const opcoes = { margin: 4, errorCorrectionLevel: "M" }
+    let observador
 
-    try {
-      // O token permanece somente na memória e nos pixels do QR, nunca em URL ou storage.
-
-      QRCode.toCanvas(
-        alvo,
-        qr.token,
-        { width: 400, margin: 4, errorCorrectionLevel: "M" },
-        (falha) => {
-          if (falha) {
-            setQr(null)
-
-            setErro(
-              "Não foi possível desenhar o QR Code. Tente gerar novamente.",
-            )
-          }
-        },
-      )
-    } catch {
+    function informarFalha() {
       setQr(null)
-
       setErro("Não foi possível desenhar o QR Code. Tente gerar novamente.")
     }
+
+    try {
+      const { modules } = QRCode.create(qr.token, opcoes)
+      let escalaAtual
+
+      function desenhar() {
+        const escala = escalaQrCanvas(recipiente.clientWidth, modules.size, opcoes.margin)
+        if (escala < 1 || escala === escalaAtual) return
+
+        escalaAtual = escala
+        QRCode.toCanvas(alvo, qr.token, { ...opcoes, scale: escala }, (falha) => {
+          if (falha) informarFalha()
+        })
+      }
+
+      desenhar()
+      observador = new ResizeObserver(desenhar)
+      observador.observe(recipiente)
+    } catch {
+      informarFalha()
+    }
+    return () => observador?.disconnect()
   }, [qr, expirado])
 
   function alterar(setter, valor) {
@@ -294,11 +301,13 @@ export default function ActivityQrDialog({ atividade, aoFechar }) {
                     : "QR válido para leitura no aplicativo."}
               </p>
               {!expirado && (
-                <canvas
-                  ref={canvas}
-                  aria-label="QR Code assinado para presença nesta atividade"
-                  className="mx-auto h-auto w-full max-w-[400px]"
-                />
+                <div>
+                  <canvas
+                    ref={canvas}
+                    aria-label="QR Code assinado para presença nesta atividade"
+                    className="mx-auto block [image-rendering:pixelated]"
+                  />
+                </div>
               )}
               <p className="text-xs text-gray-500">
                 Exiba somente aos participantes autorizados. Fechar esta janela

@@ -28,6 +28,26 @@ require(
     "proximaReleaseApiUrl deve ser uma URL HTTPS válida."
 }
 
+abstract class ValidateReleaseApiUrl : DefaultTask() {
+    @get:Input
+    abstract val apiUrl: Property<String>
+
+    @TaskAction
+    fun validate() {
+        require(apiUrl.get().isNotEmpty()) {
+            "Informe -PproximaReleaseApiUrl=https://... para gerar um APK ou AAB de release."
+        }
+    }
+}
+
+val validateReleaseApiUrl = tasks.register<ValidateReleaseApiUrl>("validateReleaseApiUrl") {
+    apiUrl.set(releaseApiUrl)
+}
+
+tasks.matching { it.name == "packageRelease" || it.name == "packageReleaseBundle" }.configureEach {
+    dependsOn(validateReleaseApiUrl)
+}
+
 android {
     namespace = "com.example.projetopi"
     compileSdk = 37

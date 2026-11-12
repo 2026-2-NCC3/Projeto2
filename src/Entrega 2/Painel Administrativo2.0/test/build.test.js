@@ -134,6 +134,7 @@ async function verifyBuild(testContext, publicBase, apiUrl) {
 
         await build({
             root,
+            mode: apiUrl ? 'production' : 'development',
             configFile: path.join(root, 'vite.config.js'),
             logLevel: 'error',
             build: { outDir: outputDirectory, emptyOutDir: true }
@@ -149,7 +150,9 @@ async function verifyBuild(testContext, publicBase, apiUrl) {
             .filter(filename => filename.endsWith('.js'))
             .map(filename => fs.readFileSync(path.join(outputDirectory, 'assets', filename), 'utf8'))
             .join('');
-        assert.ok(javascriptBundle.includes(apiUrl || 'http://localhost:3000'));
+        if (apiUrl !== '/') {
+            assert.ok(javascriptBundle.includes(apiUrl || 'http://localhost:3000'));
+        }
         if (apiUrl) {
             assert.ok(!javascriptBundle.includes('http://localhost:3000'));
         }
@@ -164,7 +167,20 @@ async function verifyBuild(testContext, publicBase, apiUrl) {
     }
 }
 
-test('build e preview servem JS/CSS na raiz e mantem API local padrao', testContext =>
+test('build local e preview servem JS/CSS na raiz e mantem API local padrao', testContext =>
     verifyBuild(testContext, '/'));
 test('build em subdiretorio preserva VITE_API_URL e serve recursos no base correto', testContext =>
     verifyBuild(testContext, '/painel/', 'https://api.example.invalid/backend'));
+test('build de producao permite API configurada na mesma origem', testContext =>
+    verifyBuild(testContext, '/', '/'));
+test('build de producao recusa API ausente, HTTP ou com credenciais', async () => {
+    const previousApiUrl = process.env.VITE_API_URL;
+    try {
+        for (const apiUrl of ['', 'http://localhost:3000', 'https://usuario:senha@api.example.invalid']) {
+            process.env.VITE_API_URL = apiUrl;
+            await assert.rejects(build({ root, logLevel: 'silent' }), /Configure VITE_API_URL/);
+        }
+    } finally {
+        restoreEnvironmentVariable('VITE_API_URL', previousApiUrl);
+    }
+});
