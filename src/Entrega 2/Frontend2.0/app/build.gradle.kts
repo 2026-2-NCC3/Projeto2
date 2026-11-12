@@ -7,6 +7,15 @@ plugins {
 // URL da API Próxima Etapa hospedada no Render
 val defaultApiUrl = "https://projeto2-krn7.onrender.com"
 
+// Testes locais precisam optar explicitamente por outro endpoint no debug.
+val debugApiUrl = providers.gradleProperty("proximaApiUrl")
+    .orElse(defaultApiUrl).get().trim().trimEnd('/')
+val debugUri = URI(debugApiUrl)
+require(
+    debugUri.scheme in listOf("http", "https") && debugUri.host != null &&
+    debugUri.userInfo == null && debugUri.query == null && debugUri.fragment == null
+) { "proximaApiUrl deve ser uma URL HTTP ou HTTPS válida." }
+
 // Permite configurar outra URL HTTPS para Release
 val releaseApiUrl = providers
     .gradleProperty("proximaReleaseApiUrl")
@@ -51,7 +60,7 @@ android {
             buildConfigField(
                 "String",
                 "API_BASE_URL",
-                "\"$defaultApiUrl\""
+                "\"$debugApiUrl\""
             )
         }
 

@@ -30,6 +30,13 @@ Nenhuma chave de release foi criada, acessada ou alterada nesta correcao.
 
 ## Reproducao e verificacao
 
+Debug e release usam https://projeto2-krn7.onrender.com por padrao.
+Para testes isolados, compile debug com -PproximaApiUrl=http://127.0.0.1:3000
+e use adb reverse tcp:3000 tcp:3000; no emulador, tambem e permitido 10.0.2.2.
+HTTP e permitido somente nesses hosts locais no debug. Release continua exigindo
+HTTPS e pode ser configurado com -PproximaReleaseApiUrl=https://seu-backend.
+Nao execute testes que gravam dados usando o endpoint de producao.
+
 Com JAVA_HOME/ANDROID_HOME configurados, execute nesta pasta:
 
     ./gradlew.bat :app:assembleDebug :app:testDebugUnitTest :app:bundleRelease :app:lintDebug

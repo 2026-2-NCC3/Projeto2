@@ -149,8 +149,8 @@ async function verifyBuild(testContext, publicBase, apiUrl) {
             .filter(filename => filename.endsWith('.js'))
             .map(filename => fs.readFileSync(path.join(outputDirectory, 'assets', filename), 'utf8'))
             .join('');
-        assert.ok(javascriptBundle.includes(apiUrl || 'http://localhost:3000'));
-        if (apiUrl) {
+        assert.ok(javascriptBundle.includes(apiUrl || 'https://projeto2-krn7.onrender.com'));
+        if (apiUrl !== 'http://localhost:3000') {
             assert.ok(!javascriptBundle.includes('http://localhost:3000'));
         }
         assert.equal(
@@ -164,7 +164,10 @@ async function verifyBuild(testContext, publicBase, apiUrl) {
     }
 }
 
-test('build e preview servem JS/CSS na raiz e mantem API local padrao', testContext =>
+test('build e preview servem JS/CSS na raiz e usam Render por padrao', testContext =>
     verifyBuild(testContext, '/'));
 test('build em subdiretorio preserva VITE_API_URL e serve recursos no base correto', testContext =>
     verifyBuild(testContext, '/painel/', 'https://api.example.invalid/backend'));
+
+test('build preserva endpoint local explicitamente configurado', testContext =>
+    verifyBuild(testContext, '/', 'http://localhost:3000'));
