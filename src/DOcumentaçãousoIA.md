@@ -3,12 +3,6 @@
 
 ### **DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL**
 
-**Aluno:** Michael Condori Mamani  
-**RA:** 25028261  
-**Curso:** Ciência da Computação — 3º semestre  
-**Projeto:** Próxima Etapa — App do Aluno  
-**Instituição:** FECAP  
-
 ## Entrega 1
 
 <br><br>
